@@ -50,7 +50,7 @@
 }
 
 .logo {
-  height: 100px;
+  height: 120px;
   width: auto;
   display: block;
   transition: height 0.3s ease;
@@ -415,7 +415,7 @@
   }
 
   .logo {
-    height: 40px;
+    height: 80px;
   }
 
   .desktop-nav {
