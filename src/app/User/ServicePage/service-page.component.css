@@ -1,0 +1,47 @@
+:host {
+  display: block;
+  min-height: 65vh;
+  font-family: 'Cairo', sans-serif;
+}
+
+.service-page {
+  display: grid;
+  min-height: 65vh;
+  place-items: center;
+  padding: 5rem 1.5rem;
+  background: #f7f8fa;
+}
+
+.service-page-inner {
+  width: min(100%, 780px);
+}
+
+.back-link,
+.service-kicker {
+  color: #2b76ad;
+  font-size: .75rem;
+  font-weight: 700;
+  letter-spacing: .1em;
+  text-decoration: none;
+  text-transform: uppercase;
+}
+
+.service-kicker {
+  margin: 4rem 0 1rem;
+}
+
+h1 {
+  margin: 0;
+  color: #16283d;
+  font-size: clamp(3rem, 8vw, 7rem);
+  font-weight: 700;
+  line-height: 1;
+}
+
+.service-description {
+  max-width: 650px;
+  margin: 2rem 0 0;
+  color: #5d6875;
+  font-size: 1.1rem;
+  line-height: 1.8;
+}

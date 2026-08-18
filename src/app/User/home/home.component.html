@@ -1,0 +1,80 @@
+<main class="home-page">
+	<section class="hero" aria-labelledby="hero-title">
+		<video
+			class="hero-video"
+			[src]="heroVideo"
+			autoplay
+			muted
+			playsinline
+			loop
+			preload="metadata"
+			aria-hidden="true"
+		></video>
+		<div class="hero-overlay" aria-hidden="true"></div>
+
+		<div class="hero-content">
+			<p class="hero-eyebrow">Concord Engineering &amp; Contracting</p>
+			<h1 id="hero-title">The Foundation Of<br /><span>Innovation</span></h1>
+			<div class="hero-links" aria-label="Featured services">
+				<a routerLink="/services/infrastructure" class="hero-link">
+					<span aria-hidden="true">&#8594;</span>
+					Concord in Infrastructure
+				</a>
+				<a routerLink="/services/construction" class="hero-link">
+					<span aria-hidden="true">&#8594;</span>
+					Integrated Construction Service
+				</a>
+			</div>
+		</div>
+
+		<a class="scroll-cue" href="#about" aria-label="Scroll to About Us">
+			<span>Scroll to explore</span>
+			<span class="scroll-line" aria-hidden="true"></span>
+		</a>
+	</section>
+
+	<section id="about" class="about-section content-section" aria-labelledby="about-title">
+		<div class="section-intro reveal" #reveal>
+			<p class="section-kicker">01 / Company</p>
+			<h2 id="about-title">About Us</h2>
+		</div>
+		<div class="about-copy reveal" #reveal>
+			<p>Founded in 1989, Concord for Engineering and Contracting is a leading, privately owned Egyptian company, specializing in engineering, procurement, and construction services for large-scale projects in Egypt and the MENA region.</p>
+			<p>With a proven track record, advanced technical capabilities, and a diversified portfolio, Concord efficiently executes complex projects while fostering long-term progress and sustainability.</p>
+			<p>Our expertise spans transportation, water and wastewater, construction, and high-end commercial developments, improving the lives of millions.</p>
+		</div>
+	</section>
+
+	<section class="services-section content-section" aria-labelledby="services-title">
+		<div class="section-intro reveal" #reveal>
+			<p class="section-kicker">02 / Expertise</p>
+			<h2 id="services-title">Our Services</h2>
+		</div>
+		<div class="services-list">
+			<article class="service-item reveal" #reveal>
+				<p class="service-number">01</p>
+				<div class="service-body">
+					<h3>Infrastructure</h3>
+					<p>At the forefront of vital infrastructure development, we deliver sustainable water and wastewater solutions through strategic innovation and engineering excellence...</p>
+					<a routerLink="/services/infrastructure" class="read-more">Read more <span aria-hidden="true">&#8594;</span></a>
+				</div>
+			</article>
+			<article class="service-item reveal" #reveal>
+				<p class="service-number">02</p>
+				<div class="service-body">
+					<h3>Transportation</h3>
+					<p>Committed to the highest standards of quality and safety, Concord executes transportation projects that shape connectivity and mobility across regions...</p>
+					<a routerLink="/services/transportation" class="read-more">Read more <span aria-hidden="true">&#8594;</span></a>
+				</div>
+			</article>
+			<article class="service-item reveal" #reveal>
+				<p class="service-number">03</p>
+				<div class="service-body">
+					<h3>Construction</h3>
+					<p>A recognized leader in complex, large-scale developments, Concord leverages decades of expertise to deliver transformative construction projects with precision and impact...</p>
+					<a routerLink="/services/construction" class="read-more">Read more <span aria-hidden="true">&#8594;</span></a>
+				</div>
+			</article>
+		</div>
+	</section>
+</main>
