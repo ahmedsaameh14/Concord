@@ -21,6 +21,7 @@ export class HeaderComponent implements OnInit, OnDestroy {
   isScrolled = false;
   isMenuOpen = false;
   activeRoute = '';
+  isHomeRoute = true;
   private destroy$ = new Subject<void>();
 
   navigationItems: NavItem[] = [
@@ -63,20 +64,30 @@ export class HeaderComponent implements OnInit, OnDestroy {
   constructor(private router: Router) {}
 
   ngOnInit(): void {
+    this.updateRouteState(this.router.url);
+    window.scrollTo(0, 0);
+
     this.router.events
       .pipe(
         filter(event => event instanceof NavigationEnd),
         takeUntil(this.destroy$)
       )
       .subscribe((event: any) => {
-        this.activeRoute = event.urlAfterRedirects;
+        this.updateRouteState(event.urlAfterRedirects);
         this.isMenuOpen = false;
+        window.scrollTo({ top: 0, left: 0, behavior: 'instant' });
       });
   }
 
   @HostListener('window:scroll', [])
   onWindowScroll(): void {
-    this.isScrolled = window.pageYOffset > 50;
+    this.isScrolled = !this.isHomeRoute || window.pageYOffset > 50;
+  }
+
+  private updateRouteState(url: string): void {
+    this.activeRoute = url;
+    this.isHomeRoute = url === '/' || url === '';
+    this.isScrolled = !this.isHomeRoute || window.pageYOffset > 50;
   }
 
   toggleMenu(): void {

@@ -3,7 +3,7 @@
 
 /* Header Container */
 .header {
-  position: sticky;
+  position: fixed;
   top: 0;
   width: 100%;
   z-index: 1000;
@@ -86,7 +86,7 @@
   display: flex;
   align-items: center;
   gap: 0.5rem;
-  color: #1f2937;
+  color: #ffffff;
   text-decoration: none;
   font-weight: 500;
   font-size: 0.95rem;
@@ -237,7 +237,7 @@
 .line {
   width: 25px;
   height: 3px;
-  background: #111827;
+  background: #ffffff;
   border-radius: 2px;
   transition: all 0.3s ease;
 }
