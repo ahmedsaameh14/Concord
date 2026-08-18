@@ -1,0 +1,122 @@
+<!-- Main Header Container -->
+<header
+  class="header"
+  [class.scrolled]="isScrolled"
+  role="navigation"
+  aria-label="Main navigation"
+>
+  <div class="header-content">
+    <!-- Logo Section -->
+    <div class="logo-section">
+      <a routerLink="/" class="logo-link" aria-label="Concord Home">
+        <img
+          src="/images/concord logo-01 png.png"
+          alt="Concord Logo"
+          class="logo"
+        />
+      </a>
+    </div>
+
+    <!-- Desktop Navigation -->
+    <nav class="desktop-nav" aria-label="Desktop Navigation">
+      <ul class="nav-menu">
+        <li *ngFor="let item of navigationItems" class="nav-item" [class.has-dropdown]="item.children">
+          <!-- Simple Link -->
+          <a
+            *ngIf="!item.children"
+            [routerLink]="item.route"
+            routerLinkActive="active"
+            [routerLinkActiveOptions]="{ exact: false }"
+            class="nav-link"
+          >
+            {{ item.label }}
+          </a>
+
+          <!-- Dropdown Trigger -->
+          <div *ngIf="item.children" class="dropdown-trigger">
+            <button
+              class="nav-link dropdown-btn"
+              [attr.aria-expanded]="false"
+              [attr.aria-haspopup]="true"
+            >
+              {{ item.label }}
+              <span class="dropdown-arrow">▼</span>
+            </button>
+
+            <!-- Dropdown Menu -->
+            <ul class="dropdown-menu" role="menu">
+              <li *ngFor="let child of item.children" role="menuitem">
+                <a
+                  [routerLink]="child.route"
+                  routerLinkActive="active"
+                  [routerLinkActiveOptions]="{ exact: false }"
+                  class="dropdown-link"
+                >
+                  {{ child.label }}
+                </a>
+              </li>
+            </ul>
+          </div>
+        </li>
+      </ul>
+    </nav>
+
+    <!-- Mobile Menu Button -->
+    <button
+      class="mobile-menu-btn"
+      (click)="toggleMenu()"
+      [attr.aria-expanded]="isMenuOpen"
+      aria-label="Toggle mobile menu"
+    >
+      <span class="hamburger" [class.open]="isMenuOpen">
+        <span class="line line-1"></span>
+        <span class="line line-2"></span>
+        <span class="line line-3"></span>
+      </span>
+    </button>
+  </div>
+
+  <!-- Mobile Navigation -->
+  <nav
+    class="mobile-nav"
+    [class.open]="isMenuOpen"
+    aria-label="Mobile Navigation"
+  >
+    <ul class="mobile-menu">
+      <li *ngFor="let item of navigationItems" class="mobile-nav-item">
+        <!-- Simple Link -->
+        <a
+          *ngIf="!item.children"
+          [routerLink]="item.route"
+          routerLinkActive="active"
+          [routerLinkActiveOptions]="{ exact: false }"
+          class="mobile-nav-link"
+          (click)="closeMenu()"
+        >
+          {{ item.label }}
+        </a>
+
+        <!-- Dropdown for Mobile -->
+        <details *ngIf="item.children" class="mobile-dropdown">
+          <summary class="mobile-nav-link dropdown-summary">
+            {{ item.label }}
+            <span class="dropdown-arrow">▼</span>
+          </summary>
+          <ul class="mobile-dropdown-menu">
+            <li *ngFor="let child of item.children">
+              <a
+                [routerLink]="child.route"
+                routerLinkActive="active"
+                [routerLinkActiveOptions]="{ exact: false }"
+                class="mobile-dropdown-link"
+                (click)="closeMenu()"
+              >
+                {{ child.label }}
+              </a>
+            </li>
+          </ul>
+        </details>
+      </li>
+    </ul>
+  </nav>
+</header>

@@ -1,0 +1,25 @@
+:host {
+  display: block;
+  min-height: 100vh;
+  font-family: 'Cairo', sans-serif;
+}
+
+/* Main Layout Container */
+.layout {
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+}
+
+/* Main Content */
+.main-content {
+  flex: 1;
+  width: 100%;
+}
+
+/* Accessibility */
+@media (prefers-reduced-motion: reduce) {
+  :host {
+    scroll-behavior: auto;
+  }
+}
