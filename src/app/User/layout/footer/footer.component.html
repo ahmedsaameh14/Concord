@@ -1,0 +1,76 @@
+<!-- Main Footer Container -->
+<footer class="footer" role="contentinfo">
+  <div class="footer-content">
+    <!-- Logo Section -->
+    <div class="footer-section logo-section">
+      <a routerLink="/" class="footer-logo-link" aria-label="Concord Home">
+        <img
+          src="/images/concord logo-01 png.png"
+          alt="Concord Logo"
+          class="footer-logo"
+        />
+      </a>
+    </div>
+
+    <!-- Company Branches Section -->
+    <div class="footer-section">
+      <h3 class="footer-section-title">Company Branches</h3>
+      <ul class="locations-list">
+        <li *ngFor="let location of locations" class="location-item">
+          <div class="location-name">{{ location.name }}</div>
+          <div class="location-address">{{ location.address }}</div>
+        </li>
+      </ul>
+    </div>
+
+    <!-- Company Links Section -->
+    <div class="footer-section">
+      <h3 class="footer-section-title">Company</h3>
+      <ul class="footer-links-list">
+        <li *ngFor="let link of companyLinks">
+          <a [routerLink]="link.route" routerLinkActive="active" class="footer-link">
+            {{ link.label }}
+          </a>
+        </li>
+      </ul>
+    </div>
+
+    <!-- Social Media Section -->
+    <div class="footer-section">
+      <h3 class="footer-section-title">Follow Us</h3>
+      <div class="social-links">
+        <a
+          *ngFor="let social of socialMedia"
+          [href]="social.url"
+          target="_blank"
+          rel="noopener noreferrer"
+          class="social-icon"
+          [attr.aria-label]="social.label"
+          title="{{ social.name }}"
+        >
+          <img [src]="social.icon" [alt]="social.name" />
+        </a>
+      </div>
+    </div>
+
+    <!-- Legal Section -->
+    <div class="footer-section">
+      <h3 class="footer-section-title">Legal</h3>
+      <ul class="footer-links-list">
+        <li *ngFor="let link of legalLinks">
+          <a [routerLink]="link.route" routerLinkActive="active" class="footer-link">
+            {{ link.label }}
+          </a>
+        </li>
+      </ul>
+    </div>
+  </div>
+
+  <!-- Copyright Section -->
+  <div class="footer-divider"></div>
+  <div class="footer-bottom">
+    <p class="copyright">
+      &copy; {{ currentYear }} Concord Engineering. All rights reserved.
+    </p>
+  </div>
+</footer>
