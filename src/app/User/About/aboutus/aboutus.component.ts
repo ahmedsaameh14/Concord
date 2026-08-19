@@ -24,6 +24,68 @@ export class AboutusComponent implements AfterViewInit, OnDestroy {
     { year: '2024', description: 'Opened a new branch in Oman. Launched a major project in Saudi Arabia to replace the primary transmission line in Mecca.' }
   ];
 
+  readonly groupCompanies = [
+    {
+      image: '/images/Picture1.png',
+      name: 'CONCORD FOR ENGINEERING AND CONTRACTING'
+    },
+    {
+      image: '/images/Picture2.png',
+      name: 'CONCORD FOR CONTRACTING AND PAVING',
+      description: 'A grade one company specialized in the construction of roads, highways, bridges and railways.'
+    },
+    {
+      image: '/images/Picture1.png',
+      name: 'Branch of Concord (KSA)',
+      description: 'Multidisciplinary construction company based in Jeddah'
+    },
+    {
+      image: '/images/Picture1.png',
+      name: 'CONCORD- OMAN',
+      description: 'Multidisciplinary construction company based in Muscat.'
+    },
+    {
+      image: '/images/Picture1.png',
+      name: 'Branch of Concord (UAE)',
+      description: 'Multidisciplinary construction company based in Dubai.'
+    },
+    {
+      image: '/images/Picture4.png',
+      name: 'JOZOOR LANDSCAPE',
+      description: 'JOZOOR Landscapes has proven high quality and capability in providing complete Design & Build packages for Hard & Soft-scape Projects.'
+    },
+    {
+      image: '/images/Picture5.png',
+      name: 'CONCORD FOR REAL ESTATE DEVELOPMENT',
+      description: 'A Real Estate Developer with 2 of the iconic commercial and high-end projects in New Cairo.'
+    },
+    {
+      image: '/images/Picture6.png',
+      name: 'CONCORD MYTHICAL SANDS LTD (CYPRUS)',
+      description: 'A Real Estate and Hospitality company based and operating in Cyprus.'
+    },
+    {
+      image: '/images/Picture7.png',
+      name: 'BUILDING MATERIALS INDUSTRIAL CO. (BMIC)',
+      description: 'An Industrial company specialized in the production of cement. BMIC currently serves the market with high-quality Ordinary Portland Cement (OPC) but has growth and expansion plans to futuristically produce various types of grey Portland cement, clinker and related products such as cement bricks and ready-mix concrete.'
+    },
+    {
+      image: '/images/Picture8.png',
+      name: 'CONCORD FOR PIPES EL MASRYA CONCORD',
+      description: 'An industrial company specialized in the production of steel spiral welding pipes'
+    },
+    {
+      image: '/images/Picture9.jpg',
+      name: 'CAPITAL DEVELOPMENTS',
+      description: 'An investment company that invests in hospitality & real estate. The company is developing Laguna Bay one of Al Ain El Sokhna’s largest touristic destinations on the red sea. Laguna Bay offers around 2,000 units with different types and sizes.'
+    },
+    {
+      image: '/images/Picture10.png',
+      name: 'THE FRONT DEVELOPMENTS',
+      description: 'A Real Estate development company. The newest project is located on the west end of Cairo, one of the most thriving destinations on the Cairo Alex Desert Road. It caters to commercial, residential and entertainment outlets.'
+    }
+  ];
+
   private observer?: IntersectionObserver;
 
   ngAfterViewInit(): void {

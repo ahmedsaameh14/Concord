@@ -46,4 +46,32 @@
 			</div>
 		</div>
 	</section>
+
+	<section class="core-value-section page-section" aria-labelledby="core-value-title">
+		<div class="section-heading core-value-heading reveal" #reveal>
+			<p class="section-kicker">04 / Principles</p>
+			<h2 id="core-value-title">Our Core Value</h2>
+		</div>
+		<div class="core-value-image-wrap reveal" #reveal>
+			<img src="/images/value.jpg" alt="Concord core value" class="core-value-image" />
+		</div>
+	</section>
+
+	<section class="group-section page-section" aria-labelledby="group-title">
+		<div class="section-heading group-heading reveal" #reveal>
+			<p class="section-kicker">05 / Our network</p>
+			<h2 id="group-title">Concord Group</h2>
+		</div>
+		<div class="group-grid">
+			<article *ngFor="let company of groupCompanies; let index = index" class="company-card reveal" #reveal [style.transition-delay.ms]="(index % 3) * 100">
+				<div class="company-image-wrap">
+					<img [src]="company.image" [alt]="company.name" class="company-image" />
+				</div>
+				<div class="company-copy">
+					<h3>{{ company.name }}</h3>
+					<p *ngIf="company.description">{{ company.description }}</p>
+				</div>
+			</article>
+		</div>
+	</section>
 </main>

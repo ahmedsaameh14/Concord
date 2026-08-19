@@ -220,6 +220,106 @@
 	line-height: 1.85;
 }
 
+.core-value-section {
+	text-align: center;
+}
+
+.core-value-heading {
+	margin-bottom: clamp(2.5rem, 6vw, 5rem);
+}
+
+.core-value-heading h2,
+.group-heading h2 {
+	font-size: clamp(2.6rem, 5vw, 5rem);
+}
+
+.core-value-image-wrap {
+	width: min(100%, 900px);
+	margin: 0 auto;
+	transition: opacity 1s ease, transform 1s ease;
+}
+
+.core-value-image {
+	display: block;
+	width: 100%;
+	height: auto;
+	max-height: 620px;
+	object-fit: contain;
+	transition: transform .5s ease;
+}
+
+.core-value-image:hover {
+	transform: scale(1.02);
+}
+
+.group-section {
+	padding-top: 0;
+}
+
+.group-heading {
+	margin-bottom: clamp(3rem, 7vw, 6rem);
+}
+
+.group-grid {
+	display: grid;
+	grid-template-columns: repeat(2, minmax(0, 1fr));
+	column-gap: clamp(2rem, 7vw, 7rem);
+	row-gap: 2rem;
+}
+
+.company-card {
+	display: grid;
+	grid-template-columns: 88px minmax(0, 1fr);
+	align-items: start;
+	min-width: 0;
+	column-gap: 1.2rem;
+	padding: .75rem 0;
+	background: transparent;
+	transition: opacity .8s ease, transform .3s ease;
+}
+
+.company-card:hover {
+	transform: translateY(-5px) !important;
+}
+
+.company-image-wrap {
+	display: grid;
+	place-items: center;
+	width: 88px;
+	height: 88px;
+	padding: .25rem;
+	overflow: hidden;
+}
+
+.company-image {
+	display: block;
+	max-width: 100%;
+	max-height: 100%;
+	width: auto;
+	height: auto;
+	object-fit: contain;
+	transition: transform .45s ease;
+}
+
+.company-card:hover .company-image {
+	transform: scale(1.06);
+}
+
+.company-card h3 {
+	margin: .1rem 0 .4rem;
+	color: #9a8200;
+	font-size: clamp(1rem, 1.5vw, 1.35rem);
+	font-weight: 700;
+	line-height: 1.35;
+}
+
+.company-card p {
+	margin: 0;
+	color: #172033;
+	font-size: .78rem;
+	line-height: 1.55;
+}
+
 .reveal {
 	opacity: 0;
 	transform: translateY(30px);
@@ -268,6 +368,20 @@
 		gap: 3rem;
 	}
 
+	.group-grid {
+		grid-template-columns: 1fr;
+		gap: 1rem;
+	}
+
+	.company-card {
+		grid-template-columns: 88px minmax(0, 1fr);
+	}
+
+	.company-image-wrap {
+		width: 88px;
+		height: 88px;
+	}
+
 	.mission-vision-item,
 	.mission-vision-item:first-child {
 		padding: 2rem 0 0;
@@ -278,6 +392,22 @@
 	.mission-vision-item:first-child {
 		padding-top: 0;
 		border-top: 0;
+	}
+}
+
+@media (max-width: 480px) {
+	.group-grid {
+		grid-template-columns: 1fr;
+	}
+
+	.company-image-wrap {
+		width: 76px;
+		height: 76px;
+	}
+
+	.company-card {
+		grid-template-columns: 76px minmax(0, 1fr);
+		column-gap: 1rem;
 	}
 }
 
