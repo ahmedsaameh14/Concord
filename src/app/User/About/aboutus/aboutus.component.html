@@ -1,0 +1,49 @@
+<main class="about-page">
+	<section class="about-intro page-section" aria-labelledby="about-title">
+		<div class="about-intro-inner">
+			<div class="about-intro-heading reveal" #reveal>
+				<p class="section-kicker">01 / Company</p>
+				<h1 id="about-title">About Us</h1>
+			</div>
+			<p class="about-intro-text reveal" #reveal>
+				Established in 1989, Concord for Engineering and Contracting is a leading privately owned Egyptian firm, widely recognized for its ability to deliver complex projects with precision, drive sustainable growth, and contribute to long-term national development.
+			</p>
+		</div>
+	</section>
+
+	<section class="timeline-section page-section" aria-labelledby="timeline-title">
+		<div class="section-heading reveal" #reveal>
+			<p class="section-kicker">02 / Our journey</p>
+			<h2 id="timeline-title">A history of progress.</h2>
+		</div>
+
+		<div class="timeline">
+			<article *ngFor="let milestone of milestones; let index = index" class="timeline-item reveal" #reveal [style.transition-delay.ms]="(index % 2) * 100">
+				<div class="timeline-marker" aria-hidden="true"></div>
+				<div class="timeline-card">
+					<p class="timeline-year">{{ milestone.year }}</p>
+					<p class="timeline-description">{{ milestone.description }}</p>
+				</div>
+			</article>
+		</div>
+	</section>
+
+	<section class="mission-vision-section" aria-labelledby="mission-vision-title">
+		<div class="mission-vision-inner">
+			<div class="section-heading mission-vision-heading reveal" #reveal>
+				<p class="section-kicker">03 / Direction</p>
+				<h2 id="mission-vision-title">Mission &amp; Vision</h2>
+			</div>
+			<div class="mission-vision-grid">
+				<article class="mission-vision-item reveal" #reveal>
+					<h3>Mission</h3>
+					<p>To be the preferred strategic partner for mega-scale projects, leveraging our expertise, diverse portfolio, and commitment to value creation for all stakeholders. We aim to deliver exceptional construction, infrastructure, tunnelling, facility and power management, transportation, and high-end commercial projects across the Middle East, Africa, and other regions while upholding the highest standards of quality, sustainability, and client satisfaction.</p>
+				</article>
+				<article class="mission-vision-item reveal" #reveal>
+					<h3>Vision</h3>
+					<p>To be recognized as a leading global contractor, renowned for excellence in delivering complex and innovative projects across Africa and beyond.</p>
+				</article>
+			</div>
+		</div>
+	</section>
+</main>

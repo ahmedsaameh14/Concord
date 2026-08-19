@@ -1,6 +1,7 @@
 import { Routes } from '@angular/router';
 import { LayoutComponent } from './User/layout/layout.component';
 import { HomeComponent } from './User/home/home.component';
+import { AboutusComponent } from './User/About/aboutus/aboutus.component';
 import { ServicePageComponent } from './User/ServicePage/service-page.component';
 
 export const routes: Routes = [
@@ -9,6 +10,7 @@ export const routes: Routes = [
         component: LayoutComponent,
         children: [
             { path: '', component: HomeComponent },
+            { path: 'about/who-we-are', component: AboutusComponent },
             {
                 path: 'services/infrastructure',
                 component: ServicePageComponent,
@@ -33,7 +35,6 @@ export const routes: Routes = [
                     description: 'Transformative large-scale construction projects delivered with precision, expertise, and lasting impact.'
                 }
             },
-            {path:'',redirectTo:'home',pathMatch:'full'},
         ]
     }
 ];
