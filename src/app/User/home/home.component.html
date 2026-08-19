@@ -29,10 +29,6 @@
 			</div>
 		</div>
 
-		<a class="scroll-cue" href="#about" aria-label="Scroll to About Us">
-			<span>Scroll to explore</span>
-			<span class="scroll-line" aria-hidden="true"></span>
-		</a>
 	</section>
 
 	<section id="about" class="about-section content-section" aria-labelledby="about-title">
@@ -108,6 +104,41 @@
 		</div>
 		<div class="building-image-wrap reveal" #reveal>
 			<img src="/images/building.png" alt="Concord construction project" class="building-image" />
+		</div>
+	</section>
+
+	<section class="care-section" aria-labelledby="care-title">
+		<div class="care-inner">
+			<div class="care-visual reveal" #reveal>
+				<div class="care-image care-image-back">
+					<img src="/images/care.png" alt="Concord team working together" />
+				</div>
+				<div class="care-image care-image-front">
+					<img src="/images/care1.png" alt="Concord community and construction work" />
+				</div>
+			</div>
+			<div class="care-copy reveal" #reveal>
+				<p class="section-kicker">05 / People</p>
+				<h2 id="care-title">We Care</h2>
+				<h3>More about We Care</h3>
+				<p>We want every employee and trade partner to feel that they are part of a common good and cohesive team. We help our teams form stronger relationships with trade partners by emphasizing people and teamwork over processes and checklists.</p>
+				<div class="care-links">
+					<a routerLink="#" class="read-more">Learn more <span aria-hidden="true">&#8594;</span></a>
+					<a routerLink="#" class="read-more">Careers at Concord <span aria-hidden="true">&#8594;</span></a>
+				</div>
+			</div>
+		</div>
+	</section>
+
+	<section class="companies-section content-section" aria-labelledby="companies-title">
+		<div class="section-intro reveal" #reveal>
+			<p class="section-kicker">06 / Our network</p>
+			<h2 id="companies-title">Our Companies</h2>
+		</div>
+		<div class="companies-grid">
+			<div *ngFor="let company of companies; let index = index" class="company-logo reveal" #reveal [style.transition-delay.ms]="index * 100">
+				<img [src]="company.source" [alt]="company.alt" />
+			</div>
 		</div>
 	</section>
 </main>

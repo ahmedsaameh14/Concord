@@ -34,6 +34,14 @@ export class HomeComponent implements AfterViewInit, OnDestroy {
     { target: 40, current: 0, suffix: '+', description: 'Years of industry experience, driving innovation and community development.' }
   ];
 
+  readonly companies = [
+    { source: '/images/C1.png', alt: 'Concord company one' },
+    { source: '/images/C2.png', alt: 'Concord company two' },
+    { source: '/images/C3.png', alt: 'Concord company three' },
+    { source: '/images/C4.png', alt: 'Concord company four' },
+    { source: '/images/C5.png', alt: 'Concord company five' }
+  ];
+
   private observer?: IntersectionObserver;
   private countersStarted = false;
 
