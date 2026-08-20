@@ -19,7 +19,7 @@
 	place-items: center;
 	overflow: hidden;
 	color: #fff;
-	background: #16283d url('/images/Infrastructure.webp') center / cover no-repeat;
+	background: #16283d url('/images/Infrastructure.jpg') center / cover no-repeat;
 }
 
 .infrastructure-hero::after {

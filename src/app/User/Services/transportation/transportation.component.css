@@ -19,7 +19,7 @@
 	place-items: center;
 	overflow: hidden;
 	color: #fff;
-	background: #16283d url('/images/Transportation.webp') center / cover no-repeat;
+	background: #16283d url('/images/Transportation.jpg') center / cover no-repeat;
 }
 
 .transportation-hero::after {

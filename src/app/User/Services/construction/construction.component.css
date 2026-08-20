@@ -19,7 +19,7 @@
 	place-items: center;
 	overflow: hidden;
 	color: #fff;
-	background: #16283d url('/images/Construction.webp') center / cover no-repeat;
+	background: #16283d url('/images/Construction.jpg') center / cover no-repeat;
 }
 
 .construction-hero::after {
