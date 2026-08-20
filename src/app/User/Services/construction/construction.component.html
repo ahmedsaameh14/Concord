@@ -1,0 +1,37 @@
+<main class="construction-page">
+	<section class="construction-hero" aria-labelledby="construction-title">
+		<div class="construction-hero-content">
+			<p class="section-kicker hero-reveal">Services / Construction</p>
+			<h1 id="construction-title" class="hero-reveal">Construction</h1>
+			<p class="hero-description hero-reveal">Concord is committed to delivering high-quality construction projects built on safety, reliability, and innovation. We serve a wide range of sectors, offering end-to-end project execution that adheres to global standards while meeting the unique needs of each client. Our integrated construction services ensure timely delivery, budget control, and superior quality.</p>
+		</div>
+	</section>
+
+	<section class="capabilities-section page-section" aria-labelledby="capabilities-title">
+		<div class="section-heading reveal" #reveal>
+			<p class="section-kicker">01 / Expertise</p>
+			<h2 id="capabilities-title">Our construction capabilities include:</h2>
+		</div>
+
+		<div class="capabilities-grid">
+			<article *ngFor="let capability of capabilities; let index = index" class="capability reveal" #reveal [style.transition-delay.ms]="index * 140">
+				<div class="capability-image-wrap">
+					<img [src]="capability.image" [alt]="capability.title" class="capability-image" />
+				</div>
+				<div class="capability-copy">
+					<h3>{{ capability.title }}</h3>
+					<p>{{ capability.description }}</p>
+				</div>
+			</article>
+		</div>
+	</section>
+
+	<section class="work-section page-section" aria-labelledby="work-title">
+		<div class="work-copy reveal" #reveal>
+			<p class="section-kicker">02 / Partnership</p>
+			<h2 id="work-title">Work with Concord</h2>
+			<p>Building systems have a significant influence on facility functionality and efficiency, comprising a significant portion of the overall project capital cost with direct impact toward operational costs such as energy use, maintenance and lifecycle. Our building systems engineers and experts work to optimize system design and oversee M&amp;E trades through procurement, installation and commissioning for maximum economic and operational efficiency.</p>
+			<a routerLink="/contact" class="contact-link">Contact Us <span aria-hidden="true">&#8594;</span></a>
+		</div>
+	</section>
+</main>
