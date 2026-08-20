@@ -3,8 +3,8 @@ import { LayoutComponent } from './User/layout/layout.component';
 import { HomeComponent } from './User/home/home.component';
 import { AboutusComponent } from './User/About/aboutus/aboutus.component';
 import { ManagementComponent } from './User/About/management/management.component';
-import { InfrastructureComponent } from './User/Services/Infrastructure/infrastructure.component';
-import { TransportationComponent } from './User/Services/Transportation/transportation.component';
+import { InfrastructureComponent } from './User/Services/infrastructure/infrastructure.component';
+import { TransportationComponent } from './User/Services/transportation/transportation.component';
 import { ConstructionComponent } from './User/Services/construction/construction.component';
 
 export const routes: Routes = [
