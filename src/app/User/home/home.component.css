@@ -73,10 +73,6 @@
 	line-height: .98;
 }
 
-.hero h1 span {
-	color: #00427a;
-	font-weight: 300;
-}
 
 .hero-links {
 	display: flex;
@@ -381,7 +377,7 @@
 
 .strength-value {
 	margin: 0 0 .75rem;
-	color: #2b76ad;
+	color: #00427a;
 	font-size: clamp(3.2rem, 7vw, 6.5rem);
 	font-weight: 600;
 	letter-spacing: -.02em;

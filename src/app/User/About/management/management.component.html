@@ -2,7 +2,7 @@
 	<section class="founders-section page-section" aria-labelledby="founders-title">
 		<div class="founders-grid">
 			<div class="section-heading reveal" #reveal>
-				<p class="section-kicker">01 / Origins</p>
+				<!-- <p class="section-kicker">01 / Origins</p> -->
 				<h1 id="founders-title">Founders</h1>
 			</div>
 			<p class="founders-copy reveal" #reveal>
@@ -17,7 +17,7 @@
 				<img src="/images/AE.jpeg" alt="Eng. Ahmed Elabd" class="chairman-image" />
 			</div>
 			<div class="chairman-content reveal" #reveal>
-				<p class="section-kicker">02 / Leadership</p>
+				<!-- <p class="section-kicker">02 / Leadership</p> -->
 				<h2 id="chairman-title">Eng. Ahmed Elabd</h2>
 				<p class="chairman-position">Chairman</p>
 				<blockquote>
@@ -32,12 +32,12 @@
 
 	<section class="board-section page-section" aria-labelledby="board-title">
 		<div class="section-heading board-heading reveal" #reveal>
-			<p class="section-kicker">03 / Governance</p>
+			<!-- <p class="section-kicker">03 / Governance</p> -->
 			<h2 id="board-title">Board Of Directors</h2>
 		</div>
 		<div class="board-grid">
 			<article *ngFor="let member of boardMembers; let index = index" class="board-member reveal" #reveal [style.transition-delay.ms]="index * 120">
-				<p class="board-number">0{{ index + 1 }}</p>
+				<!-- <p class="board-number">0{{ index + 1 }}</p> -->
 				<h3>{{ member.name }}</h3>
 				<p>{{ member.position }}</p>
 			</article>

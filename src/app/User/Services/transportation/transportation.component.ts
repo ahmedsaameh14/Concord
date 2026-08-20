@@ -23,7 +23,7 @@ export class TransportationComponent implements AfterViewInit, OnDestroy {
       description: 'Development of high-speed and urban rail systems that enhance mass transit capacity and regional integration, from track design to signaling and stations.'
     },
     {
-      image: '/images/TransportationP1.jpeg',
+      image: '/images/TransportationP3.jpeg',
       title: 'Roads, Bridges, and Airports',
       description: 'Comprehensive transport infrastructure solutions that include highway systems, overpasses, interchanges, and airport facilities—designed to accommodate growing transportation demands while improving safety and traffic efficiency.'
     }
