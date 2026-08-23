@@ -1,0 +1,63 @@
+<main class="vision-page">
+	<section class="vision-hero background-section" aria-labelledby="vision-title">
+		<div class="vision-hero-content">
+			<p class="section-kicker hero-reveal">Concord / Direction</p>
+			<h1 id="vision-title" class="hero-reveal">Our Vision</h1>
+			<p class="vision-hero-description hero-reveal">To be recognized as a leading global contractor, renowned for excellence in delivering complex and innovative projects across Africa and beyond.</p>
+		</div>
+	</section>
+
+	<section class="direction-section page-section" aria-labelledby="direction-title">
+		<div class="section-heading reveal" #reveal>
+			<!-- <p class="section-kicker">01 / Perspective</p> -->
+			<h2 id="direction-title">A bold direction</h2>
+		</div>
+		<p class="direction-copy reveal" #reveal>We believe that when passionate, driven individuals unite, anything is possible. We stand for what’s right, challenge conventions, and drive meaningful progress for our clients, industry, and communities. Diverse in skills and perspectives, we are united in our quest to redefine what’s possible.</p>
+	</section>
+
+	<section class="future-section background-section" aria-labelledby="future-title">
+		<div class="future-inner">
+			<div class="section-heading future-heading reveal" #reveal>
+				<!-- <p class="section-kicker">02 / Possibility</p> -->
+				<!-- <h2 id="future-title">We Envision the Future of Construction</h2> -->
+			</div>
+			<div class="future-grid">
+				<article *ngFor="let statement of futureStatements; let index = index" class="future-item reveal" #reveal [style.transition-delay.ms]="index * 120">
+					<h3>{{ statement.title }}</h3>
+					<p>{{ statement.description }}</p>
+				</article>
+			</div>
+		</div>
+	</section>
+
+	<section class="commitments-section page-section" aria-labelledby="commitments-title">
+		<div class="section-heading commitments-heading reveal" #reveal>
+			<!-- <p class="section-kicker">03 / Standards</p> -->
+			<h2 id="commitments-title">Our Commitments</h2>
+			<p>We know that every decision has an impact</p>
+		</div>
+		<div class="commitments-grid">
+			<article *ngFor="let commitment of commitments; let index = index" class="commitment-item reveal" #reveal [style.transition-delay.ms]="index * 120">
+				<p class="commitment-number">0{{ index + 1 }}</p>
+				<h3>{{ commitment.title }}</h3>
+				<p>{{ commitment.description }}</p>
+				<a [routerLink]="commitment.route" class="text-link">{{ commitment.linkLabel }} <span aria-hidden="true">&#8594;</span></a>
+			</article>
+		</div>
+	</section>
+
+	<section class="values-section page-section" aria-labelledby="values-title">
+		<div class="section-heading values-heading reveal" #reveal>
+			<!-- <p class="section-kicker">04 / Principles</p> -->
+			<h2 id="values-title">Our Core Values</h2>
+			<!-- <p>Responsibility. Equality. Excellence Safety. Continues Improvement. Teamwork.</p> -->
+		</div>
+		<div class="values-grid">
+			<article *ngFor="let value of coreValues; let index = index" class="value-item reveal" #reveal [style.transition-delay.ms]="index * 100">
+				<p class="value-number">0{{ index + 1 }}</p>
+				<h3>{{ value.title }}</h3>
+				<p>{{ value.description }}</p>
+			</article>
+		</div>
+	</section>
+</main>
