@@ -11,6 +11,7 @@ import { VisionComponent } from './User/vision/vision.component';
 import { TermsComponent } from './User/terms/terms.component';
 import { PrivacyComponent } from './User/privacy/privacy.component';
 import { SafetyComponent } from './User/safety/safety.component';
+import { SustainabilityComponent } from './User/sustainability/sustainability.component';
 
 export const routes: Routes = [
     {
@@ -28,6 +29,7 @@ export const routes: Routes = [
             { path: 'legal/terms', component: TermsComponent },
             { path: 'legal/privacy', component: PrivacyComponent },   
             { path: 'safety', component: SafetyComponent },
+            { path: 'sustainability', component: SustainabilityComponent },
         ]
     }
 ];

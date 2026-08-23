@@ -1,0 +1,44 @@
+<main class="sustainability-page">
+	<section class="way-section background-section" aria-labelledby="way-title">
+		<div class="way-content">
+			<p class="section-kicker hero-reveal">Concord / Sustainability</p>
+			<h1 id="way-title" class="hero-reveal">Our way</h1>
+			<p class="way-description hero-reveal">Concord takes a comprehensive view of sustainability through our 5P Model to ensure that our efforts result in positive outcomes for our partners, people, projects, practices and places.</p>
+		</div>
+	</section>
+
+	<section class="approach-section page-section" aria-labelledby="approach-title">
+		<div class="approach-intro reveal" #reveal>
+			<div class="section-heading">
+				<!-- <p class="section-kicker">01 / Our framework</p> -->
+				<h2 id="approach-title">Our Approach</h2>
+			</div>
+			<p>CONCORD is not just a member of the Construction Community in Egypt But is Also One of the Top 5 Construction Leaders &amp; With Great Power Comes Great Responsibility.</p>
+		</div>
+		<div class="approach-image-wrap reveal" #reveal>
+			<img src="/images/sustainable.png" alt="Concord sustainability" />
+		</div>
+		<div class="pillars-grid">
+			<article *ngFor="let pillar of pillars; let index = index" class="pillar-item reveal" #reveal [style.transition-delay.ms]="index * 120">
+				<!-- <p class="item-number">0{{ index + 1 }}</p> -->
+				<h3>{{ pillar.title }}</h3>
+				<p>{{ pillar.description }}</p>
+			</article>
+		</div>
+	</section>
+
+	<section class="community-section background-section" aria-labelledby="community-title">
+		<div class="community-inner">
+			<div class="section-heading community-heading reveal" #reveal>
+				<!-- <p class="section-kicker">02 / Impact</p> -->
+				<h2 id="community-title">Sustainability &amp; Community</h2>
+			</div>
+			<div class="community-grid">
+				<article *ngFor="let statement of communityStatements; let index = index" class="community-item reveal" #reveal [style.transition-delay.ms]="index * 120">
+					<h3>{{ statement.title }}</h3>
+					<p>{{ statement.description }}</p>
+				</article>
+			</div>
+		</div>
+	</section>
+</main>

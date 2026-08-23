@@ -31,13 +31,13 @@ export class VisionComponent implements AfterViewInit, OnDestroy {
       title: 'Safety',
       description: 'We will never compromise the safety of our people. Our goal is zero incidents and our lost time frequency rate is industry-leading.',
       linkLabel: 'Read more',
-      route: '/about/who-we-are'
+      route: '/safety'
     },
     {
       title: 'Sustainability',
       description: 'We look beyond sustainable construction with a holistic approach to corporate social responsibility that addresses partners, people, projects, practices and places; our 5P Model.',
       linkLabel: 'Read more',
-      route: '/about/who-we-are'
+      route: '/sustainability'
     },
     {
       title: 'Quality',
