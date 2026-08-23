@@ -8,6 +8,7 @@ import { TransportationComponent } from './User/Services/transportation/transpor
 import { ConstructionComponent } from './User/Services/construction/construction.component';
 import { HistoryComponent } from './User/history/history.component';
 import { VisionComponent } from './User/vision/vision.component';
+import { TermsComponent } from './User/terms/terms.component';
 
 export const routes: Routes = [
     {
@@ -22,6 +23,7 @@ export const routes: Routes = [
             { path: 'services/construction', component: ConstructionComponent },
             { path: 'history', component: HistoryComponent },
             { path: 'vision', component: VisionComponent },
+            { path: 'legal/terms', component: TermsComponent }    
         ]
     }
 ];
