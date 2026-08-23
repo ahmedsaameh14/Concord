@@ -1,0 +1,30 @@
+<main class="history-page">
+	<section class="history-hero" aria-labelledby="history-title">
+		<div class="history-hero-content">
+			<p class="section-kicker hero-reveal">Concord / Our story</p>
+			<h1 id="history-title" class="hero-reveal">History</h1>
+			<p class="hero-description hero-reveal">From the day it all started, we’ve been a company dedicated to asking one question: “Why not?” Our work to anticipate and overcome every challenge has rooted our values and vaulted us to the top of our industry.</p>
+		</div>
+	</section>
+
+	<section class="history-timeline-section page-section" aria-labelledby="timeline-title">
+		<div class="section-heading reveal" #reveal>
+			<!-- <p class="section-kicker">01 / Our journey</p> -->
+			<h2 id="timeline-title">Company History</h2>
+		</div>
+
+		<div class="history-timeline">
+			<article *ngFor="let milestone of milestones; let index = index" class="history-item reveal" #reveal [style.transition-delay.ms]="index * 90">
+				<div class="history-media">
+					<img [src]="milestone.image" [alt]="milestone.subject" />
+				</div>
+				<div class="history-marker" aria-hidden="true"></div>
+				<div class="history-copy">
+					<p class="history-date">{{ milestone.date }}</p>
+					<h3>{{ milestone.subject }}</h3>
+					<p>{{ milestone.description }}</p>
+				</div>
+			</article>
+		</div>
+	</section>
+</main>

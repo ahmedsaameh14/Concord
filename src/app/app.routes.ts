@@ -6,6 +6,7 @@ import { ManagementComponent } from './User/About/management/management.componen
 import { InfrastructureComponent } from './User/Services/infrastructure/infrastructure.component';
 import { TransportationComponent } from './User/Services/transportation/transportation.component';
 import { ConstructionComponent } from './User/Services/construction/construction.component';
+import { HistoryComponent } from './User/history/history.component';
 
 export const routes: Routes = [
     {
@@ -18,6 +19,7 @@ export const routes: Routes = [
             { path: 'services/infrastructure', component: InfrastructureComponent },
             { path: 'services/transportation', component: TransportationComponent },
             { path: 'services/construction', component: ConstructionComponent },
+            { path: 'history', component: HistoryComponent },
         ]
     }
 ];
