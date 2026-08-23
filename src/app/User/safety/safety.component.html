@@ -1,0 +1,50 @@
+<main class="safety-page">
+	<section class="safety-hero background-section" aria-labelledby="safety-title">
+		<div class="safety-hero-content">
+			<p class="section-kicker hero-reveal">Concord / Safety</p>
+			<h1 id="safety-title" class="hero-reveal">Creating a safe, dynamic culture</h1>
+			<p class="hero-description hero-reveal">Safety is at the core of everything we do and is one of our central guiding principles. We promote and foster a culture where people truly care about one another and where everyone shares in our goal of zero incidents.</p>
+		</div>
+	</section>
+
+	<section class="covid-section page-section" aria-labelledby="covid-title">
+		<div class="covid-images reveal" #reveal>
+			<div class="covid-image-wrap"><img src="/images/safety2.jpeg" alt="Concord project safety measures" /></div>
+			<div class="covid-image-wrap"><img src="/images/safety1.jpeg" alt="Safety practices on a Concord project site" /></div>
+		</div>
+		<div class="covid-copy reveal" #reveal>
+			<!-- <p class="section-kicker">01 / Response</p> -->
+			<h2 id="covid-title">Our COVID-19 response</h2>
+			<p>In this difficult time, the safety of our employees and trade partners on our project sites is our most important priority. We have implemented strict protocols and standard operating procedures on jobsites and are following Center for Disease Control and Prevention (CDC) guidelines. On all our jobsites, we are fostering open dialogue and encouraging trade partners to communicate all safety concerns to their foremen so they can be immediately addressed.</p>
+		</div>
+	</section>
+
+	<section class="approach-section background-section" aria-labelledby="approach-title">
+		<div class="approach-inner">
+			<div class="section-heading approach-heading reveal" #reveal>
+				<!-- <p class="section-kicker">02 / Our approach</p> -->
+				<!-- <h2 id="approach-title">Our Safety Approach</h2> -->
+			</div>
+			<div class="approach-grid">
+				<article *ngFor="let item of safetyApproach; let index = index" class="approach-item reveal" #reveal [style.transition-delay.ms]="index * 120">
+					<h3>{{ item.title }}</h3>
+					<p>{{ item.description }}</p>
+				</article>
+			</div>
+		</div>
+	</section>
+
+	<section class="awards-section page-section" aria-labelledby="awards-title">
+		<div class="section-heading awards-heading reveal" #reveal>
+			<!-- <p class="section-kicker">03 / Recognition</p> -->
+			<h2 id="awards-title">Safety Awards &amp; Recognition</h2>
+		</div>
+		<div class="awards-grid">
+			<article *ngFor="let award of awards; let index = index" class="award-item reveal" #reveal [style.transition-delay.ms]="index * 120">
+				<p class="award-date">{{ award.date }}</p>
+				<h3>{{ award.award }}</h3>
+				<p class="award-organization">{{ award.organization }}</p>
+			</article>
+		</div>
+	</section>
+</main>
