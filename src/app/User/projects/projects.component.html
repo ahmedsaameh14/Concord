@@ -1,1 +1,56 @@
-<p>projects works!</p>
+<section class="projects-page">
+  <div class="hero">
+    <div class="hero-content">
+      <p class="eyebrow">Our Portfolio</p>
+      <h1>Projects</h1>
+      <p>Explore Concord’s work across construction, infrastructure, and transportation.</p>
+    </div>
+  </div>
+
+  <div class="container">
+    <div class="filters">
+      <input type="text" [(ngModel)]="search" placeholder="Search projects" (keyup.enter)="applyFilters()" />
+      <select [(ngModel)]="location">
+        <option value="">All locations</option>
+        @for (city of locations(); track city) {
+        <option [value]="city">{{ city }}</option>
+        }
+      </select>
+      <select [(ngModel)]="type">
+        <option value="">All services</option>
+        @for (item of projectTypes; track item) {
+        <option [value]="item">{{ item }}</option>
+        }
+      </select>
+      <button type="button" (click)="applyFilters()">Filter</button>
+    </div>
+
+    @if (error()) {
+    <div class="state error">{{ error() }}</div>
+    }
+
+    @if (loading()) {
+    <div class="state">Loading projects…</div>
+    } @else if (!projects().length) {
+    <div class="state">No projects match your filters.</div>
+    } @else {
+    <div class="grid">
+      @for (project of projects(); track project._id) {
+
+      <div class="card">
+        <img [src]="project.mainImage" [alt]="project.name" />
+        <div class="card-body">
+          <span class="type">{{ project.type }}</span>
+          <h3>{{ project.name }}</h3>
+          <p>{{ project.location }} · {{ project.client }}</p>
+        </div>
+        <a [routerLink]="['/projects', project.slug || project._id]" class="read-more ">Read More <i
+            class="fa-solid fa-arrow-right"></i></a>
+      </div>
+      }
+    </div>
+    }
+  </div>
+
+
+</section>

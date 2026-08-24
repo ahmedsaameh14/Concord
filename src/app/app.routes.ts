@@ -12,24 +12,41 @@ import { TermsComponent } from './User/terms/terms.component';
 import { PrivacyComponent } from './User/privacy/privacy.component';
 import { SafetyComponent } from './User/safety/safety.component';
 import { SustainabilityComponent } from './User/sustainability/sustainability.component';
+import { ProjectsComponent } from './User/projects/projects.component';
+import { ProjectDetailComponent } from './User/projects/project-detail.component';
+import { DashboardLayoutComponent } from './dashboard/layout/dashboard-layout.component';
+import { DashboardProjectsListComponent } from './dashboard/projects/projects-list.component';
+import { DashboardProjectFormComponent } from './dashboard/projects/project-form.component';
 
 export const routes: Routes = [
-    {
-        path: '',
-        component: LayoutComponent,
-        children: [
-            { path: '', component: HomeComponent },
-            { path: 'about/who-we-are', component: AboutusComponent },
-            { path: 'about/management', component: ManagementComponent },
-            { path: 'services/infrastructure', component: InfrastructureComponent },
-            { path: 'services/transportation', component: TransportationComponent },
-            { path: 'services/construction', component: ConstructionComponent },
-            { path: 'history', component: HistoryComponent },
-            { path: 'vision', component: VisionComponent },
-            { path: 'legal/terms', component: TermsComponent },
-            { path: 'legal/privacy', component: PrivacyComponent },   
-            { path: 'safety', component: SafetyComponent },
-            { path: 'sustainability', component: SustainabilityComponent },
-        ]
-    }
+  {
+    path: '',
+    component: LayoutComponent,
+    children: [
+      { path: '', component: HomeComponent },
+      { path: 'about/who-we-are', component: AboutusComponent },
+      { path: 'about/management', component: ManagementComponent },
+      { path: 'services/infrastructure', component: InfrastructureComponent },
+      { path: 'services/transportation', component: TransportationComponent },
+      { path: 'services/construction', component: ConstructionComponent },
+      { path: 'projects', component: ProjectsComponent },
+      { path: 'projects/:slug', component: ProjectDetailComponent }, 
+      { path: 'history', component: HistoryComponent },
+      { path: 'vision', component: VisionComponent },
+      { path: 'legal/terms', component: TermsComponent },
+      { path: 'legal/privacy', component: PrivacyComponent },
+      { path: 'safety', component: SafetyComponent },
+      { path: 'sustainability', component: SustainabilityComponent },
+    ],
+  },
+  {
+    path: 'dashboard',
+    component: DashboardLayoutComponent,
+    children: [
+      { path: '', pathMatch: 'full', redirectTo: 'projects' },
+      { path: 'projects', component: DashboardProjectsListComponent },
+      { path: 'projects/new', component: DashboardProjectFormComponent },
+      { path: 'projects/:id/edit', component: DashboardProjectFormComponent },
+    ],
+  },
 ];

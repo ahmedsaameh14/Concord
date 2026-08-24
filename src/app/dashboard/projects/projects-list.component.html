@@ -1,0 +1,121 @@
+<section class="page">
+  <div class="page-head">
+    <div>
+      <h2>All Projects</h2>
+      <p>{{ total }} projects in portfolio</p>
+    </div>
+    <a routerLink="/dashboard/projects/new" class="btn-primary">+ Create Project</a>
+  </div>
+
+  <div class="filters card">
+    <div class="filters-grid">
+      <label>
+        <span>Search</span>
+        <input type="text" [(ngModel)]="search" placeholder="Name, client, address" (keyup.enter)="applyFilters()" />
+      </label>
+      <label>
+        <span>Location</span>
+        <select [(ngModel)]="location">
+          <option value="">All cities</option>
+          @for (city of locations(); track city) {
+            <option [value]="city">{{ city }}</option>
+          }
+        </select>
+      </label>
+      <label>
+        <span>Type</span>
+        <select [(ngModel)]="type">
+          <option value="">All types</option>
+          @for (item of projectTypes; track item) {
+            <option [value]="item">{{ item }}</option>
+          }
+        </select>
+      </label>
+      <label>
+        <span>Status</span>
+        <select [(ngModel)]="isActive">
+          <option value="">All</option>
+          <option value="true">Active</option>
+          <option value="false">Inactive</option>
+        </select>
+      </label>
+    </div>
+    <div class="filters-actions">
+      <button type="button" class="btn-primary" (click)="applyFilters()">Apply</button>
+      <button type="button" class="btn-ghost" (click)="clearFilters()">Reset</button>
+    </div>
+  </div>
+
+  @if (error()) {
+    <div class="alert error">{{ error() }}</div>
+  }
+  @if (success()) {
+    <div class="alert success">{{ success() }}</div>
+  }
+
+  <div class="card table-wrap">
+    @if (loading()) {
+      <div class="empty">Loading projects…</div>
+    } @else if (!projects().length) {
+      <div class="empty">
+        <p>No projects found.</p>
+        <a routerLink="/dashboard/projects/new">Create the first project</a>
+      </div>
+    } @else {
+      <table>
+        <thead>
+          <tr>
+            <th>Project</th>
+            <th>Type</th>
+            <th>Location</th>
+            <th>Client</th>
+            <th>Contract</th>
+            <th>Status</th>
+            <th>Actions</th>
+          </tr>
+        </thead>
+        <tbody>
+          @for (project of projects(); track project._id) {
+            <tr>
+              <td>
+                <div class="project-cell">
+                  <img [src]="project.mainImage" [alt]="project.name" />
+                  <div>
+                    <strong>{{ project.name }}</strong>
+                    <small>{{ project.duration || (project.startYear && project.endYear ? project.startYear + ' – ' + project.endYear : '') }}</small>
+                  </div>
+                </div>
+              </td>
+              <td><span class="chip">{{ project.type }}</span></td>
+              <td>{{ project.location }}</td>
+              <td>{{ project.client }}</td>
+              <td>{{ project.contractValue }}</td>
+              <td>
+                <span class="status" [class.active]="project.isActive" [class.inactive]="!project.isActive">
+                  {{ project.isActive ? 'Active' : 'Inactive' }}
+                </span>
+              </td>
+              <td>
+                <div class="actions">
+                  <a [routerLink]="['/dashboard/projects', project._id, 'edit']" class="link-btn">Edit</a>
+                  <button type="button" class="link-btn" (click)="toggleStatus(project)">
+                    {{ project.isActive ? 'Hide' : 'Show' }}
+                  </button>
+                  <button type="button" class="link-btn danger" (click)="deleteProject(project)">Delete</button>
+                </div>
+              </td>
+            </tr>
+          }
+        </tbody>
+      </table>
+    }
+  </div>
+
+  @if (totalPages > 1) {
+    <div class="pagination">
+      <button type="button" class="btn-ghost" [disabled]="page <= 1" (click)="goToPage(page - 1)">Previous</button>
+      <span>Page {{ page }} of {{ totalPages }}</span>
+      <button type="button" class="btn-ghost" [disabled]="page >= totalPages" (click)="goToPage(page + 1)">Next</button>
+    </div>
+  }
+</section>

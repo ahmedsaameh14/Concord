@@ -1,0 +1,151 @@
+<section class="page">
+  <div class="page-head">
+    <div>
+      <h2>{{ isEdit ? 'Edit Project' : 'Create Project' }}</h2>
+      <p>Upload images from your device. They are stored on Cloudinary automatically.</p>
+    </div>
+    <a routerLink="/dashboard/projects" class="btn-ghost">← Back to list</a>
+  </div>
+
+  @if (error()) {
+    <div class="alert error">{{ error() }}</div>
+  }
+  @if (success()) {
+    <div class="alert success">{{ success() }}</div>
+  }
+
+  @if (loading()) {
+    <div class="card empty">Loading project…</div>
+  } @else {
+    <form class="form" (ngSubmit)="submit()">
+      <div class="card">
+        <h3>Basic Information</h3>
+        <div class="grid-2">
+          <label>
+            <span>Project Name *</span>
+            <input type="text" [(ngModel)]="form.name" name="name" required />
+          </label>
+          <label>
+            <span>Start Year *</span>
+            <input type="number" [(ngModel)]="form.startYear" name="startYear" min="1950" max="2100" required />
+          </label>
+          <label>
+            <span>End Year *</span>
+            <input type="number" [(ngModel)]="form.endYear" name="endYear" min="1950" max="2100" required />
+          </label>
+          <label>
+            <span>Location (city) *</span>
+            <input type="text" [(ngModel)]="form.location" name="location" placeholder="cairo" required />
+          </label>
+          <label>
+            <span>Address *</span>
+            <input type="text" [(ngModel)]="form.address" name="address" required />
+          </label>
+          <label>
+            <span>Client *</span>
+            <input type="text" [(ngModel)]="form.client" name="client" required />
+          </label>
+          <label>
+            <span>Contract Value *</span>
+            <input type="text" [(ngModel)]="form.contractValue" name="contractValue" placeholder="$120M" required />
+          </label>
+          <label>
+            <span>Type *</span>
+            <select [(ngModel)]="form.type" name="type" required>
+              @for (item of projectTypes; track item) {
+                <option [value]="item">{{ item }}</option>
+              }
+            </select>
+          </label>
+          <label class="checkbox-row">
+            <span>Visibility</span>
+            <div class="switch-line">
+              <input type="checkbox" [(ngModel)]="form.isActive" name="isActive" />
+              <span>{{ form.isActive ? 'Active (visible)' : 'Inactive (hidden)' }}</span>
+            </div>
+          </label>
+        </div>
+
+        <label class="full">
+          <span>Overview *</span>
+          <textarea rows="5" [(ngModel)]="form.overview" name="overview" required></textarea>
+        </label>
+      </div>
+
+      <div class="card">
+        <h3>Main Image *</h3>
+        <p class="hint">Choose an image from your computer. It will be uploaded to Cloudinary.</p>
+        <input type="file" accept="image/*" (change)="onMainImageSelected($event)" />
+        @if (mainImagePreview || existingMainImage) {
+          <img class="preview" [src]="mainImagePreview || existingMainImage" alt="Main project image preview" />
+        }
+      </div>
+
+      <div class="card">
+        <h3>Gallery Images</h3>
+        <p class="hint">Select multiple images. Remove only deletes the image you choose.</p>
+        <input type="file" accept="image/*" multiple (change)="onGallerySelected($event)" />
+
+        @if (existingGallery.length || pendingGallery.length) {
+          <div class="gallery-preview">
+            @for (image of existingGallery; track $index; let i = $index) {
+              <div class="gallery-item">
+                <img [src]="image" alt="Gallery image" />
+                <button type="button" class="remove-btn" (click)="removeExistingGalleryImage(i)">Remove</button>
+              </div>
+            }
+            @for (item of pendingGallery; track $index; let i = $index) {
+              <div class="gallery-item pending">
+                <img [src]="item.preview" [alt]="item.file.name" />
+                <span class="badge">New</span>
+                <button type="button" class="remove-btn" (click)="removePendingGalleryImage(i)">Remove</button>
+              </div>
+            }
+          </div>
+        }
+      </div>
+
+      <div class="card">
+        <div class="section-head">
+          <div>
+            <h3>Key Features</h3>
+            <p class="hint">Use value for metrics, or items (one per line) for bullet points.</p>
+          </div>
+          <button type="button" class="btn-ghost" (click)="addSection()">+ Add Section</button>
+        </div>
+
+        @for (section of sections; track $index; let i = $index) {
+          <div class="feature-block">
+            <div class="grid-2">
+              <label>
+                <span>Title</span>
+                <input type="text" [(ngModel)]="section.title" [name]="'title' + i" placeholder="Total Land Area" />
+              </label>
+              <label>
+                <span>Value</span>
+                <input type="text" [(ngModel)]="section.value" [name]="'value' + i" placeholder="75,745 m²" />
+              </label>
+            </div>
+            <label class="full">
+              <span>Bullet Items (optional)</span>
+              <textarea
+                rows="3"
+                [(ngModel)]="section.itemsText"
+                [name]="'items' + i"
+                placeholder="Point one&#10;Point two"
+              ></textarea>
+            </label>
+            <button type="button" class="link-danger" (click)="removeSection(i)">Remove section</button>
+          </div>
+        }
+      </div>
+
+      <div class="form-actions">
+        <button type="submit" class="btn-primary" [disabled]="saving()">
+          {{ saving() ? 'Saving…' : isEdit ? 'Update Project' : 'Create Project' }}
+        </button>
+        <a routerLink="/dashboard/projects" class="btn-ghost">Cancel</a>
+      </div>
+    </form>
+  }
+</section>

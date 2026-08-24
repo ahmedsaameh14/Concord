@@ -1,0 +1,92 @@
+<section class="detail-page">
+  @if (loading()) {
+    <div class="state">Loading project…</div>
+  } @else if (error()) {
+    <div class="state error">
+      <p>{{ error() }}</p>
+      <a routerLink="/projects">Back to projects</a>
+    </div>
+  } @else {
+    @if (project(); as item) {
+      <div class="hero" [style.backgroundImage]="'url(' + item.mainImage + ')'">
+        <div class="hero-overlay">
+          <a routerLink="/projects" class="back">← All projects</a>
+          <span class="type">{{ item.type }}</span>
+          <h1>{{ item.name }}</h1>
+          <p>{{ item.location }} · {{ duration(item) }}</p>
+        </div>
+      </div>
+
+      <section class="facts-band">
+        <div class="facts-grid">
+          <div class="fact">
+            <span>Duration</span>
+            <strong>{{ duration(item) }}</strong>
+          </div>
+          <div class="fact">
+            <span>Client</span>
+            <strong>{{ item.client }}</strong>
+          </div>
+          <div class="fact">
+            <span>Contract Value</span>
+            <strong>{{ item.contractValue }}</strong>
+          </div>
+          <div class="fact">
+            <span>Type</span>
+            <strong>{{ item.type }}</strong>
+          </div>
+          <div class="fact">
+            <span>Location</span>
+            <strong>{{ item.location }}</strong>
+          </div>
+          <div class="fact">
+            <span>Address</span>
+            <strong>{{ item.address }}</strong>
+          </div>
+        </div>
+      </section>
+
+      <div class="container">
+        <div class="layout">
+        
+
+          <article>
+            <h2>Overview</h2>
+            <p>{{ item.overview }}</p>
+
+            @if (item.keyFeatures?.sections?.length) {
+              <h2>Key Features</h2>
+              <div class="features">
+                @for (section of item.keyFeatures?.sections; track section.title) {
+                  <div class="feature">
+                    <h3>{{ section.title }}</h3>
+                    @if (section.value) {
+                      <p class="value">{{ section.value }}</p>
+                    }
+                    @if (section.items?.length) {
+                      <ul>
+                        @for (point of section.items; track point) {
+                          <li>{{ point }}</li>
+                        }
+                      </ul>
+                    }
+                  </div>
+                }
+              </div>
+            }
+          </article>
+          <aside class="media-col">
+            <img class="lead-image" [src]="item.mainImage" [alt]="item.name" />
+            @if (item.ProjectImages?.length) {
+              <div class="gallery">
+                @for (image of item.ProjectImages; track image) {
+                  <img [src]="image" [alt]="item.name" />
+                }
+              </div>
+            }
+          </aside>
+        </div>
+      </div>
+    }
+  }
+</section>

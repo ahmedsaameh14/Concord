@@ -1,0 +1,73 @@
+<div class="dash-shell">
+  <aside class="dash-sidebar" [class.open]="sidebarOpen()">
+    <div class="brand">
+      <span class="brand-mark">C</span>
+      <div>
+        <p class="brand-title">Concord</p>
+        <p class="brand-sub">Admin Dashboard</p>
+      </div>
+    </div>
+
+    <nav class="nav">
+      <p class="nav-label">Management</p>
+      <a
+        routerLink="/dashboard/projects"
+        routerLinkActive="active"
+        (click)="closeSidebar()"
+      >
+        <span class="nav-icon">▣</span>
+        Projects
+      </a>
+      <a
+        routerLink="/dashboard/projects/new"
+        routerLinkActive="active"
+        (click)="closeSidebar()"
+      >
+        <span class="nav-icon">＋</span>
+        New Project
+      </a>
+    </nav>
+
+    <div class="sidebar-footer">
+      <a routerLink="/" class="site-link">← Back to website</a>
+    </div>
+  </aside>
+
+  @if (sidebarOpen()) {
+    <button class="backdrop" type="button" aria-label="Close menu" (click)="closeSidebar()"></button>
+  }
+
+  <div class="dash-main">
+    <header class="dash-topbar">
+      <button class="menu-btn" type="button" (click)="toggleSidebar()" aria-label="Toggle sidebar">
+        ☰
+      </button>
+      <div>
+        <h1>Projects Control</h1>
+        <p>Manage portfolio visibility, content, and filters.</p>
+      </div>
+
+      <div class="session-box">
+        @if (isAuthenticated()) {
+          <span class="session-ok">Admin session active</span>
+          <button type="button" class="ghost-btn" (click)="disconnectSession()">Disconnect</button>
+        } @else {
+          <form class="session-form" (ngSubmit)="connectSession()">
+            <input type="email" [(ngModel)]="email" name="email" placeholder="Admin email" />
+            <input type="password" [(ngModel)]="password" name="password" placeholder="Password" />
+            <button type="submit" class="primary-btn" [disabled]="sessionLoading">
+              {{ sessionLoading ? 'Connecting…' : 'Connect' }}
+            </button>
+          </form>
+          @if (sessionError) {
+            <p class="session-error">{{ sessionError }}</p>
+          }
+        }
+      </div>
+    </header>
+
+    <main class="dash-content">
+      <router-outlet />
+    </main>
+  </div>
+</div>
