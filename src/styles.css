@@ -1,15 +1,47 @@
 @import url('https://fonts.googleapis.com/css2?family=Cairo:wght@300;400;500;600;700&display=swap');
 @import "tailwindcss";
 
-* {
-  box-sizing: border-box;
+@theme {
+  --font-cairo: "Cairo", sans-serif;
+  --color-concord-ink: #172033;
+  --color-concord-navy: #16283d;
+  --color-concord-navy-mid: #243b55;
+  --color-concord-navy-deep: #13253a;
+  --color-concord-navy-soft: #1d3a57;
+  --color-concord-navy-alt: #16324c;
+  --color-concord-gold: #c9a227;
+  --color-concord-muted: #667085;
+  --color-concord-border: #d7dde7;
+  --color-concord-border-soft: #e8edf3;
+  --color-concord-bg: #f7f8fa;
+  --color-concord-bg-alt: #f4f6f8;
+  --color-concord-danger: #b42318;
+  --color-concord-success: #067647;
 }
 
-html {
-  scroll-behavior: smooth;
-}
+@layer base {
+  * {
+    box-sizing: border-box;
+  }
 
-body {
-  margin: 0;
-  font-family: 'Cairo', sans-serif;
+  html {
+    scroll-behavior: smooth;
+  }
+
+  body {
+    margin: 0;
+    font-family: var(--font-cairo);
+  }
+
+  .sr-only {
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    padding: 0;
+    margin: -1px;
+    overflow: hidden;
+    clip: rect(0, 0, 0, 0);
+    white-space: nowrap;
+    border-width: 0;
+  }
 }

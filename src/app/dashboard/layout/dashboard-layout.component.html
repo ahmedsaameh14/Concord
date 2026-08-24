@@ -1,72 +1,137 @@
-<div class="dash-shell">
-  <aside class="dash-sidebar" [class.open]="sidebarOpen()">
-    <div class="brand">
-      <span class="brand-mark">C</span>
+<div class="grid min-h-screen bg-[#f3f5f8] text-concord-ink font-cairo lg:grid-cols-[280px_1fr]">
+  <aside
+    class="fixed inset-y-0 left-0 z-40 flex h-screen w-[min(300px,86vw)] -translate-x-[105%] flex-col gap-6 bg-gradient-to-b from-concord-navy-deep to-[#0f1c2c] p-[1.1rem_1.1rem_1.5rem] text-white transition-transform duration-200 lg:sticky lg:top-0 lg:w-auto lg:translate-x-0"
+    [class.translate-x-0]="sidebarOpen()"
+  >
+    <div class="flex items-center gap-[0.85rem] px-2 py-[0.35rem]">
+      <img src="public/images/concord logo-01 png.png" alt="Concord" class="w-10 h-10 rounded-full">
       <div>
-        <p class="brand-title">Concord</p>
-        <p class="brand-sub">Admin Dashboard</p>
+        <p class="m-0 font-bold tracking-[0.02em]">Concord</p>
+        <p class="m-0 text-[0.8rem] text-white/70">Admin Dashboard</p>
       </div>
     </div>
 
-    <nav class="nav">
-      <p class="nav-label">Management</p>
+    <nav class="flex flex-col gap-[0.35rem]">
+      <p class="mb-[0.4rem] px-3 text-[0.72rem] uppercase tracking-[0.08em] text-white/55">Management</p>
       <a
-        routerLink="/dashboard/projects"
-        routerLinkActive="active"
+        routerLink="/dashboard/overview"
+        routerLinkActive="bg-white/10 text-white"
+        class="flex items-center gap-[0.7rem] rounded-xl px-[0.9rem] py-[0.8rem] text-white/80 no-underline transition hover:bg-white/10 hover:text-white"
         (click)="closeSidebar()"
       >
-        <span class="nav-icon">▣</span>
+        <span class="w-5 text-center opacity-90"><i class="fa-solid fa-chart-pie"></i></span>
+        Overview
+      </a>
+      <a
+        routerLink="/dashboard/projects"
+        routerLinkActive="bg-white/10 text-white"
+        [routerLinkActiveOptions]="{ exact: true }"
+        class="flex items-center gap-[0.7rem] rounded-xl px-[0.9rem] py-[0.8rem] text-white/80 no-underline transition hover:bg-white/10 hover:text-white"
+        (click)="closeSidebar()"
+      >
+        <span class="w-5 text-center opacity-90"><i class="fa-solid fa-folder-open"></i></span>
         Projects
       </a>
       <a
         routerLink="/dashboard/projects/new"
-        routerLinkActive="active"
+        routerLinkActive="bg-white/10 text-white"
+        class="flex items-center gap-[0.7rem] rounded-xl px-[0.9rem] py-[0.8rem] text-white/80 no-underline transition hover:bg-white/10 hover:text-white"
         (click)="closeSidebar()"
       >
-        <span class="nav-icon">＋</span>
+        <span class="w-5 text-center opacity-90"><i class="fa-solid fa-plus"></i></span>
         New Project
       </a>
     </nav>
 
-    <div class="sidebar-footer">
-      <a routerLink="/" class="site-link">← Back to website</a>
+    <div class="mt-auto p-2">
+      <a routerLink="/" class="inline-flex items-center gap-2 text-[0.9rem] text-white/70 no-underline hover:text-white" title="Back to website">
+        <i class="fa-solid fa-arrow-left"></i>
+        Website
+      </a>
     </div>
   </aside>
 
   @if (sidebarOpen()) {
-    <button class="backdrop" type="button" aria-label="Close menu" (click)="closeSidebar()"></button>
+    <button
+      class="fixed inset-0 z-30 border-0 bg-[rgba(15,28,44,0.45)] lg:hidden"
+      type="button"
+      aria-label="Close menu"
+      (click)="closeSidebar()"
+    ></button>
   }
 
-  <div class="dash-main">
-    <header class="dash-topbar">
-      <button class="menu-btn" type="button" (click)="toggleSidebar()" aria-label="Toggle sidebar">
-        ☰
+  <div class="flex min-w-0 flex-col">
+    <header
+      class="sticky top-0 z-20 flex flex-wrap items-start gap-4 border-b border-[#e5e9ef] bg-white/90 px-6 py-5 backdrop-blur-[10px]"
+    >
+      <button
+        class="grid h-[42px] w-[42px] place-items-center rounded-[10px] border border-concord-border bg-white lg:hidden"
+        type="button"
+        (click)="toggleSidebar()"
+        aria-label="Toggle sidebar"
+        title="Menu"
+      >
+        <i class="fa-solid fa-bars"></i>
       </button>
       <div>
-        <h1>Projects Control</h1>
-        <p>Manage portfolio visibility, content, and filters.</p>
+        <h1 class="m-0 text-[1.35rem]">Dashboard</h1>
+        <p class="mt-[0.2rem] text-[0.9rem] text-concord-muted">Manage Concord content and portfolio.</p>
       </div>
 
-      <div class="session-box">
+      <div class="ml-0 w-full max-w-none lg:ml-auto lg:w-auto lg:max-w-[520px]">
         @if (isAuthenticated()) {
-          <span class="session-ok">Admin session active</span>
-          <button type="button" class="ghost-btn" (click)="disconnectSession()">Disconnect</button>
+          <span class="mr-[0.6rem] inline-flex items-center gap-2 text-[0.9rem] font-semibold text-concord-success">
+            <i class="fa-solid fa-circle-check"></i>
+            Connected
+          </span>
+          <button
+            type="button"
+            class="inline-flex h-10 w-10 cursor-pointer items-center justify-center rounded-[10px] border-0 bg-[#eef2f7] text-concord-ink"
+            title="Disconnect"
+            aria-label="Disconnect"
+            (click)="disconnectSession()"
+          >
+            <i class="fa-solid fa-right-from-bracket"></i>
+          </button>
         } @else {
-          <form class="session-form" (ngSubmit)="connectSession()">
-            <input type="email" [(ngModel)]="email" name="email" placeholder="Admin email" />
-            <input type="password" [(ngModel)]="password" name="password" placeholder="Password" />
-            <button type="submit" class="primary-btn" [disabled]="sessionLoading">
-              {{ sessionLoading ? 'Connecting…' : 'Connect' }}
+          <form class="flex flex-wrap gap-2" (ngSubmit)="connectSession()">
+            <input
+              type="email"
+              class="min-w-[150px] rounded-[10px] border border-concord-border px-3 py-[0.55rem]"
+              [(ngModel)]="email"
+              name="email"
+              placeholder="Admin email"
+              (ngModelChange)="onLoginDraftChange()"
+            />
+            <input
+              type="password"
+              class="min-w-[150px] rounded-[10px] border border-concord-border px-3 py-[0.55rem]"
+              [(ngModel)]="password"
+              name="password"
+              placeholder="Password"
+            />
+            <button
+              type="submit"
+              class="inline-flex h-10 w-10 cursor-pointer items-center justify-center rounded-[10px] border-0 bg-concord-navy text-white disabled:cursor-not-allowed disabled:opacity-60"
+              [disabled]="sessionLoading"
+              title="Connect"
+              aria-label="Connect"
+            >
+              @if (sessionLoading) {
+                <i class="fa-solid fa-spinner fa-spin"></i>
+              } @else {
+                <i class="fa-solid fa-right-to-bracket"></i>
+              }
             </button>
           </form>
           @if (sessionError) {
-            <p class="session-error">{{ sessionError }}</p>
+            <p class="mt-[0.4rem] text-[0.82rem] text-concord-danger">{{ sessionError }}</p>
           }
         }
       </div>
     </header>
 
-    <main class="dash-content">
+    <main class="p-6">
       <router-outlet />
     </main>
   </div>

@@ -32,6 +32,11 @@ export interface Project {
   updatedAt?: string;
 }
 
+export interface ProjectFilterOption {
+  name: string;
+  count: number;
+}
+
 export interface ProjectListMeta {
   page: number;
   limit: number;
@@ -58,8 +63,8 @@ export interface ProjectResponse {
 export interface ProjectFiltersResponse {
   message: string;
   data: {
-    locations: string[];
-    types?: string[];
+    locations: ProjectFilterOption[];
+    types?: ProjectFilterOption[];
     services?: string[];
   };
 }

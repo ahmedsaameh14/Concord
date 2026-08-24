@@ -15,6 +15,7 @@ import { SustainabilityComponent } from './User/sustainability/sustainability.co
 import { ProjectsComponent } from './User/projects/projects.component';
 import { ProjectDetailComponent } from './User/projects/project-detail.component';
 import { DashboardLayoutComponent } from './dashboard/layout/dashboard-layout.component';
+import { DashboardOverviewComponent } from './dashboard/overview/overview.component';
 import { DashboardProjectsListComponent } from './dashboard/projects/projects-list.component';
 import { DashboardProjectFormComponent } from './dashboard/projects/project-form.component';
 
@@ -30,7 +31,7 @@ export const routes: Routes = [
       { path: 'services/transportation', component: TransportationComponent },
       { path: 'services/construction', component: ConstructionComponent },
       { path: 'projects', component: ProjectsComponent },
-      { path: 'projects/:slug', component: ProjectDetailComponent }, 
+      { path: 'projects/:slug', component: ProjectDetailComponent },
       { path: 'history', component: HistoryComponent },
       { path: 'vision', component: VisionComponent },
       { path: 'legal/terms', component: TermsComponent },
@@ -43,7 +44,8 @@ export const routes: Routes = [
     path: 'dashboard',
     component: DashboardLayoutComponent,
     children: [
-      { path: '', pathMatch: 'full', redirectTo: 'projects' },
+      { path: '', pathMatch: 'full', redirectTo: 'overview' },
+      { path: 'overview', component: DashboardOverviewComponent },
       { path: 'projects', component: DashboardProjectsListComponent },
       { path: 'projects/new', component: DashboardProjectFormComponent },
       { path: 'projects/:id/edit', component: DashboardProjectFormComponent },

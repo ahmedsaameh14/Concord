@@ -1,11 +1,14 @@
-import { Component, OnInit, inject, signal } from '@angular/core';
+import { Component, OnDestroy, OnInit, inject, signal } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { ActivatedRoute, Router, RouterLink } from '@angular/router';
 import { ProjectService } from '../../core/services/project.service';
 import { AuthService } from '../../core/services/auth.service';
+import { FormDraftService } from '../../core/services/form-draft.service';
+import { NotificationService } from '../../core/services/notification.service';
 import { PROJECT_TYPES } from '../../core/config/api.config';
 import { KeyFeatureSection } from '../../core/models/project.model';
+import { LoadingSpinnerComponent } from '../../shared/loading-spinner/loading-spinner.component';
 
 interface FeatureSectionForm {
   title: string;
@@ -18,16 +21,35 @@ interface PendingGalleryItem {
   preview: string;
 }
 
+interface ProjectFormDraft {
+  form: {
+    name: string;
+    overview: string;
+    startYear: number;
+    endYear: number;
+    address: string;
+    location: string;
+    client: string;
+    contractValue: string;
+    type: string;
+    isActive: boolean;
+  };
+  sections: FeatureSectionForm[];
+  existingGallery: string[];
+  existingMainImage?: string;
+}
+
 @Component({
   selector: 'app-dashboard-project-form',
   standalone: true,
-  imports: [CommonModule, FormsModule, RouterLink],
+  imports: [CommonModule, FormsModule, RouterLink, LoadingSpinnerComponent],
   templateUrl: './project-form.component.html',
-  styleUrl: './project-form.component.css',
 })
-export class DashboardProjectFormComponent implements OnInit {
+export class DashboardProjectFormComponent implements OnInit, OnDestroy {
   private readonly projectsApi = inject(ProjectService);
   private readonly auth = inject(AuthService);
+  private readonly drafts = inject(FormDraftService);
+  private readonly notify = inject(NotificationService);
   private readonly route = inject(ActivatedRoute);
   private readonly router = inject(Router);
 
@@ -36,10 +58,11 @@ export class DashboardProjectFormComponent implements OnInit {
 
   isEdit = false;
   projectId = '';
+  draftKey = 'project_create';
   loading = signal(false);
   saving = signal(false);
   error = signal('');
-  success = signal('');
+  draftRestored = signal(false);
 
   form = {
     name: '',
@@ -62,13 +85,31 @@ export class DashboardProjectFormComponent implements OnInit {
 
   sections: FeatureSectionForm[] = [{ title: '', value: '', itemsText: '' }];
 
+  private draftTimer: ReturnType<typeof setTimeout> | null = null;
+
   ngOnInit(): void {
     this.projectId = this.route.snapshot.paramMap.get('id') || '';
     this.isEdit = Boolean(this.projectId);
+    this.draftKey = this.isEdit ? `project_edit_${this.projectId}` : 'project_create';
 
     if (this.isEdit) {
       this.loadProject();
+    } else {
+      this.restoreDraft();
     }
+  }
+
+  ngOnDestroy(): void {
+    if (this.draftTimer) {
+      clearTimeout(this.draftTimer);
+    }
+  }
+
+  onFormChange(): void {
+    if (this.draftTimer) {
+      clearTimeout(this.draftTimer);
+    }
+    this.draftTimer = setTimeout(() => this.persistDraft(), 400);
   }
 
   loadProject(): void {
@@ -101,11 +142,14 @@ export class DashboardProjectFormComponent implements OnInit {
             }))
           : [{ title: '', value: '', itemsText: '' }];
 
+        this.restoreDraft(true);
         this.loading.set(false);
       },
       error: (err) => {
         this.loading.set(false);
-        this.error.set(err?.error?.message || 'Failed to load project.');
+        const message = err?.error?.message || 'Failed to load project.';
+        this.error.set(message);
+        this.notify.error(message);
       },
     });
   }
@@ -115,6 +159,7 @@ export class DashboardProjectFormComponent implements OnInit {
     const file = input.files?.[0] || null;
     this.mainImageFile = file;
     this.mainImagePreview = file ? URL.createObjectURL(file) : '';
+    this.onFormChange();
   }
 
   onGallerySelected(event: Event): void {
@@ -129,11 +174,13 @@ export class DashboardProjectFormComponent implements OnInit {
     });
 
     input.value = '';
+    this.onFormChange();
   }
 
   removeExistingGalleryImage(index: number): void {
     if (index < 0 || index >= this.existingGallery.length) return;
     this.existingGallery = this.existingGallery.filter((_, i) => i !== index);
+    this.onFormChange();
   }
 
   removePendingGalleryImage(index: number): void {
@@ -142,26 +189,37 @@ export class DashboardProjectFormComponent implements OnInit {
     if (removed?.preview) {
       URL.revokeObjectURL(removed.preview);
     }
+    this.onFormChange();
   }
 
   addSection(): void {
     this.sections.push({ title: '', value: '', itemsText: '' });
+    this.onFormChange();
   }
 
   removeSection(index: number): void {
     if (this.sections.length === 1) {
       this.sections[0] = { title: '', value: '', itemsText: '' };
+      this.onFormChange();
       return;
     }
     this.sections.splice(index, 1);
+    this.onFormChange();
+  }
+
+  clearDraft(): void {
+    this.drafts.clear(this.draftKey);
+    this.draftRestored.set(false);
+    this.notify.info('Draft cleared.');
   }
 
   submit(): void {
     this.error.set('');
-    this.success.set('');
 
     if (!this.auth.isAuthenticated()) {
-      this.error.set('Connect an admin session first to create or update projects.');
+      const message = 'Connect an admin session first to create or update projects.';
+      this.error.set(message);
+      this.notify.error(message);
       return;
     }
 
@@ -177,7 +235,9 @@ export class DashboardProjectFormComponent implements OnInit {
     request$.subscribe({
       next: (res) => {
         this.saving.set(false);
-        this.success.set(res.message || 'Saved successfully.');
+        this.notify.success(res.message || 'Saved successfully.');
+        this.drafts.clear(this.draftKey);
+        this.draftRestored.set(false);
         const id = res.data?._id;
         if (!this.isEdit && id) {
           this.router.navigate(['/dashboard/projects', id, 'edit']);
@@ -192,9 +252,38 @@ export class DashboardProjectFormComponent implements OnInit {
       },
       error: (err) => {
         this.saving.set(false);
-        this.error.set(err?.error?.message || 'Failed to save project.');
+        const message = err?.error?.message || 'Failed to save project.';
+        this.error.set(message);
+        this.notify.error(message);
       },
     });
+  }
+
+  private restoreDraft(mergeAfterLoad = false): void {
+    const draft = this.drafts.load<ProjectFormDraft>(this.draftKey);
+    if (!draft) return;
+
+    this.form = { ...this.form, ...draft.form };
+    if (Array.isArray(draft.sections) && draft.sections.length) {
+      this.sections = draft.sections;
+    }
+    if (Array.isArray(draft.existingGallery)) {
+      this.existingGallery = draft.existingGallery;
+    }
+    if (draft.existingMainImage && !mergeAfterLoad) {
+      this.existingMainImage = draft.existingMainImage;
+    }
+    this.draftRestored.set(true);
+  }
+
+  private persistDraft(): void {
+    const payload: ProjectFormDraft = {
+      form: { ...this.form },
+      sections: this.sections.map((section) => ({ ...section })),
+      existingGallery: [...this.existingGallery],
+      existingMainImage: this.existingMainImage || undefined,
+    };
+    this.drafts.save(this.draftKey, payload);
   }
 
   private buildFormData(): FormData | null {
@@ -214,17 +303,21 @@ export class DashboardProjectFormComponent implements OnInit {
       .filter(([, value]) => !String(value || '').trim())
       .map(([key]) => key);
 
-    if (!this.isEdit && !this.mainImageFile) {
+    if (!this.isEdit && !this.mainImageFile && !this.existingMainImage) {
       missing.push('mainImage');
     }
 
     if (missing.length) {
-      this.error.set(`Missing required fields: ${missing.join(', ')}`);
+      const message = `Missing required fields: ${missing.join(', ')}`;
+      this.error.set(message);
+      this.notify.warning(message);
       return null;
     }
 
     if (Number(this.form.endYear) < Number(this.form.startYear)) {
-      this.error.set('End year cannot be before start year.');
+      const message = 'End year cannot be before start year.';
+      this.error.set(message);
+      this.notify.warning(message);
       return null;
     }
 

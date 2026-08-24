@@ -4,19 +4,21 @@ import { FormsModule } from '@angular/forms';
 import { RouterLink } from '@angular/router';
 import { ProjectService } from '../../core/services/project.service';
 import { AuthService } from '../../core/services/auth.service';
+import { NotificationService } from '../../core/services/notification.service';
 import { PROJECT_TYPES } from '../../core/config/api.config';
 import { Project } from '../../core/models/project.model';
+import { LoadingSpinnerComponent } from '../../shared/loading-spinner/loading-spinner.component';
 
 @Component({
   selector: 'app-dashboard-projects-list',
   standalone: true,
-  imports: [CommonModule, FormsModule, RouterLink],
+  imports: [CommonModule, FormsModule, RouterLink, LoadingSpinnerComponent],
   templateUrl: './projects-list.component.html',
-  styleUrl: './projects-list.component.css',
 })
 export class DashboardProjectsListComponent implements OnInit {
   private readonly projectsApi = inject(ProjectService);
   private readonly auth = inject(AuthService);
+  private readonly notify = inject(NotificationService);
 
   readonly projectTypes = PROJECT_TYPES;
 
@@ -24,7 +26,6 @@ export class DashboardProjectsListComponent implements OnInit {
   locations = signal<string[]>([]);
   loading = signal(false);
   error = signal('');
-  success = signal('');
 
   search = '';
   location = '';
@@ -63,7 +64,9 @@ export class DashboardProjectsListComponent implements OnInit {
         },
         error: (err) => {
           this.loading.set(false);
-          this.error.set(err?.error?.message || 'Failed to load projects.');
+          const message = err?.error?.message || 'Failed to load projects.';
+          this.error.set(message);
+          this.notify.error(message);
         },
       });
   }
@@ -90,24 +93,24 @@ export class DashboardProjectsListComponent implements OnInit {
 
   toggleStatus(project: Project): void {
     if (!this.auth.isAuthenticated()) {
-      this.error.set('Connect an admin session to change project status.');
+      this.notify.error('Connect an admin session to change project status.');
       return;
     }
 
     this.projectsApi.toggleStatus(project._id, !project.isActive).subscribe({
       next: (res) => {
-        this.success.set(res.message);
+        this.notify.success(res.message || 'Project status updated.');
         this.loadProjects();
       },
       error: (err) => {
-        this.error.set(err?.error?.message || 'Failed to update status.');
+        this.notify.error(err?.error?.message || 'Failed to update status.');
       },
     });
   }
 
   deleteProject(project: Project): void {
     if (!this.auth.isAuthenticated()) {
-      this.error.set('Connect an admin session to delete projects.');
+      this.notify.error('Connect an admin session to delete projects.');
       return;
     }
 
@@ -116,11 +119,11 @@ export class DashboardProjectsListComponent implements OnInit {
 
     this.projectsApi.delete(project._id).subscribe({
       next: () => {
-        this.success.set('Project deleted successfully.');
+        this.notify.success('Project deleted successfully.');
         this.loadProjects();
       },
       error: (err) => {
-        this.error.set(err?.error?.message || 'Failed to delete project.');
+        this.notify.error(err?.error?.message || 'Failed to delete project.');
       },
     });
   }

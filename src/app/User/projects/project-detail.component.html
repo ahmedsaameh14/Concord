@@ -1,72 +1,79 @@
-<section class="detail-page">
+<section class="min-h-[70vh] bg-concord-bg-alt text-concord-ink font-cairo">
   @if (loading()) {
-    <div class="state">Loading project…</div>
+    <app-loading-spinner message="Loading project…" size="lg" />
   } @else if (error()) {
-    <div class="state error">
+    <div class="px-4 py-16 text-center text-concord-danger">
       <p>{{ error() }}</p>
-      <a routerLink="/projects">Back to projects</a>
+      <a routerLink="/projects" class="font-semibold text-concord-navy">Back to projects</a>
     </div>
   } @else {
     @if (project(); as item) {
-      <div class="hero" [style.backgroundImage]="'url(' + item.mainImage + ')'">
-        <div class="hero-overlay">
-          <a routerLink="/projects" class="back">← All projects</a>
-          <span class="type">{{ item.type }}</span>
-          <h1>{{ item.name }}</h1>
+      <div
+        class="relative min-h-[360px] bg-cover bg-center"
+        [style.backgroundImage]="'url(' + item.mainImage + ')'"
+      >
+        <div
+          class="flex min-h-[360px] flex-col justify-end bg-gradient-to-b from-[rgba(15,28,44,0.25)] to-[rgba(15,28,44,0.82)] px-6 pb-8 pt-20 text-white"
+        >
+          <a routerLink="/projects" class="text-white no-underline">← All projects</a>
+          <span class="font-bold capitalize text-concord-gold">{{ item.type }}</span>
+          <h1 class="my-[0.3rem] text-[clamp(1.8rem,4vw,3rem)] font-bold">{{ item.name }}</h1>
           <p>{{ item.location }} · {{ duration(item) }}</p>
         </div>
       </div>
 
-      <section class="facts-band">
-        <div class="facts-grid">
-          <div class="fact">
-            <span>Duration</span>
-            <strong>{{ duration(item) }}</strong>
+      <section
+        class="border-t-[3px] border-concord-gold bg-gradient-to-r from-concord-navy-deep via-concord-navy-soft to-concord-navy-alt px-6 py-[1.4rem] text-white"
+      >
+        <div
+          class="mx-auto grid max-w-[1180px] grid-cols-1 gap-[0.9rem] md:grid-cols-3 xl:grid-cols-6"
+        >
+          <div class="border-t border-[rgba(201,162,39,0.22)] pt-[0.7rem] md:border-t-0 md:border-l md:border-[rgba(201,162,39,0.28)] md:pt-0 md:pl-[0.85rem] md:first:border-l-0 md:first:pl-0">
+            <span class="mb-[0.3rem] block text-[0.72rem] font-bold tracking-[0.06em] text-concord-gold">📅 Duration</span>
+            <strong class="text-[0.95rem] font-semibold capitalize leading-[1.35]">{{ duration(item) }}</strong>
           </div>
-          <div class="fact">
-            <span>Client</span>
-            <strong>{{ item.client }}</strong>
+          <div class="border-t border-[rgba(201,162,39,0.22)] pt-[0.7rem] md:border-t-0 md:border-l md:border-[rgba(201,162,39,0.28)] md:pt-0 md:pl-[0.85rem]">
+            <span class="mb-[0.3rem] block text-[0.72rem]  font-bold tracking-[0.06em] text-concord-gold">👷‍♂️ Client</span>
+            <strong class="text-[0.95rem] font-semibold capitalize leading-[1.35]">{{ item.client }}</strong>
           </div>
-          <div class="fact">
-            <span>Contract Value</span>
-            <strong>{{ item.contractValue }}</strong>
+          <div class="border-t border-[rgba(201,162,39,0.22)] pt-[0.7rem] md:border-t-0 md:border-l md:border-[rgba(201,162,39,0.28)] md:pt-0 md:pl-[0.85rem]">
+            <span class="mb-[0.3rem] block text-[0.72rem] font-bold tracking-[0.06em] text-concord-gold">💵 Contract Value</span>
+            <strong class="text-[0.95rem] font-semibold capitalize leading-[1.35]">{{ item.contractValue }}</strong>
           </div>
-          <div class="fact">
-            <span>Type</span>
-            <strong>{{ item.type }}</strong>
+          <div class="border-t border-[rgba(201,162,39,0.22)] pt-[0.7rem] md:border-t-0 md:border-l md:border-[rgba(201,162,39,0.28)] md:pt-0 md:pl-[0.85rem]">
+            <span class="mb-[0.3rem] block text-[0.72rem] font-bold tracking-[0.06em] text-concord-gold">🏢 Type</span>
+            <strong class="text-[0.95rem] font-semibold capitalize leading-[1.35]">{{ item.type }}</strong>
           </div>
-          <div class="fact">
-            <span>Location</span>
-            <strong>{{ item.location }}</strong>
+          <div class="border-t border-[rgba(201,162,39,0.22)] pt-[0.7rem] md:border-t-0 md:border-l md:border-[rgba(201,162,39,0.28)] md:pt-0 md:pl-[0.85rem]">
+            <span class="mb-[0.3rem] block text-[0.72rem] font-bold tracking-[0.06em] text-concord-gold">🌍 Location</span>
+            <strong class="text-[0.95rem] font-semibold capitalize leading-[1.35]">{{ item.location }}</strong>
           </div>
-          <div class="fact">
-            <span>Address</span>
-            <strong>{{ item.address }}</strong>
+          <div class="border-t border-[rgba(201,162,39,0.22)] pt-[0.7rem] md:border-t-0 md:border-l md:border-[rgba(201,162,39,0.28)] md:pt-0 md:pl-[0.85rem]">
+            <span class="mb-[0.3rem] block text-[0.72rem] font-bold tracking-[0.06em] text-concord-gold">📍 Address</span>
+            <strong class="text-[0.95rem] font-semibold capitalize leading-[1.35]">{{ item.address }}</strong>
           </div>
         </div>
       </section>
 
-      <div class="container">
-        <div class="layout">
-        
-
+      <div class="mx-auto max-w-[1180px] px-6 pb-16 pt-8">
+        <div class="grid grid-cols-1 items-start gap-6 lg:grid-cols-[1.4fr_0.9fr]">
           <article>
-            <h2>Overview</h2>
+            <h2 class="text-concord-navy-deep text-[1.2rem] mt-4 mb-2 font-bold">Overview</h2>
             <p>{{ item.overview }}</p>
 
             @if (item.keyFeatures?.sections?.length) {
-              <h2>Key Features</h2>
-              <div class="features">
+              <h2 class="text-concord-navy-deep text-[1.2rem] mt-4 mb-2 font-bold">Key Features</h2>
+              <div class="grid gap-[0.8rem]">
                 @for (section of item.keyFeatures?.sections; track section.title) {
-                  <div class="feature">
-                    <h3>{{ section.title }}</h3>
+                  <div class="rounded-2xl border border-concord-border-soft bg-white p-[1.1rem]">
+                    <h3 class=" font-bold">{{ section.title }}</h3>
                     @if (section.value) {
-                      <p class="value">{{ section.value }}</p>
+                      <p class="m-0 text-[1.2rem]">{{ section.value }}</p>
                     }
                     @if (section.items?.length) {
                       <ul>
                         @for (point of section.items; track point) {
-                          <li>{{ point }}</li>
+                          <li class="text-concord-navy-deep text-[1rem] list-disc list-inside">{{ point }}</li>
                         }
                       </ul>
                     }
@@ -75,12 +82,21 @@
               </div>
             }
           </article>
-          <aside class="media-col">
-            <img class="lead-image" [src]="item.mainImage" [alt]="item.name" />
+
+          <aside class="flex flex-col gap-3">
+            <img
+              class="h-[280px] w-full rounded-2xl border border-[#e4eadf] object-cover"
+              [src]="item.mainImage"
+              [alt]="item.name"
+            />
             @if (item.ProjectImages?.length) {
-              <div class="gallery">
+              <div class="grid grid-cols-1 gap-3 sm:grid-cols-2">
                 @for (image of item.ProjectImages; track image) {
-                  <img [src]="image" [alt]="item.name" />
+                  <img
+                    class="h-40 w-full rounded-2xl border border-[#e4eadf] object-cover"
+                    [src]="image"
+                    [alt]="item.name"
+                  />
                 }
               </div>
             }
