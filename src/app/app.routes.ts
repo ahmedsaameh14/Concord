@@ -14,10 +14,17 @@ import { SafetyComponent } from './User/safety/safety.component';
 import { SustainabilityComponent } from './User/sustainability/sustainability.component';
 import { ProjectsComponent } from './User/projects/projects.component';
 import { ProjectDetailComponent } from './User/projects/project-detail.component';
+import { ArticlesComponent } from './User/news/articles/articles.component';
+import { ArticleDetailComponent } from './User/news/articles/article-detail.component';
+import { AwardsComponent } from './User/news/awards/awards.component';
 import { DashboardLayoutComponent } from './dashboard/layout/dashboard-layout.component';
 import { DashboardOverviewComponent } from './dashboard/overview/overview.component';
 import { DashboardProjectsListComponent } from './dashboard/projects/projects-list.component';
 import { DashboardProjectFormComponent } from './dashboard/projects/project-form.component';
+import { DashboardArticlesListComponent } from './dashboard/articles/articles-list.component';
+import { DashboardArticleFormComponent } from './dashboard/articles/article-form.component';
+import { DashboardAwardsListComponent } from './dashboard/awards/awards-list.component';
+import { DashboardAwardFormComponent } from './dashboard/awards/award-form.component';
 import { DashboardLoginComponent } from './dashboard/login/login.component';
 import { authGuard } from './core/guards/auth.guard';
 
@@ -34,6 +41,9 @@ export const routes: Routes = [
       { path: 'services/construction', component: ConstructionComponent },
       { path: 'projects', component: ProjectsComponent },
       { path: 'projects/:slug', component: ProjectDetailComponent },
+      { path: 'news/articles', component: ArticlesComponent },
+      { path: 'news/articles/:slug', component: ArticleDetailComponent },
+      { path: 'news/awards', component: AwardsComponent },
       { path: 'history', component: HistoryComponent },
       { path: 'vision', component: VisionComponent },
       { path: 'legal/terms', component: TermsComponent },
@@ -45,10 +55,7 @@ export const routes: Routes = [
   {
     path: 'dashboard',
     children: [
-      // Public route (no guard)
       { path: 'login', component: DashboardLoginComponent },
-
-      // Protected dashboard routes
       {
         path: '',
         component: DashboardLayoutComponent,
@@ -59,9 +66,15 @@ export const routes: Routes = [
           { path: 'projects', component: DashboardProjectsListComponent },
           { path: 'projects/new', component: DashboardProjectFormComponent },
           { path: 'projects/:id/edit', component: DashboardProjectFormComponent },
+          { path: 'articles', component: DashboardArticlesListComponent },
+          { path: 'articles/new', component: DashboardArticleFormComponent },
+          { path: 'articles/:id/edit', component: DashboardArticleFormComponent },
+          { path: 'awards', component: DashboardAwardsListComponent },
+          { path: 'awards/new', component: DashboardAwardFormComponent },
+          { path: 'awards/:id/edit', component: DashboardAwardFormComponent },
         ],
       },
     ],
   },
-  { path: '**', redirectTo: '' }
+  { path: '**', redirectTo: '' },
 ];

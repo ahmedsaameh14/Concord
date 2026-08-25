@@ -1,0 +1,147 @@
+<section class="flex flex-col gap-4 font-cairo text-concord-ink">
+  <div class="flex flex-wrap items-center justify-between gap-4">
+    <div>
+      <h2 class="m-0 text-[1.4rem]">Articles</h2>
+      <p class="mt-[0.2rem] text-concord-muted">{{ total }} articles</p>
+    </div>
+    <a
+      routerLink="/dashboard/articles/new"
+      class="inline-flex h-11 w-11 items-center justify-center rounded-[10px] bg-concord-navy text-white no-underline"
+      title="Create article"
+      aria-label="Create article"
+    >
+      <i class="fa-solid fa-plus"></i>
+    </a>
+  </div>
+
+  <div class="rounded-2xl border border-[#e6ebf2] bg-white p-4">
+    <div class="grid grid-cols-1 gap-3 sm:grid-cols-2 xl:grid-cols-4">
+      <input
+        type="search"
+        class="rounded-[10px] border border-concord-border px-3 py-2"
+        [(ngModel)]="search"
+        placeholder="Search"
+        (ngModelChange)="onFilterChange()"
+      />
+      <select
+        class="rounded-[10px] border border-concord-border px-3 py-2 capitalize"
+        [(ngModel)]="tag"
+        (ngModelChange)="onFilterChange()"
+      >
+        <option value="">All tags</option>
+        @for (item of tags; track item) {
+          <option [value]="item">{{ item }}</option>
+        }
+      </select>
+      <select
+        class="rounded-[10px] border border-concord-border px-3 py-2"
+        [(ngModel)]="isActive"
+        (ngModelChange)="onFilterChange()"
+      >
+        <option value="">All status</option>
+        <option value="true">Active</option>
+        <option value="false">Inactive</option>
+      </select>
+      @if (hasActiveFilters) {
+        <button
+          type="button"
+          class="inline-flex items-center justify-center gap-2 rounded-[10px] border-0 bg-[#eef2f7] px-3 py-2"
+          (click)="clearFilters()"
+        >
+          <i class="fa-solid fa-rotate-left"></i>
+          Clear
+        </button>
+      }
+    </div>
+  </div>
+
+  @if (error()) {
+    <div class="rounded-xl bg-[#fef3f2] px-4 py-3 text-concord-danger">{{ error() }}</div>
+  }
+
+  <div class="overflow-x-auto rounded-2xl border border-[#e6ebf2] bg-white">
+    @if (loading()) {
+      <app-loading-spinner message="Loading articles…" />
+    } @else if (!articles().length) {
+      <div class="px-4 py-10 text-center text-concord-muted">No articles found.</div>
+    } @else {
+      <table class="w-full min-w-[760px] border-collapse text-left text-[0.92rem]">
+        <thead class="bg-[#f8fafc] text-concord-muted">
+          <tr>
+            <th class="px-4 py-3 font-medium">Article</th>
+            <th class="px-4 py-3 font-medium">Tags</th>
+            <th class="px-4 py-3 font-medium">Status</th>
+            <th class="px-4 py-3 font-medium">Actions</th>
+          </tr>
+        </thead>
+        <tbody>
+          @for (article of articles(); track article._id) {
+            <tr class="border-t border-[#eef2f7]">
+              <td class="px-4 py-3">
+                <div class="flex items-center gap-3">
+                  <img [src]="article.image" [alt]="article.title" class="h-12 w-16 rounded-lg object-cover" />
+                  <div>
+                    <p class="m-0 font-semibold">{{ article.title }}</p>
+                    @if (article.isTopArticle) {
+                      <span class="text-xs font-bold uppercase text-[#8a6b10]">Top article</span>
+                    }
+                  </div>
+                </div>
+              </td>
+              <td class="px-4 py-3 capitalize">{{ article.tags.join(', ') || '—' }}</td>
+              <td class="px-4 py-3">
+                <span [class]="article.isActive ? 'text-concord-success' : 'text-concord-danger'">
+                  {{ article.isActive ? 'Active' : 'Inactive' }}
+                </span>
+              </td>
+              <td class="px-4 py-3">
+                <div class="flex flex-wrap gap-2">
+                  <a
+                    [routerLink]="['/dashboard/articles', article._id, 'edit']"
+                    class="inline-flex h-9 w-9 items-center justify-center rounded-[10px] bg-[#eef2f7] text-concord-ink no-underline"
+                    title="Edit"
+                    aria-label="Edit"
+                  >
+                    <i class="fa-solid fa-pen"></i>
+                  </a>
+                  <button
+                    type="button"
+                    class="inline-flex h-9 w-9 items-center justify-center rounded-[10px] border-0 bg-[#fff8e8] text-[#8a6b10]"
+                    [title]="article.isTopArticle ? 'Unmark top' : 'Mark as top'"
+                    (click)="toggleTop(article)"
+                  >
+                    <i class="fa-solid fa-star"></i>
+                  </button>
+                  <button
+                    type="button"
+                    class="inline-flex h-9 w-9 items-center justify-center rounded-[10px] border-0 bg-[#eef2f7]"
+                    [title]="article.isActive ? 'Deactivate' : 'Activate'"
+                    (click)="toggleStatus(article)"
+                  >
+                    <i class="fa-solid" [class.fa-eye]="!article.isActive" [class.fa-eye-slash]="article.isActive"></i>
+                  </button>
+                  <button
+                    type="button"
+                    class="inline-flex h-9 w-9 items-center justify-center rounded-[10px] border-0 bg-[#fef3f2] text-concord-danger"
+                    title="Delete"
+                    (click)="deleteArticle(article)"
+                  >
+                    <i class="fa-solid fa-trash"></i>
+                  </button>
+                </div>
+              </td>
+            </tr>
+          }
+        </tbody>
+      </table>
+
+      @if (totalPages > 1) {
+        <div class="flex items-center justify-center gap-2 border-t border-[#eef2f7] p-3">
+          <button type="button" class="rounded-lg border-0 bg-[#eef2f7] px-3 py-2" (click)="goToPage(page - 1)">Prev</button>
+          <span class="text-sm text-concord-muted">{{ page }} / {{ totalPages }}</span>
+          <button type="button" class="rounded-lg border-0 bg-[#eef2f7] px-3 py-2" (click)="goToPage(page + 1)">Next</button>
+        </div>
+      }
+    }
+  </div>
+</section>

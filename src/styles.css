@@ -45,3 +45,47 @@
     border-width: 0;
   }
 }
+
+/* Article rich text (innerHTML is outside Angular encapsulation) */
+.article-body :is(h2, h3) {
+  margin: 1.4rem 0 0.7rem;
+  font-weight: 700;
+  color: #16283d;
+}
+
+.article-body h2 {
+  font-size: 1.45rem;
+}
+
+.article-body h3 {
+  font-size: 1.2rem;
+}
+
+.article-body p {
+  margin: 0 0 1rem;
+}
+
+.article-body ul,
+.article-body ol {
+  margin: 0 0 1rem;
+  padding-left: 1.35rem;
+}
+
+.article-body li {
+  margin-bottom: 0.35rem;
+}
+
+.article-body a {
+  color: #175cd3;
+  font-weight: 600;
+  text-decoration: underline;
+}
+
+.article-body a:hover {
+  color: #0b4ea2;
+}
+
+.article-body strong,
+.article-body b {
+  font-weight: 700;
+}

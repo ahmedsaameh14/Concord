@@ -1,0 +1,113 @@
+<section class="flex flex-col gap-4 font-cairo text-concord-ink">
+  <div class="flex flex-wrap items-center justify-between gap-4">
+    <div>
+      <h2 class="m-0 text-[1.4rem]">Awards</h2>
+      <p class="mt-[0.2rem] text-concord-muted">
+        Awards validate the safety, ethics, and quality that we commit to every day.
+      </p>
+    </div>
+    <a
+      routerLink="/dashboard/awards/new"
+      class="inline-flex h-11 w-11 items-center justify-center rounded-[10px] bg-concord-navy text-white no-underline"
+      title="Create award"
+      aria-label="Create award"
+    >
+      <i class="fa-solid fa-plus"></i>
+    </a>
+  </div>
+
+  <div class="grid grid-cols-1 gap-3 rounded-2xl border border-[#e6ebf2] bg-white p-4 sm:grid-cols-3">
+    <input
+      type="search"
+      class="rounded-[10px] border border-concord-border px-3 py-2"
+      [(ngModel)]="search"
+      placeholder="Search awards"
+      (ngModelChange)="onFilterChange()"
+    />
+    <select
+      class="rounded-[10px] border border-concord-border px-3 py-2"
+      [(ngModel)]="isActive"
+      (ngModelChange)="onFilterChange()"
+    >
+      <option value="">All status</option>
+      <option value="true">Active</option>
+      <option value="false">Inactive</option>
+    </select>
+    @if (hasActiveFilters) {
+      <button type="button" class="rounded-[10px] border-0 bg-[#eef2f7] px-3 py-2" (click)="clearFilters()">
+        Clear
+      </button>
+    }
+  </div>
+
+  @if (error()) {
+    <div class="rounded-xl bg-[#fef3f2] px-4 py-3 text-concord-danger">{{ error() }}</div>
+  }
+
+  <div class="overflow-x-auto rounded-2xl border border-[#e6ebf2] bg-white">
+    @if (loading()) {
+      <app-loading-spinner message="Loading awards…" />
+    } @else if (!awards().length) {
+      <div class="px-4 py-10 text-center text-concord-muted">No awards found. Add ISO certificates from the + button.</div>
+    } @else {
+      <table class="w-full min-w-[700px] border-collapse text-left text-[0.92rem]">
+        <thead class="bg-[#f8fafc] text-concord-muted">
+          <tr>
+            <th class="px-4 py-3 font-medium">Award</th>
+            <th class="px-4 py-3 font-medium">Order</th>
+            <th class="px-4 py-3 font-medium">Status</th>
+            <th class="px-4 py-3 font-medium">Actions</th>
+          </tr>
+        </thead>
+        <tbody>
+          @for (award of awards(); track award._id) {
+            <tr class="border-t border-[#eef2f7]">
+              <td class="px-4 py-3">
+                <div class="flex items-center gap-3">
+                  <img [src]="award.image" [alt]="award.title" class="h-14 w-14 rounded-lg object-contain bg-[#f7f9fc]" />
+                  <div>
+                    <p class="m-0 font-semibold">{{ award.title }}</p>
+                    <p class="m-0 text-sm text-concord-muted">{{ award.subtitle }}</p>
+                  </div>
+                </div>
+              </td>
+              <td class="px-4 py-3">{{ award.sortOrder }}</td>
+              <td class="px-4 py-3">
+                <span [class]="award.isActive ? 'text-concord-success' : 'text-concord-danger'">
+                  {{ award.isActive ? 'Active' : 'Inactive' }}
+                </span>
+              </td>
+              <td class="px-4 py-3">
+                <div class="flex gap-2">
+                  <a
+                    [routerLink]="['/dashboard/awards', award._id, 'edit']"
+                    class="inline-flex h-9 w-9 items-center justify-center rounded-[10px] bg-[#eef2f7] no-underline"
+                    title="Edit"
+                  >
+                    <i class="fa-solid fa-pen"></i>
+                  </a>
+                  <button
+                    type="button"
+                    class="inline-flex h-9 w-9 items-center justify-center rounded-[10px] border-0 bg-[#eef2f7]"
+                    (click)="toggleStatus(award)"
+                    [title]="award.isActive ? 'Deactivate' : 'Activate'"
+                  >
+                    <i class="fa-solid" [class.fa-eye]="!award.isActive" [class.fa-eye-slash]="award.isActive"></i>
+                  </button>
+                  <button
+                    type="button"
+                    class="inline-flex h-9 w-9 items-center justify-center rounded-[10px] border-0 bg-[#fef3f2] text-concord-danger"
+                    (click)="deleteAward(award)"
+                    title="Delete"
+                  >
+                    <i class="fa-solid fa-trash"></i>
+                  </button>
+                </div>
+              </td>
+            </tr>
+          }
+        </tbody>
+      </table>
+    }
+  </div>
+</section>
