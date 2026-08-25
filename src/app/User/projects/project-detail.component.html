@@ -1,6 +1,8 @@
-<section class="min-h-[70vh] bg-concord-bg-alt text-concord-ink font-cairo">
+<section class="project-detail-page min-h-[70vh] bg-concord-bg-alt text-concord-ink font-cairo">
   @if (loading()) {
-    <app-loading-spinner message="Loading project…" size="lg" />
+    <div class="project-detail-loading-state">
+      <app-loading-spinner message="Loading project..." size="lg" />
+    </div>
   } @else if (error()) {
     <div class="px-4 py-16 text-center text-concord-danger">
       <p>{{ error() }}</p>
@@ -9,11 +11,11 @@
   } @else {
     @if (project(); as item) {
       <div
-        class="relative min-h-[360px] bg-cover bg-center"
+        class="project-detail-hero relative min-h-[360px] bg-cover bg-center"
         [style.backgroundImage]="'url(' + item.mainImage + ')'"
       >
         <div
-          class="flex min-h-[360px] flex-col justify-end bg-gradient-to-b from-[rgba(15,28,44,0.25)] to-[rgba(15,28,44,0.82)] px-6 pb-8 pt-20 text-white"
+          class="project-detail-hero-content flex min-h-[360px] flex-col justify-end bg-gradient-to-b from-[rgba(15,28,44,0.25)] to-[rgba(15,28,44,0.82)] px-6 pb-8 pt-20 text-white"
         >
           <a routerLink="/projects" class="text-white no-underline">← All projects</a>
           <span class="font-bold capitalize text-concord-gold">{{ item.type }}</span>
@@ -25,31 +27,31 @@
       <section
         class="border-t-[3px] border-concord-gold bg-gradient-to-r from-concord-navy-deep via-concord-navy-soft to-concord-navy-alt px-6 py-[1.4rem] text-white"
       >
-        <div
+        <div class="project-meta-band"
           class="mx-auto grid max-w-[1180px] grid-cols-1 gap-[0.9rem] md:grid-cols-3 xl:grid-cols-6"
         >
-          <div class="border-t border-[rgba(201,162,39,0.22)] pt-[0.7rem] md:border-t-0 md:border-l md:border-[rgba(201,162,39,0.28)] md:pt-0 md:pl-[0.85rem] md:first:border-l-0 md:first:pl-0">
-            <span class="mb-[0.3rem] block text-[0.72rem] font-bold tracking-[0.06em] text-concord-gold">📅 Duration</span>
+          <div class="project-meta-item border-t border-[rgba(201,162,39,0.22)] pt-[0.7rem] md:border-t-0 md:border-l md:border-[rgba(201,162,39,0.28)] md:pt-0 md:pl-[0.85rem] md:first:border-l-0 md:first:pl-0">
+            <span class="mb-[0.3rem] block text-[0.72rem] font-bold tracking-[0.06em] text-concord-gold">Duration</span>
             <strong class="text-[0.95rem] font-semibold capitalize leading-[1.35]">{{ duration(item) }}</strong>
           </div>
-          <div class="border-t border-[rgba(201,162,39,0.22)] pt-[0.7rem] md:border-t-0 md:border-l md:border-[rgba(201,162,39,0.28)] md:pt-0 md:pl-[0.85rem]">
-            <span class="mb-[0.3rem] block text-[0.72rem]  font-bold tracking-[0.06em] text-concord-gold">👷‍♂️ Client</span>
+          <div class="project-meta-item border-t border-[rgba(201,162,39,0.22)] pt-[0.7rem] md:border-t-0 md:border-l md:border-[rgba(201,162,39,0.28)] md:pt-0 md:pl-[0.85rem]">
+            <span class="mb-[0.3rem] block text-[0.72rem] font-bold tracking-[0.06em] text-concord-gold">Client</span>
             <strong class="text-[0.95rem] font-semibold capitalize leading-[1.35]">{{ item.client }}</strong>
           </div>
-          <div class="border-t border-[rgba(201,162,39,0.22)] pt-[0.7rem] md:border-t-0 md:border-l md:border-[rgba(201,162,39,0.28)] md:pt-0 md:pl-[0.85rem]">
-            <span class="mb-[0.3rem] block text-[0.72rem] font-bold tracking-[0.06em] text-concord-gold">💵 Contract Value</span>
+          <div class="project-meta-item border-t border-[rgba(201,162,39,0.22)] pt-[0.7rem] md:border-t-0 md:border-l md:border-[rgba(201,162,39,0.28)] md:pt-0 md:pl-[0.85rem]">
+            <span class="mb-[0.3rem] block text-[0.72rem] font-bold tracking-[0.06em] text-concord-gold">Contract Value</span>
             <strong class="text-[0.95rem] font-semibold capitalize leading-[1.35]">{{ item.contractValue }}</strong>
           </div>
-          <div class="border-t border-[rgba(201,162,39,0.22)] pt-[0.7rem] md:border-t-0 md:border-l md:border-[rgba(201,162,39,0.28)] md:pt-0 md:pl-[0.85rem]">
-            <span class="mb-[0.3rem] block text-[0.72rem] font-bold tracking-[0.06em] text-concord-gold">🏢 Type</span>
+          <div class="project-meta-item border-t border-[rgba(201,162,39,0.22)] pt-[0.7rem] md:border-t-0 md:border-l md:border-[rgba(201,162,39,0.28)] md:pt-0 md:pl-[0.85rem]">
+            <span class="mb-[0.3rem] block text-[0.72rem] font-bold tracking-[0.06em] text-concord-gold">Service</span>
             <strong class="text-[0.95rem] font-semibold capitalize leading-[1.35]">{{ item.type }}</strong>
           </div>
-          <div class="border-t border-[rgba(201,162,39,0.22)] pt-[0.7rem] md:border-t-0 md:border-l md:border-[rgba(201,162,39,0.28)] md:pt-0 md:pl-[0.85rem]">
-            <span class="mb-[0.3rem] block text-[0.72rem] font-bold tracking-[0.06em] text-concord-gold">🌍 Location</span>
+          <div class="project-meta-item border-t border-[rgba(201,162,39,0.22)] pt-[0.7rem] md:border-t-0 md:border-l md:border-[rgba(201,162,39,0.28)] md:pt-0 md:pl-[0.85rem]">
+            <span class="mb-[0.3rem] block text-[0.72rem] font-bold tracking-[0.06em] text-concord-gold">Location</span>
             <strong class="text-[0.95rem] font-semibold capitalize leading-[1.35]">{{ item.location }}</strong>
           </div>
-          <div class="border-t border-[rgba(201,162,39,0.22)] pt-[0.7rem] md:border-t-0 md:border-l md:border-[rgba(201,162,39,0.28)] md:pt-0 md:pl-[0.85rem]">
-            <span class="mb-[0.3rem] block text-[0.72rem] font-bold tracking-[0.06em] text-concord-gold">📍 Address</span>
+          <div class="project-meta-item border-t border-[rgba(201,162,39,0.22)] pt-[0.7rem] md:border-t-0 md:border-l md:border-[rgba(201,162,39,0.28)] md:pt-0 md:pl-[0.85rem]">
+            <span class="mb-[0.3rem] block text-[0.72rem] font-bold tracking-[0.06em] text-concord-gold">Address</span>
             <strong class="text-[0.95rem] font-semibold capitalize leading-[1.35]">{{ item.address }}</strong>
           </div>
         </div>

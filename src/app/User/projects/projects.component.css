@@ -1,3 +1,125 @@
+:host { display: block; }
+
+.projects-page {
+  background: #f7f8fa;
+  color: #172033;
+  font-family: 'Cairo', sans-serif;
+}
+
+.projects-intro {
+  padding: clamp(4.5rem, 10vw, 8rem) 1.5rem clamp(4rem, 8vw, 6.5rem);
+  background: #16283d;
+  color: #fff;
+}
+
+.projects-intro-inner, .projects-content { width: min(100%, 1240px); margin: 0 auto; }
+.projects-kicker, .project-type {
+  margin: 0 0 1rem;
+  color: #8ac6ed;
+  font-size: .76rem;
+  font-weight: 700;
+  letter-spacing: .16em;
+  text-transform: uppercase;
+}
+.projects-intro h1 {
+  margin: 0;
+  font-size: clamp(3rem, 8vw, 7rem);
+  font-weight: 600;
+  line-height: .98;
+}
+.projects-intro p:last-child {
+  max-width: 520px;
+  margin: 1.5rem 0 0;
+  color: rgba(255, 255, 255, .76);
+  font-size: 1.05rem;
+  line-height: 1.8;
+}
+.projects-content { padding: clamp(2.5rem, 6vw, 5rem) 1.5rem 7rem; }
+.projects-toolbar {
+  display: grid;
+  grid-template-columns: minmax(220px, 1.5fr) repeat(2, minmax(150px, .7fr)) auto;
+  gap: 1rem;
+  padding-bottom: 1.5rem;
+  border-bottom: 1px solid #cad3dc;
+}
+.project-search, .project-select {
+  min-height: 48px;
+  padding: .7rem .85rem;
+  border: 0;
+  border-bottom: 1px solid #9eabb8;
+  border-radius: 0;
+  outline: 0;
+  background: transparent;
+  color: #172033;
+  font: inherit;
+  transition: border-color .25s ease, background-color .25s ease;
+}
+.project-search:focus, .project-select:focus { border-color: #2b76ad; background: #fff; }
+.clear-filters {
+  min-height: 48px;
+  padding: .7rem 1rem;
+  border: 1px solid #cad3dc;
+  background: transparent;
+  color: #2b76ad;
+  font: inherit;
+  cursor: pointer;
+  transition: background-color .25s ease, color .25s ease;
+}
+.clear-filters:hover { background: #16283d; color: #fff; }
+.projects-grid {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: clamp(2rem, 4vw, 4rem) 1.5rem;
+  padding-top: 2.5rem;
+}
+.project-card { min-width: 0; animation: project-in .7s cubic-bezier(.22, 1, .36, 1) both; }
+.project-image-link { display: block; overflow: hidden; aspect-ratio: 1.35 / 1; background: #e8edf3; }
+.project-image {
+  display: block;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  transition: transform .6s cubic-bezier(.22, 1, .36, 1), filter .6s ease;
+}
+.project-card:hover .project-image, .project-card:focus-within .project-image { transform: scale(1.045); filter: saturate(1.08); }
+.project-card-body { padding: 1.3rem 0 0; border-bottom: 1px solid #cad3dc; }
+.project-card-body h2 { margin: 0; color: #16283d; font-size: clamp(1.2rem, 2vw, 1.55rem); font-weight: 600; line-height: 1.25; }
+.project-type { display: block; margin-bottom: .65rem; color: #2b76ad; letter-spacing: .1em; }
+.project-location { margin: .65rem 0 1.2rem; color: #66717c; font-size: .86rem; text-transform: capitalize; }
+.project-location i { margin-right: .35rem; color: #c9a227; }
+.project-read-more {
+  display: inline-flex;
+  align-items: center;
+  gap: .55rem;
+  margin-bottom: 1.25rem;
+  color: #2b76ad;
+  font-size: .76rem;
+  font-weight: 700;
+  letter-spacing: .1em;
+  text-decoration: none;
+  text-transform: uppercase;
+}
+.project-read-more span { font-size: 1.15rem; transition: transform .25s ease; }
+.project-read-more:hover span, .project-read-more:focus-visible span { transform: translateX(5px); }
+.projects-state { padding: 5rem 1rem; color: #66717c; text-align: center; }
+.projects-error { color: #b42318; }
+.projects-loading-state {
+  min-height: calc(100svh - 220px);
+  display: grid;
+  place-items: center;
+  color: #66717c;
+}
+@keyframes project-in { from { opacity: 0; transform: translateY(20px); } to { opacity: 1; transform: translateY(0); } }
+@media (max-width: 850px) {
+  .projects-toolbar { grid-template-columns: 1fr 1fr; }
+  .project-search { grid-column: 1 / -1; }
+  .projects-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+}
+@media (max-width: 560px) {
+  .projects-intro, .projects-content { padding-left: 1rem; padding-right: 1rem; }
+  .projects-toolbar, .projects-grid { grid-template-columns: 1fr; }
+  .project-search { grid-column: auto; }
+}
 :host {
   display: block;
 }
