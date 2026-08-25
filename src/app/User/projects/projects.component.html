@@ -44,7 +44,7 @@
         }
 
         @if (loading()) {
-          <div class="projects-state"><app-loading-spinner message="Loading projects..." /></div>
+          <div class="projects-loading-state"><app-loading-spinner message="Loading projects..." /></div>
         } @else if (!projects().length) {
           <div class="projects-state">No projects match your filters.</div>
         } @else {

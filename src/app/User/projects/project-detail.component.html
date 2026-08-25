@@ -1,6 +1,8 @@
 <section class="project-detail-page min-h-[70vh] bg-concord-bg-alt text-concord-ink font-cairo">
   @if (loading()) {
-    <app-loading-spinner message="Loading project…" size="lg" />
+    <div class="project-detail-loading-state">
+      <app-loading-spinner message="Loading project..." size="lg" />
+    </div>
   } @else if (error()) {
     <div class="px-4 py-16 text-center text-concord-danger">
       <p>{{ error() }}</p>

@@ -7,6 +7,12 @@
   color: #172033;
 }
 
+.project-detail-loading-state {
+  min-height: calc(100svh - 220px);
+  display: grid;
+  place-items: center;
+}
+
 .project-detail-hero {
   min-height: min(650px, 72vh);
   overflow: hidden;
