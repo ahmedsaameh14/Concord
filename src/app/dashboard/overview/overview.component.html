@@ -1,0 +1,100 @@
+<section class="flex flex-col gap-5 font-cairo text-concord-ink">
+  <div class="flex flex-wrap items-center justify-between gap-4">
+    <div>
+      <h2 class="m-0 text-[1.4rem]">Overview</h2>
+      <p class="mt-1 text-concord-muted">Portfolio snapshot and quick actions.</p>
+    </div>
+    <div class="flex gap-2">
+      <a
+        routerLink="/dashboard/projects"
+        class="inline-flex h-11 w-11 items-center justify-center rounded-[10px] bg-[#eef2f7] text-concord-ink no-underline"
+        title="All projects"
+        aria-label="All projects"
+      >
+        <i class="fa-solid fa-folder-open"></i>
+      </a>
+     
+    </div>
+  </div>
+
+  @if (error()) {
+    <div class="rounded-xl bg-[#fef3f2] px-4 py-3 text-concord-danger">{{ error() }}</div>
+  }
+
+  @if (loading()) {
+    <div class="rounded-2xl border border-[#e6ebf2] bg-white">
+      <app-loading-spinner message="Loading overview…" size="lg" />
+    </div>
+  } @else {
+    <div class="grid grid-cols-1 gap-4 sm:grid-cols-2 xl:grid-cols-4">
+      <div class="rounded-2xl border border-[#e6ebf2] bg-white p-5 shadow-[0_8px_24px_rgba(22,40,61,0.04)]">
+        <p class="m-0 text-[0.78rem] uppercase tracking-[0.06em] text-concord-muted">Total Projects</p>
+        <p class="mt-2 mb-0 text-3xl font-bold text-concord-navy">{{ total() }}</p>
+      </div>
+      <div class="rounded-2xl border border-[#e6ebf2] bg-white p-5 shadow-[0_8px_24px_rgba(22,40,61,0.04)]">
+        <p class="m-0 text-[0.78rem] uppercase tracking-[0.06em] text-concord-muted">Active</p>
+        <p class="mt-2 mb-0 text-3xl font-bold text-concord-success">{{ active() }}</p>
+      </div>
+      <div class="rounded-2xl border border-[#e6ebf2] bg-white p-5 shadow-[0_8px_24px_rgba(22,40,61,0.04)]">
+        <p class="m-0 text-[0.78rem] uppercase tracking-[0.06em] text-concord-muted">Inactive</p>
+        <p class="mt-2 mb-0 text-3xl font-bold text-concord-danger">{{ inactive() }}</p>
+      </div>
+      <div class="rounded-2xl border border-[#e6ebf2] bg-white p-5 shadow-[0_8px_24px_rgba(22,40,61,0.04)]">
+        <p class="m-0 text-[0.78rem] uppercase tracking-[0.06em] text-concord-muted">Locations</p>
+        <p class="mt-2 mb-0 text-3xl font-bold text-concord-navy">{{ locationsCount() }}</p>
+      </div>
+    </div>
+
+    <div class="grid grid-cols-1 gap-4 lg:grid-cols-[1fr_1.2fr]">
+      <div class="rounded-2xl border border-[#e6ebf2] bg-white p-5 shadow-[0_8px_24px_rgba(22,40,61,0.04)]">
+        <h3 class="mt-0 mb-4 text-[1.05rem]">By Type</h3>
+        <div class="flex flex-col gap-3">
+          @for (type of projectTypes; track type) {
+            <div class="flex items-center justify-between rounded-xl bg-[#f8fafc] px-4 py-3">
+              <span class="capitalize">{{ type }}</span>
+              <strong>{{ byType()[type] || 0 }}</strong>
+            </div>
+          }
+        </div>
+      </div>
+
+      <div class="rounded-2xl border border-[#e6ebf2] bg-white p-5 shadow-[0_8px_24px_rgba(22,40,61,0.04)]">
+        <div class="mb-4 flex items-center justify-between gap-3">
+          <h3 class="m-0 text-[1.05rem]">Recent Projects</h3>
+          <a routerLink="/dashboard/projects" class="text-sm font-semibold text-concord-navy no-underline">View all</a>
+        </div>
+
+        @if (!recent().length) {
+          <p class="m-0 text-concord-muted">No projects yet.</p>
+        } @else {
+          <div class="flex flex-col gap-3">
+            @for (project of recent(); track project._id) {
+              <a
+                [routerLink]="['/dashboard/projects', project._id, 'edit']"
+                class="flex items-center gap-3 rounded-xl border border-[#eef1f5] p-3 text-inherit no-underline transition hover:bg-[#f8fafc]"
+              >
+                <img
+                  class="h-12 w-12 rounded-lg object-cover bg-[#eef2f7]"
+                  [src]="project.mainImage"
+                  [alt]="project.name"
+                />
+                <div class="min-w-0 flex-1">
+                  <strong class="block truncate">{{ project.name }}</strong>
+                  <small class="text-concord-muted capitalize">
+                    {{ project.type }} · {{ project.location }}
+                  </small>
+                </div>
+                <span
+                  class="rounded-full px-2 py-1 text-[0.72rem] font-semibold"
+                  [class]="project.isActive ? 'bg-[#ecfdf3] text-concord-success' : 'bg-[#fef3f2] text-concord-danger'"
+                >
+                  {{ project.isActive ? 'Active' : 'Inactive' }}
+                </span>
+              </a>
+            }
+          </div>
+        }
+      </div>
+    </div>
+  }
+</section>

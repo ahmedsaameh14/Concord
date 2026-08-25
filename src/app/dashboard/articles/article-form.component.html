@@ -1,0 +1,176 @@
+<section class="flex flex-col gap-4 font-cairo text-concord-ink">
+  <div class="flex flex-wrap items-center justify-between gap-4">
+    <div>
+      <h2 class="m-0">{{ isEdit ? 'Edit Article' : 'Create Article' }}</h2>
+      <p class="mt-1 text-[0.9rem] text-concord-muted">
+        Add social post links, format headings/lists/links, and tag related services.
+      </p>
+    </div>
+    <a
+      routerLink="/dashboard/articles"
+      class="inline-flex h-11 w-11 items-center justify-center rounded-[10px] bg-[#eef2f7] text-concord-ink no-underline"
+      title="Back"
+      aria-label="Back"
+    >
+      <i class="fa-solid fa-arrow-left"></i>
+    </a>
+  </div>
+
+  @if (draftRestored()) {
+    <div class="flex items-center justify-between gap-3 rounded-xl bg-[#eff8ff] px-4 py-3 text-[#175cd3]">
+      <span>Draft restored from local storage.</span>
+      <button type="button" class="rounded-[10px] border-0 bg-white px-3 py-2" (click)="clearDraft()">
+        Clear draft
+      </button>
+    </div>
+  }
+
+  @if (loading()) {
+    <app-loading-spinner message="Loading article…" size="lg" />
+  } @else {
+    <form class="flex flex-col gap-4" (ngSubmit)="submit()" (input)="onFormChange()" (change)="onFormChange()">
+      <div class="rounded-2xl border border-[#e6ebf2] bg-white p-4">
+        <div class="grid grid-cols-1 gap-4 md:grid-cols-2">
+          <label class="flex flex-col gap-1 text-sm text-[#475467] md:col-span-2">
+            <span>Title *</span>
+            <input class="rounded-[10px] border border-concord-border px-3 py-2" [(ngModel)]="form.title" name="title" required />
+          </label>
+
+          <label class="flex flex-col gap-1 text-sm text-[#475467]">
+            <span>Publish date</span>
+            <input type="date" class="rounded-[10px] border border-concord-border px-3 py-2" [(ngModel)]="form.publishedAt" name="publishedAt" />
+          </label>
+
+          <div class="flex flex-wrap items-center gap-4 pt-6 text-sm">
+            <label class="inline-flex items-center gap-2">
+              <input type="checkbox" [(ngModel)]="form.isTopArticle" name="isTopArticle" />
+              Top article
+            </label>
+            <label class="inline-flex items-center gap-2">
+              <input type="checkbox" [(ngModel)]="form.isActive" name="isActive" />
+              Active article
+            </label>
+          </div>
+
+          <div class="md:col-span-2">
+            <p class="mb-2 text-sm text-[#475467]">Tags (services)</p>
+            <div class="flex flex-wrap gap-2">
+              @for (tag of tags; track tag) {
+                <button
+                  type="button"
+                  class="rounded-lg border px-3 py-1.5 capitalize"
+                  [class.border-concord-navy]="form.tags.includes(tag)"
+                  [class.bg-concord-navy]="form.tags.includes(tag)"
+                  [class.text-white]="form.tags.includes(tag)"
+                  [class.border-concord-border]="!form.tags.includes(tag)"
+                  (click)="toggleTag(tag)"
+                >
+                  {{ tag }}
+                </button>
+              }
+            </div>
+          </div>
+
+          <div class="md:col-span-2">
+            <p class="mb-2 text-sm font-medium text-[#475467]">Social post links</p>
+            <p class="mb-3 text-xs text-concord-muted">
+              Put the project/post URL for each platform (not the article page).
+            </p>
+            <div class="grid grid-cols-1 gap-3 md:grid-cols-3">
+              <label class="flex flex-col gap-1 text-sm text-[#475467]">
+                <span>Facebook post</span>
+                <input
+                  type="url"
+                  class="rounded-[10px] border border-concord-border px-3 py-2"
+                  [(ngModel)]="form.socialLinks.facebook"
+                  name="facebook"
+                  placeholder="https://facebook.com/..."
+                />
+              </label>
+              <label class="flex flex-col gap-1 text-sm text-[#475467]">
+                <span>Instagram post</span>
+                <input
+                  type="url"
+                  class="rounded-[10px] border border-concord-border px-3 py-2"
+                  [(ngModel)]="form.socialLinks.instagram"
+                  name="instagram"
+                  placeholder="https://instagram.com/..."
+                />
+              </label>
+              <label class="flex flex-col gap-1 text-sm text-[#475467]">
+                <span>Twitter / X post</span>
+                <input
+                  type="url"
+                  class="rounded-[10px] border border-concord-border px-3 py-2"
+                  [(ngModel)]="form.socialLinks.twitter"
+                  name="twitter"
+                  placeholder="https://x.com/..."
+                />
+              </label>
+            </div>
+          </div>
+
+          <div class="md:col-span-2">
+            <div class="mb-2 flex flex-wrap items-center justify-between gap-2">
+              <span class="text-sm text-[#475467]">Description *</span>
+              <div class="flex flex-wrap gap-1">
+                <button type="button" class="rounded-lg border border-concord-border bg-white px-2.5 py-1 text-sm" title="Heading" (mousedown)="$event.preventDefault()" (click)="applyHeading()">
+                  <i class="fa-solid fa-heading"></i>
+                </button>
+                <button type="button" class="rounded-lg border border-concord-border bg-white px-2.5 py-1 text-sm" title="Bold" (mousedown)="$event.preventDefault()" (click)="applyFormat('bold')">
+                  <i class="fa-solid fa-bold"></i>
+                </button>
+                <button type="button" class="rounded-lg border border-concord-border bg-white px-2.5 py-1 text-sm" title="Bullet list" (mousedown)="$event.preventDefault()" (click)="applyFormat('insertUnorderedList')">
+                  <i class="fa-solid fa-list-ul"></i>
+                </button>
+                <button type="button" class="rounded-lg border border-concord-border bg-white px-2.5 py-1 text-sm" title="Numbered list" (mousedown)="$event.preventDefault()" (click)="applyFormat('insertOrderedList')">
+                  <i class="fa-solid fa-list-ol"></i>
+                </button>
+                <button type="button" class="rounded-lg border border-concord-border bg-white px-2.5 py-1 text-sm" title="Link" (mousedown)="$event.preventDefault()" (click)="applyLink()">
+                  <i class="fa-solid fa-link"></i>
+                </button>
+                <button type="button" class="rounded-lg border border-concord-border bg-white px-2.5 py-1 text-sm" title="Paragraph" (mousedown)="$event.preventDefault()" (click)="applyParagraph()">
+                  <i class="fa-solid fa-paragraph"></i>
+                </button>
+              </div>
+            </div>
+            <div
+              #editor
+              class="rich-editor min-h-[220px] rounded-[10px] border border-concord-border bg-white px-3 py-2 text-[0.95rem] leading-7 outline-none focus:border-concord-navy"
+              contenteditable="true"
+              (input)="onEditorInput()"
+            ></div>
+            <p class="mt-2 text-xs text-concord-muted">
+              Select text first, then use the toolbar for heading, bold, lists, and links.
+            </p>
+          </div>
+          <label class="flex flex-col gap-1 text-sm text-[#475467] md:col-span-2">
+            <span>Image {{ isEdit ? '' : '*' }}</span>
+            <input type="file" accept="image/*" (change)="onImageSelected($event)" />
+          </label>
+          @if (imagePreview || existingImage) {
+            <img
+              [src]="imagePreview || existingImage"
+              alt="Article preview"
+              class="max-h-56 rounded-xl object-cover md:col-span-2"
+            />
+          }
+        </div>
+      </div>
+
+      <button
+        type="submit"
+        class="inline-flex h-11 w-11 items-center justify-center rounded-[10px] border-0 bg-concord-navy text-white disabled:opacity-60"
+        [disabled]="saving()"
+        title="Save"
+        aria-label="Save"
+      >
+        @if (saving()) {
+          <i class="fa-solid fa-spinner fa-spin"></i>
+        } @else {
+          <i class="fa-solid fa-floppy-disk"></i>
+        }
+      </button>
+    </form>
+  }
+</section>

@@ -1,0 +1,228 @@
+<section class="flex flex-col gap-4 font-cairo text-concord-ink">
+  <div class="flex flex-wrap items-center justify-between gap-4">
+    <div>
+      <h2 class="m-0">{{ isEdit ? 'Edit Project' : 'Create Project' }}</h2>
+      <p class="mt-1 text-[0.9rem] text-concord-muted">
+        Upload images from your device. They are stored on Cloudinary automatically.
+      </p>
+    </div>
+    <a
+      routerLink="/dashboard/projects"
+      class="inline-flex h-11 w-11 items-center justify-center rounded-[10px] bg-[#eef2f7] text-concord-ink no-underline"
+      title="Back to list"
+      aria-label="Back to list"
+    >
+      <i class="fa-solid fa-arrow-left"></i>
+    </a>
+  </div>
+
+  @if (draftRestored()) {
+    <div class="flex flex-wrap items-center justify-between gap-3 rounded-xl bg-[#eff8ff] px-4 py-3 text-[#175cd3]">
+      <span>Draft restored from local storage.</span>
+      <button
+        type="button"
+        class="inline-flex h-9 w-9 cursor-pointer items-center justify-center rounded-[10px] border-0 bg-white text-[#175cd3]"
+        title="Clear draft"
+        aria-label="Clear draft"
+        (click)="clearDraft()"
+      >
+        <i class="fa-solid fa-trash"></i>
+      </button>
+    </div>
+  }
+
+  @if (error()) {
+    <div class="rounded-xl bg-[#fef3f2] px-4 py-[0.8rem] text-concord-danger">{{ error() }}</div>
+  }
+
+  @if (loading()) {
+    <div class="rounded-2xl border border-[#e6ebf2] bg-white shadow-[0_8px_24px_rgba(22,40,61,0.04)]">
+      <app-loading-spinner message="Loading project…" size="lg" />
+    </div>
+  } @else {
+    <form class="flex flex-col gap-4" (ngSubmit)="submit()" (input)="onFormChange()" (change)="onFormChange()">
+      <div class="rounded-2xl border border-[#e6ebf2] bg-white p-[1.15rem] shadow-[0_8px_24px_rgba(22,40,61,0.04)]">
+        <h3 class="mb-4 mt-0 text-[1.05rem]">Basic Information</h3>
+        <div class="grid grid-cols-1 gap-[0.9rem] md:grid-cols-2">
+          <label class="flex flex-col gap-[0.35rem] text-[0.86rem] text-[#475467]">
+            <span>Project Name *</span>
+            <input type="text" class="rounded-[10px] border border-concord-border bg-white px-[0.85rem] py-[0.7rem] text-concord-ink" [(ngModel)]="form.name" name="name" required />
+          </label>
+          <label class="flex flex-col gap-[0.35rem] text-[0.86rem] text-[#475467]">
+            <span>Start Year *</span>
+            <input type="number" class="rounded-[10px] border border-concord-border bg-white px-[0.85rem] py-[0.7rem] text-concord-ink" [(ngModel)]="form.startYear" name="startYear" min="1950" max="2100" required />
+          </label>
+          <label class="flex flex-col gap-[0.35rem] text-[0.86rem] text-[#475467]">
+            <span>End Year *</span>
+            <input type="number" class="rounded-[10px] border border-concord-border bg-white px-[0.85rem] py-[0.7rem] text-concord-ink" [(ngModel)]="form.endYear" name="endYear" min="1950" max="2100" required />
+          </label>
+          <label class="flex flex-col gap-[0.35rem] text-[0.86rem] text-[#475467]">
+            <span>Location (city) *</span>
+            <input type="text" class="rounded-[10px] border border-concord-border bg-white px-[0.85rem] py-[0.7rem] text-concord-ink" [(ngModel)]="form.location" name="location" placeholder="cairo" required />
+          </label>
+          <label class="flex flex-col gap-[0.35rem] text-[0.86rem] text-[#475467]">
+            <span>Address *</span>
+            <input type="text" class="rounded-[10px] border border-concord-border bg-white px-[0.85rem] py-[0.7rem] text-concord-ink" [(ngModel)]="form.address" name="address" required />
+          </label>
+          <label class="flex flex-col gap-[0.35rem] text-[0.86rem] text-[#475467]">
+            <span>Client *</span>
+            <input type="text" class="rounded-[10px] border border-concord-border bg-white px-[0.85rem] py-[0.7rem] text-concord-ink" [(ngModel)]="form.client" name="client" required />
+          </label>
+          <label class="flex flex-col gap-[0.35rem] text-[0.86rem] text-[#475467]">
+            <span>Contract Value *</span>
+            <input type="text" class="rounded-[10px] border border-concord-border bg-white px-[0.85rem] py-[0.7rem] text-concord-ink" [(ngModel)]="form.contractValue" name="contractValue" placeholder="$120M" required />
+          </label>
+          <label class="flex flex-col gap-[0.35rem] text-[0.86rem] text-[#475467]">
+            <span>Type *</span>
+            <select class="rounded-[10px] border border-concord-border bg-white px-[0.85rem] py-[0.7rem] text-concord-ink" [(ngModel)]="form.type" name="type" required>
+              @for (item of projectTypes; track item) {
+                <option [value]="item">{{ item }}</option>
+              }
+            </select>
+          </label>
+          <label class="flex flex-col gap-[0.35rem] text-[0.86rem] text-[#475467]">
+            <span>Visibility</span>
+            <div class="flex min-h-11 items-center gap-[0.55rem]">
+              <input type="checkbox" [(ngModel)]="form.isActive" name="isActive" />
+              <span>{{ form.isActive ? 'Active (visible)' : 'Inactive (hidden)' }}</span>
+            </div>
+          </label>
+        </div>
+
+        <label class="mt-[0.9rem] flex flex-col gap-[0.35rem] text-[0.86rem] text-[#475467]">
+          <span>Overview *</span>
+          <textarea rows="5" class="rounded-[10px] border border-concord-border bg-white px-[0.85rem] py-[0.7rem] text-concord-ink" [(ngModel)]="form.overview" name="overview" required></textarea>
+        </label>
+      </div>
+
+      <div class="rounded-2xl border border-[#e6ebf2] bg-white p-[1.15rem] shadow-[0_8px_24px_rgba(22,40,61,0.04)]">
+        <h3 class="mb-4 mt-0 text-[1.05rem]">Main Image *</h3>
+        <p class="m-0 text-[0.9rem] text-concord-muted">Choose an image from your computer. It will be uploaded to Cloudinary.</p>
+        <input type="file" accept="image/*" class="mt-3" (change)="onMainImageSelected($event)" />
+        @if (mainImagePreview || existingMainImage) {
+          <img
+            class="mt-[0.85rem] h-[180px] w-min max-w-full min-w-[200px] rounded-xl border border-[#e6ebf2] object-cover"
+            [src]="mainImagePreview || existingMainImage"
+            alt="Main project image preview"
+          />
+        }
+      </div>
+
+      <div class="rounded-2xl border border-[#e6ebf2] bg-white p-[1.15rem] shadow-[0_8px_24px_rgba(22,40,61,0.04)]">
+        <h3 class="mb-4 mt-0 text-[1.05rem]">Gallery Images</h3>
+        <p class="m-0 text-[0.9rem] text-concord-muted">Select multiple images. Remove only deletes the image you choose.</p>
+        <input type="file" accept="image/*" multiple class="mt-3" (change)="onGallerySelected($event)" />
+
+        @if (existingGallery.length || pendingGallery.length) {
+          <div class="mt-[0.9rem] grid grid-cols-1 gap-[0.85rem] sm:grid-cols-2">
+            @for (image of existingGallery; track $index; let i = $index) {
+              <div class="overflow-hidden rounded-xl border border-[#e6ebf2] bg-[#f8fafc]">
+                <img class="block h-[140px] w-full object-cover" [src]="image" alt="Gallery image" />
+                <button
+                  type="button"
+                  class="inline-flex w-full cursor-pointer items-center justify-center gap-2 border-0 bg-[#fef3f2] px-2 py-[0.55rem] text-concord-danger"
+                  title="Remove image"
+                  aria-label="Remove image"
+                  (click)="removeExistingGalleryImage(i)"
+                >
+                  <i class="fa-solid fa-trash"></i>
+                </button>
+              </div>
+            }
+            @for (item of pendingGallery; track $index; let i = $index) {
+              <div class="relative overflow-hidden rounded-xl border border-[#e6ebf2] bg-[#f8fafc]">
+                <img class="block h-[140px] w-full object-cover" [src]="item.preview" [alt]="item.file.name" />
+                <span class="absolute left-2 top-2 rounded-full bg-concord-navy px-2 py-[0.2rem] text-[0.72rem] text-white">New</span>
+                <button
+                  type="button"
+                  class="inline-flex w-full cursor-pointer items-center justify-center gap-2 border-0 bg-[#fef3f2] px-2 py-[0.55rem] text-concord-danger"
+                  title="Remove image"
+                  aria-label="Remove image"
+                  (click)="removePendingGalleryImage(i)"
+                >
+                  <i class="fa-solid fa-trash"></i>
+                </button>
+              </div>
+            }
+          </div>
+        }
+      </div>
+
+      <div class="rounded-2xl border border-[#e6ebf2] bg-white p-[1.15rem] shadow-[0_8px_24px_rgba(22,40,61,0.04)]">
+        <div class="mb-3 flex flex-wrap items-start justify-between gap-4">
+          <div>
+            <h3 class="m-0 text-[1.05rem]">Key Features</h3>
+            <p class="mt-1 text-[0.9rem] text-concord-muted">Use value for metrics, or items (one per line) for bullet points.</p>
+          </div>
+          <button
+            type="button"
+            class="inline-flex h-11 w-11 cursor-pointer items-center justify-center rounded-[10px] border-0 bg-[#eef2f7] text-concord-ink"
+            title="Add section"
+            aria-label="Add section"
+            (click)="addSection()"
+          >
+            <i class="fa-solid fa-plus"></i>
+          </button>
+        </div>
+
+        @for (section of sections; track $index; let i = $index) {
+          <div class="mb-[0.8rem] rounded-xl border border-dashed border-concord-border bg-[#fbfcfe] p-[0.9rem]">
+            <div class="grid grid-cols-1 gap-[0.9rem] md:grid-cols-2">
+              <label class="flex flex-col gap-[0.35rem] text-[0.86rem] text-[#475467]">
+                <span>Title</span>
+                <input type="text" class="rounded-[10px] border border-concord-border bg-white px-[0.85rem] py-[0.7rem]" [(ngModel)]="section.title" [name]="'title' + i" placeholder="Total Land Area" />
+              </label>
+              <label class="flex flex-col gap-[0.35rem] text-[0.86rem] text-[#475467]">
+                <span>Value</span>
+                <input type="text" class="rounded-[10px] border border-concord-border bg-white px-[0.85rem] py-[0.7rem]" [(ngModel)]="section.value" [name]="'value' + i" placeholder="75,745 m²" />
+              </label>
+            </div>
+            <label class="mt-[0.9rem] flex flex-col gap-[0.35rem] text-[0.86rem] text-[#475467]">
+              <span>Bullet Items (optional)</span>
+              <textarea
+                rows="3"
+                class="rounded-[10px] border border-concord-border bg-white px-[0.85rem] py-[0.7rem]"
+                [(ngModel)]="section.itemsText"
+                [name]="'items' + i"
+                placeholder="Point one&#10;Point two"
+              ></textarea>
+            </label>
+            <button
+              type="button"
+              class="mt-2 inline-flex h-9 w-9 cursor-pointer items-center justify-center rounded-[10px] border-0 bg-transparent text-concord-danger"
+              title="Remove section"
+              aria-label="Remove section"
+              (click)="removeSection(i)"
+            >
+              <i class="fa-solid fa-trash"></i>
+            </button>
+          </div>
+        }
+      </div>
+
+      <div class="flex flex-wrap gap-[0.7rem]">
+        <button
+          type="submit"
+          class="inline-flex h-11 w-11 cursor-pointer items-center justify-center rounded-[10px] border-0 bg-concord-navy text-white disabled:cursor-not-allowed disabled:opacity-65"
+          [disabled]="saving()"
+          [title]="saving() ? 'Saving…' : isEdit ? 'Update project' : 'Create project'"
+          [attr.aria-label]="saving() ? 'Saving…' : isEdit ? 'Update project' : 'Create project'"
+        >
+          @if (saving()) {
+            <i class="fa-solid fa-spinner fa-spin"></i>
+          } @else {
+            <i class="fa-solid fa-floppy-disk"></i>
+          }
+        </button>
+        <a
+          routerLink="/dashboard/projects"
+          class="inline-flex h-11 w-11 items-center justify-center rounded-[10px] bg-[#eef2f7] text-concord-ink no-underline"
+          title="Cancel"
+          aria-label="Cancel"
+        >
+          <i class="fa-solid fa-xmark"></i>
+        </a>
+      </div>
+    </form>
+  }
+</section>

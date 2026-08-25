@@ -1,16 +1,91 @@
-/* You can add global styles to this file, and also import other style files */
-@import "tailwindcss";
 @import url('https://fonts.googleapis.com/css2?family=Cairo:wght@300;400;500;600;700&display=swap');
+@import "tailwindcss";
 
-* {
-  box-sizing: border-box;
+@theme {
+  --font-cairo: "Cairo", sans-serif;
+  --color-concord-ink: #172033;
+  --color-concord-navy: #16283d;
+  --color-concord-navy-mid: #243b55;
+  --color-concord-navy-deep: #13253a;
+  --color-concord-navy-soft: #1d3a57;
+  --color-concord-navy-alt: #16324c;
+  --color-concord-gold: #c9a227;
+  --color-concord-muted: #667085;
+  --color-concord-border: #d7dde7;
+  --color-concord-border-soft: #e8edf3;
+  --color-concord-bg: #f7f8fa;
+  --color-concord-bg-alt: #f4f6f8;
+  --color-concord-danger: #b42318;
+  --color-concord-success: #067647;
 }
 
-html {
-  scroll-behavior: smooth;
+@layer base {
+  * {
+    box-sizing: border-box;
+  }
+
+  html {
+    scroll-behavior: smooth;
+  }
+
+  body {
+    margin: 0;
+    font-family: var(--font-cairo);
+  }
+
+  .sr-only {
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    padding: 0;
+    margin: -1px;
+    overflow: hidden;
+    clip: rect(0, 0, 0, 0);
+    white-space: nowrap;
+    border-width: 0;
+  }
 }
 
-body {
-  margin: 0;
-  font-family: 'Cairo', sans-serif;
+/* Article rich text (innerHTML is outside Angular encapsulation) */
+.article-body :is(h2, h3) {
+  margin: 1.4rem 0 0.7rem;
+  font-weight: 700;
+  color: #16283d;
+}
+
+.article-body h2 {
+  font-size: 1.45rem;
+}
+
+.article-body h3 {
+  font-size: 1.2rem;
+}
+
+.article-body p {
+  margin: 0 0 1rem;
+}
+
+.article-body ul,
+.article-body ol {
+  margin: 0 0 1rem;
+  padding-left: 1.35rem;
+}
+
+.article-body li {
+  margin-bottom: 0.35rem;
+}
+
+.article-body a {
+  color: #175cd3;
+  font-weight: 600;
+  text-decoration: underline;
+}
+
+.article-body a:hover {
+  color: #0b4ea2;
+}
+
+.article-body strong,
+.article-body b {
+  font-weight: 700;
 }

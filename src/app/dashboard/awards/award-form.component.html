@@ -1,0 +1,91 @@
+<section class="flex flex-col gap-4 font-cairo text-concord-ink">
+  <div class="flex flex-wrap items-center justify-between gap-4">
+    <div>
+      <h2 class="m-0">{{ isEdit ? 'Edit Award' : 'Create Award' }}</h2>
+      <p class="mt-1 text-[0.9rem] text-concord-muted">Add certificate title, description, and image.</p>
+    </div>
+    <a
+      routerLink="/dashboard/awards"
+      class="inline-flex h-11 w-11 items-center justify-center rounded-[10px] bg-[#eef2f7] no-underline"
+      title="Back"
+    >
+      <i class="fa-solid fa-arrow-left"></i>
+    </a>
+  </div>
+
+  @if (draftRestored()) {
+    <div class="flex items-center justify-between gap-3 rounded-xl bg-[#eff8ff] px-4 py-3 text-[#175cd3]">
+      <span>Draft restored from local storage.</span>
+      <button type="button" class="rounded-[10px] border-0 bg-white px-3 py-2" (click)="clearDraft()">Clear draft</button>
+    </div>
+  }
+
+  @if (loading()) {
+    <app-loading-spinner message="Loading award…" size="lg" />
+  } @else {
+    <form class="flex flex-col gap-4" (ngSubmit)="submit()" (input)="onFormChange()" (change)="onFormChange()">
+      <div class="rounded-2xl border border-[#e6ebf2] bg-white p-4">
+        <div class="grid grid-cols-1 gap-4 md:grid-cols-2">
+          <label class="flex flex-col gap-1 text-sm text-[#475467] md:col-span-2">
+            <span>Title *</span>
+            <input
+              class="rounded-[10px] border border-concord-border px-3 py-2"
+              [(ngModel)]="form.title"
+              name="title"
+              placeholder="ISO 45001:2018"
+              required
+            />
+          </label>
+          <label class="flex flex-col gap-1 text-sm text-[#475467] md:col-span-2">
+            <span>Subtitle *</span>
+            <textarea
+              rows="4"
+              class="rounded-[10px] border border-concord-border px-3 py-2"
+              [(ngModel)]="form.subtitle"
+              name="subtitle"
+              placeholder="CONCORD UPGRADED ITS SAFETY STANDARD TO MEET ISO 45001:2018 REQUIREMENTS"
+              required
+            ></textarea>
+          </label>
+          <label class="flex flex-col gap-1 text-sm text-[#475467]">
+            <span>Sort order</span>
+            <input
+              type="number"
+              class="rounded-[10px] border border-concord-border px-3 py-2"
+              [(ngModel)]="form.sortOrder"
+              name="sortOrder"
+            />
+          </label>
+          <label class="inline-flex items-center gap-2 pt-7 text-sm">
+            <input type="checkbox" [(ngModel)]="form.isActive" name="isActive" />
+            Active award
+          </label>
+          <label class="flex flex-col gap-1 text-sm text-[#475467] md:col-span-2">
+            <span>Certificate image {{ isEdit ? '' : '*' }}</span>
+            <input type="file" accept="image/*" (change)="onImageSelected($event)" />
+          </label>
+          @if (imagePreview || existingImage) {
+            <img
+              [src]="imagePreview || existingImage"
+              alt="Award preview"
+              class="max-h-56 rounded-xl object-contain bg-[#f7f9fc] p-3 md:col-span-2"
+            />
+          }
+        </div>
+      </div>
+
+      <button
+        type="submit"
+        class="inline-flex h-11 w-11 items-center justify-center rounded-[10px] border-0 bg-concord-navy text-white disabled:opacity-60"
+        [disabled]="saving()"
+        title="Save"
+      >
+        @if (saving()) {
+          <i class="fa-solid fa-spinner fa-spin"></i>
+        } @else {
+          <i class="fa-solid fa-floppy-disk"></i>
+        }
+      </button>
+    </form>
+  }
+</section>

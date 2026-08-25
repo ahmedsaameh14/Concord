@@ -1,0 +1,91 @@
+<div class="grid min-h-screen bg-[#f3f5f8] text-concord-ink font-cairo lg:grid-cols-[280px_1fr]">
+  <aside
+    class="fixed inset-y-0 left-0 z-40 flex h-screen w-[min(300px,86vw)] -translate-x-[105%] flex-col gap-6 bg-gradient-to-b from-concord-navy-deep to-[#0f1c2c] p-[1.1rem_1.1rem_1.5rem] text-white transition-transform duration-200 lg:sticky lg:top-0 lg:w-auto lg:translate-x-0"
+    [class.translate-x-0]="sidebarOpen()">
+    <div class="flex items-center gap-[0.85rem] px-2 py-[0.35rem]">
+      <img src="images/concord logo-01 png.png" alt="Concord" class="w-10 h-10 rounded-full">
+      <div>
+        <p class="m-0 font-bold tracking-[0.02em]">Concord</p>
+        <p class="m-0 text-[0.8rem] text-white/70">Admin Dashboard</p>
+      </div>
+    </div>
+
+    <nav class="flex flex-col gap-[0.35rem]">
+      <p class="mb-[0.4rem] px-3 text-[0.72rem] uppercase tracking-[0.08em] text-white/55">Management</p>
+      <a routerLink="/dashboard/overview" routerLinkActive="bg-white/10 text-white"
+        class="flex items-center gap-[0.7rem] rounded-xl px-[0.9rem] py-[0.8rem] text-white/80 no-underline transition hover:bg-white/10 hover:text-white"
+        (click)="closeSidebar()">
+        <span class="w-5 text-center opacity-90"><i class="fa-solid fa-chart-pie"></i></span>
+        Overview
+      </a>
+      <a routerLink="/dashboard/projects" routerLinkActive="bg-white/10 text-white"
+        [routerLinkActiveOptions]="{ exact: true }"
+        class="flex items-center gap-[0.7rem] rounded-xl px-[0.9rem] py-[0.8rem] text-white/80 no-underline transition hover:bg-white/10 hover:text-white"
+        (click)="closeSidebar()">
+        <span class="w-5 text-center opacity-90"><i class="fa-solid fa-folder-open"></i></span>
+        Projects
+      </a>
+
+      <a routerLink="/dashboard/articles" routerLinkActive="bg-white/10 text-white"
+        [routerLinkActiveOptions]="{ exact: true }"
+        class="flex items-center gap-[0.7rem] rounded-xl px-[0.9rem] py-[0.8rem] text-white/80 no-underline transition hover:bg-white/10 hover:text-white"
+        (click)="closeSidebar()">
+        <span class="w-5 text-center opacity-90"><i class="fa-solid fa-newspaper"></i></span>
+        Articles
+      </a>
+
+      <a routerLink="/dashboard/awards" routerLinkActive="bg-white/10 text-white"
+        [routerLinkActiveOptions]="{ exact: true }"
+        class="flex items-center gap-[0.7rem] rounded-xl px-[0.9rem] py-[0.8rem] text-white/80 no-underline transition hover:bg-white/10 hover:text-white"
+        (click)="closeSidebar()">
+        <span class="w-5 text-center opacity-90"><i class="fa-solid fa-award"></i></span>
+        Awards
+      </a>
+
+    </nav>
+
+    <div class="mt-auto p-2">
+      <a routerLink="/" class="inline-flex items-center gap-2 text-[0.9rem] text-white/70 no-underline hover:text-white"
+        title="Back to website">
+        <i class="fa-solid fa-arrow-left"></i>
+        Website
+      </a>
+    </div>
+  </aside>
+
+  @if (sidebarOpen()) {
+  <button class="fixed inset-0 z-30 border-0 bg-[rgba(15,28,44,0.45)] lg:hidden" type="button" aria-label="Close menu"
+    (click)="closeSidebar()"></button>
+  }
+
+  <div class="flex min-w-0 flex-col">
+    <header
+      class="sticky top-0 z-20 flex flex-wrap items-start gap-4 border-b border-[#e5e9ef] bg-white/90 px-6 py-5 backdrop-blur-[10px]">
+      <button
+        class="grid h-[42px] w-[42px] place-items-center rounded-[10px] border border-concord-border bg-white lg:hidden"
+        type="button" (click)="toggleSidebar()" aria-label="Toggle sidebar" title="Menu">
+        <i class="fa-solid fa-bars"></i>
+      </button>
+      <div>
+        <h1 class="m-0 text-[1.35rem]">Dashboard</h1>
+        <p class="mt-[0.2rem] text-[0.9rem] text-concord-muted">Manage Concord content and portfolio.</p>
+      </div>
+
+      <div class="ml-auto">
+        <span class="mr-[0.6rem] inline-flex items-center gap-2 text-[0.9rem] font-semibold text-concord-success">
+          <i class="fa-solid fa-circle-check"></i>
+          Connected
+        </span>
+        <button type="button"
+          class="inline-flex h-10 w-10 cursor-pointer items-center justify-center rounded-[10px] border-0 bg-[#eef2f7] text-concord-ink"
+          title="Disconnect" aria-label="Disconnect" (click)="disconnectSession()">
+          <i class="fa-solid fa-right-from-bracket"></i>
+        </button>
+      </div>
+    </header>
+
+    <main class="p-6">
+      <router-outlet />
+    </main>
+  </div>
+</div>

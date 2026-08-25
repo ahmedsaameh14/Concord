@@ -1,1 +1,74 @@
-<p>projects works!</p>
+<section class="min-h-[70vh] bg-concord-bg text-concord-ink font-cairo">
+
+    <main class="projects-page">
+      <section class="projects-intro" aria-labelledby="projects-title">
+        <div class="projects-intro-inner">
+          <!-- <p class="projects-kicker">Portfolio / 01</p> -->
+          <h1 id="projects-title">Our Projects</h1>
+          <p>Work that connects places, strengthens communities, and moves the region forward.</p>
+        </div>
+      </section>
+
+      <section class="projects-content" aria-label="Project portfolio">
+        <div class="projects-toolbar">
+          <input
+            type="search"
+            class="project-search"
+            [(ngModel)]="search"
+            placeholder="Search projects"
+            aria-label="Search projects"
+            (ngModelChange)="onSearchChange()"
+          />
+          <select class="project-select" [(ngModel)]="location" aria-label="Filter by location" (ngModelChange)="onLocationChange()">
+            <option value="">All locations</option>
+            @for (city of locations(); track city.name) {
+              <option [value]="city.name">{{ city.name }} ({{ city.count }})</option>
+            }
+          </select>
+          <select class="project-select" [(ngModel)]="type" aria-label="Filter by service" (ngModelChange)="onTypeChange()">
+            <option value="">All services</option>
+            @for (item of typeOptions(); track item.name) {
+              <option [value]="item.name">{{ item.name }} ({{ item.count }})</option>
+            }
+          </select>
+          @if (hasActiveFilters) {
+            <button type="button" class="clear-filters" title="Clear filters" aria-label="Clear filters" (click)="clearFilters()">
+              <i class="fa-solid fa-rotate-left" aria-hidden="true"></i>
+              Clear
+            </button>
+          }
+        </div>
+
+        @if (error()) {
+          <div class="projects-state projects-error">{{ error() }}</div>
+        }
+
+        @if (loading()) {
+          <div class="projects-loading-state"><app-loading-spinner message="Loading projects..." /></div>
+        } @else if (!projects().length) {
+          <div class="projects-state">No projects match your filters.</div>
+        } @else {
+          <div class="projects-grid">
+            @for (project of projects(); track project._id) {
+              <article class="project-card">
+                <a [routerLink]="['/projects', project.slug || project._id]" class="project-image-link">
+                  <img class="project-image" [src]="project.mainImage" [alt]="project.name" />
+                </a>
+                <div class="project-card-body">
+                  <span class="project-type">{{ project.type }}</span>
+                  <h2>{{ project.name }}</h2>
+                  <p class="project-location">
+                    <i class="fa-solid fa-location-dot" aria-hidden="true"></i>
+                    {{ project.location }} · {{ project.client }}
+                  </p>
+                  <a [routerLink]="['/projects', project.slug || project._id]" class="project-read-more">
+                    View project <span aria-hidden="true">&#8594;</span>
+                  </a>
+                </div>
+              </article>
+            }
+          </div>
+        }
+      </section>
+    </main>
+</section>

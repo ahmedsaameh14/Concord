@@ -1,0 +1,211 @@
+<section class="flex flex-col gap-4 font-cairo text-concord-ink">
+  <div class="flex flex-wrap items-center justify-between gap-4">
+    <div>
+      <h2 class="m-0 text-[1.4rem]">All Projects</h2>
+      <p class="mt-[0.2rem] text-concord-muted">{{ total }} projects in portfolio</p>
+    </div>
+    <a
+      routerLink="/dashboard/projects/new"
+      class="inline-flex h-11 w-11 items-center justify-center rounded-[10px] bg-concord-navy text-white no-underline"
+      title="Create project"
+      aria-label="Create project"
+    >
+      <i class="fa-solid fa-plus"></i>
+    </a>
+  </div>
+
+  <div class="rounded-2xl border border-[#e6ebf2] bg-white p-4 shadow-[0_8px_24px_rgba(22,40,61,0.04)]">
+    <div class="grid grid-cols-1 gap-[0.85rem] sm:grid-cols-2 xl:grid-cols-4">
+      <label class="flex flex-col gap-[0.35rem] text-[0.85rem] text-[#475467]">
+        <span>Search</span>
+        <input
+          type="text"
+          class="rounded-[10px] border border-concord-border bg-white px-[0.8rem] py-[0.65rem] text-concord-ink"
+          [(ngModel)]="search"
+          placeholder="Name, client, address"
+          (keyup.enter)="applyFilters()"
+        />
+      </label>
+      <label class="flex flex-col gap-[0.35rem] text-[0.85rem] text-[#475467]">
+        <span>Location</span>
+        <select
+          class="rounded-[10px] border border-concord-border bg-white px-[0.8rem] py-[0.65rem] text-concord-ink"
+          [(ngModel)]="location"
+        >
+          <option value="">All cities</option>
+          @for (city of locations(); track city) {
+            <option [value]="city">{{ city }}</option>
+          }
+        </select>
+      </label>
+      <label class="flex flex-col gap-[0.35rem] text-[0.85rem] text-[#475467]">
+        <span>Type</span>
+        <select
+          class="rounded-[10px] border border-concord-border bg-white px-[0.8rem] py-[0.65rem] text-concord-ink"
+          [(ngModel)]="type"
+        >
+          <option value="">All types</option>
+          @for (item of projectTypes; track item) {
+            <option [value]="item">{{ item }}</option>
+          }
+        </select>
+      </label>
+      <label class="flex flex-col gap-[0.35rem] text-[0.85rem] text-[#475467]">
+        <span>Status</span>
+        <select
+          class="rounded-[10px] border border-concord-border bg-white px-[0.8rem] py-[0.65rem] text-concord-ink"
+          [(ngModel)]="isActive"
+        >
+          <option value="">All</option>
+          <option value="true">Active</option>
+          <option value="false">Inactive</option>
+        </select>
+      </label>
+    </div>
+    <div class="mt-[0.9rem] flex gap-[0.6rem]">
+      <button
+        type="button"
+        class="inline-flex h-11 w-11 cursor-pointer items-center justify-center rounded-[10px] border-0 bg-concord-navy text-white"
+        title="Apply filters"
+        aria-label="Apply filters"
+        (click)="applyFilters()"
+      >
+        <i class="fa-solid fa-magnifying-glass"></i>
+      </button>
+      <button
+        type="button"
+        class="inline-flex h-11 w-11 cursor-pointer items-center justify-center rounded-[10px] border-0 bg-[#eef2f7] text-concord-ink"
+        title="Reset filters"
+        aria-label="Reset filters"
+        (click)="clearFilters()"
+      >
+        <i class="fa-solid fa-rotate-left"></i>
+      </button>
+    </div>
+  </div>
+
+  @if (error()) {
+    <div class="rounded-xl bg-[#fef3f2] px-4 py-[0.8rem] text-[0.92rem] text-concord-danger">{{ error() }}</div>
+  }
+
+  <div class="overflow-x-auto rounded-2xl border border-[#e6ebf2] bg-white p-0 shadow-[0_8px_24px_rgba(22,40,61,0.04)]">
+    @if (loading()) {
+      <app-loading-spinner message="Loading projects…" />
+    } @else if (!projects().length) {
+      <div class="px-4 py-10 text-center text-concord-muted">
+        <p>No projects found.</p>
+        <a
+          routerLink="/dashboard/projects/new"
+          class="inline-flex h-11 w-11 items-center justify-center rounded-[10px] bg-concord-navy text-white no-underline"
+          title="Create project"
+          aria-label="Create project"
+        >
+          <i class="fa-solid fa-plus"></i>
+        </a>
+      </div>
+    } @else {
+      <table class="w-full min-w-[920px] border-collapse">
+        <thead>
+          <tr>
+            <th class="bg-[#f8fafc] px-4 py-[0.95rem] text-left text-[0.78rem] uppercase tracking-[0.04em] text-concord-muted">Project</th>
+            <th class="bg-[#f8fafc] px-4 py-[0.95rem] text-left text-[0.78rem] uppercase tracking-[0.04em] text-concord-muted">Type</th>
+            <th class="bg-[#f8fafc] px-4 py-[0.95rem] text-left text-[0.78rem] uppercase tracking-[0.04em] text-concord-muted">Location</th>
+            <th class="bg-[#f8fafc] px-4 py-[0.95rem] text-left text-[0.78rem] uppercase tracking-[0.04em] text-concord-muted">Client</th>
+            <th class="bg-[#f8fafc] px-4 py-[0.95rem] text-left text-[0.78rem] uppercase tracking-[0.04em] text-concord-muted">Contract</th>
+            <th class="bg-[#f8fafc] px-4 py-[0.95rem] text-left text-[0.78rem] uppercase tracking-[0.04em] text-concord-muted">Status</th>
+            <th class="bg-[#f8fafc] px-4 py-[0.95rem] text-left text-[0.78rem] uppercase tracking-[0.04em] text-concord-muted">Actions</th>
+          </tr>
+        </thead>
+        <tbody>
+          @for (project of projects(); track project._id) {
+            <tr>
+              <td class="border-b border-[#eef1f5] px-4 py-[0.95rem] align-middle">
+                <div class="flex items-center gap-3">
+                  <img class="h-[52px] w-[52px] rounded-[10px] bg-[#eef2f7] object-cover" [src]="project.mainImage" [alt]="project.name" />
+                  <div>
+                    <strong class="block">{{ project.name }}</strong>
+                    <small class="text-concord-muted">
+                      {{ project.duration || (project.startYear && project.endYear ? project.startYear + ' – ' + project.endYear : '') }}
+                    </small>
+                  </div>
+                </div>
+              </td>
+              <td class="border-b border-[#eef1f5] px-4 py-[0.95rem] align-middle">
+                <span class="inline-flex rounded-full bg-[#eef4ff] px-[0.65rem] py-1 text-[0.78rem] font-semibold capitalize text-[#3538cd]">
+                  {{ project.type }}
+                </span>
+              </td>
+              <td class="border-b border-[#eef1f5] px-4 py-[0.95rem] align-middle">{{ project.location }}</td>
+              <td class="border-b border-[#eef1f5] px-4 py-[0.95rem] align-middle">{{ project.client }}</td>
+              <td class="border-b border-[#eef1f5] px-4 py-[0.95rem] align-middle">{{ project.contractValue }}</td>
+              <td class="border-b border-[#eef1f5] px-4 py-[0.95rem] align-middle">
+                <span
+                  class="inline-flex rounded-full px-[0.65rem] py-1 text-[0.78rem] font-semibold"
+                  [class]="project.isActive ? 'bg-[#ecfdf3] text-concord-success' : 'bg-[#fef3f2] text-concord-danger'"
+                >
+                  {{ project.isActive ? 'Active' : 'Inactive' }}
+                </span>
+              </td>
+              <td class="border-b border-[#eef1f5] px-4 py-[0.95rem] align-middle">
+                <div class="flex flex-wrap gap-[0.45rem]">
+                  <a
+                    [routerLink]="['/dashboard/projects', project._id, 'edit']"
+                    class="inline-flex h-9 w-9 items-center justify-center rounded-[10px] bg-[#f2f4f7] text-concord-ink no-underline"
+                    title="Edit"
+                    aria-label="Edit"
+                  >
+                    <i class="fa-solid fa-pen"></i>
+                  </a>
+                  <button
+                    type="button"
+                    class="inline-flex h-9 w-9 cursor-pointer items-center justify-center rounded-[10px] border-0 bg-[#f2f4f7] text-concord-ink"
+                    [title]="project.isActive ? 'Hide' : 'Show'"
+                    [attr.aria-label]="project.isActive ? 'Hide' : 'Show'"
+                    (click)="toggleStatus(project)"
+                  >
+                    <i class="fa-solid" [class.fa-eye-slash]="project.isActive" [class.fa-eye]="!project.isActive"></i>
+                  </button>
+                  <button
+                    type="button"
+                    class="inline-flex h-9 w-9 cursor-pointer items-center justify-center rounded-[10px] border-0 bg-[#fef3f2] text-concord-danger"
+                    title="Delete"
+                    aria-label="Delete"
+                    (click)="deleteProject(project)"
+                  >
+                    <i class="fa-solid fa-trash"></i>
+                  </button>
+                </div>
+              </td>
+            </tr>
+          }
+        </tbody>
+      </table>
+    }
+  </div>
+
+  @if (totalPages > 1) {
+    <div class="flex items-center justify-center gap-4">
+      <button
+        type="button"
+        class="inline-flex h-11 w-11 cursor-pointer items-center justify-center rounded-[10px] border-0 bg-[#eef2f7] disabled:cursor-not-allowed disabled:opacity-50"
+        [disabled]="page <= 1"
+        title="Previous page"
+        aria-label="Previous page"
+        (click)="goToPage(page - 1)"
+      >
+        <i class="fa-solid fa-chevron-left"></i>
+      </button>
+      <span>Page {{ page }} of {{ totalPages }}</span>
+      <button
+        type="button"
+        class="inline-flex h-11 w-11 cursor-pointer items-center justify-center rounded-[10px] border-0 bg-[#eef2f7] disabled:cursor-not-allowed disabled:opacity-50"
+        [disabled]="page >= totalPages"
+        title="Next page"
+        aria-label="Next page"
+        (click)="goToPage(page + 1)"
+      >
+        <i class="fa-solid fa-chevron-right"></i>
+      </button>
+    </div>
+  }
+</section>
