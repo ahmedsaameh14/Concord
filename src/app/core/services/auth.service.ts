@@ -2,11 +2,7 @@ import { Injectable, signal } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Observable, tap } from 'rxjs';
 import { API_CONFIG, AUTH_TOKEN_KEY } from '../config/api.config';
-
-interface LoginResponse {
-  message: string;
-  token: string;
-}
+import { LoginCredentials, LoginResponse } from '../models/auth.model';
 
 @Injectable({ providedIn: 'root' })
 export class AuthService {
@@ -34,12 +30,9 @@ export class AuthService {
     this.tokenSignal.set(null);
   }
 
-  login(email: string, password: string): Observable<LoginResponse> {
+  login(credentials: LoginCredentials): Observable<LoginResponse> {
     return this.http
-      .post<LoginResponse>(`${API_CONFIG.baseUrl}${API_CONFIG.endpoints.login}`, {
-        email,
-        password,
-      })
+      .post<LoginResponse>(`${API_CONFIG.baseUrl}${API_CONFIG.endpoints.login}`, credentials)
       .pipe(tap((res) => this.setToken(res.token)));
   }
 

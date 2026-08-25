@@ -18,6 +18,8 @@ import { DashboardLayoutComponent } from './dashboard/layout/dashboard-layout.co
 import { DashboardOverviewComponent } from './dashboard/overview/overview.component';
 import { DashboardProjectsListComponent } from './dashboard/projects/projects-list.component';
 import { DashboardProjectFormComponent } from './dashboard/projects/project-form.component';
+import { DashboardLoginComponent } from './dashboard/login/login.component';
+import { authGuard } from './core/guards/auth.guard';
 
 export const routes: Routes = [
   {
@@ -42,13 +44,24 @@ export const routes: Routes = [
   },
   {
     path: 'dashboard',
-    component: DashboardLayoutComponent,
     children: [
-      { path: '', pathMatch: 'full', redirectTo: 'overview' },
-      { path: 'overview', component: DashboardOverviewComponent },
-      { path: 'projects', component: DashboardProjectsListComponent },
-      { path: 'projects/new', component: DashboardProjectFormComponent },
-      { path: 'projects/:id/edit', component: DashboardProjectFormComponent },
+      // Public route (no guard)
+      { path: 'login', component: DashboardLoginComponent },
+
+      // Protected dashboard routes
+      {
+        path: '',
+        component: DashboardLayoutComponent,
+        canActivate: [authGuard],
+        children: [
+          { path: '', pathMatch: 'full', redirectTo: 'overview' },
+          { path: 'overview', component: DashboardOverviewComponent },
+          { path: 'projects', component: DashboardProjectsListComponent },
+          { path: 'projects/new', component: DashboardProjectFormComponent },
+          { path: 'projects/:id/edit', component: DashboardProjectFormComponent },
+        ],
+      },
     ],
   },
+  { path: '**', redirectTo: '' }
 ];
