@@ -1,94 +1,74 @@
 <section class="min-h-[70vh] bg-concord-bg text-concord-ink font-cairo">
-  <div class="bg-gradient-to-br from-concord-navy to-concord-navy-mid px-6 pb-14 pt-20 text-white">
-    <div class="mx-auto max-w-[1100px]">
-      <p class="mb-2 text-[0.8rem] uppercase tracking-[0.08em] text-white/75">Our Portfolio</p>
-      <h1 class="m-0 text-[clamp(2rem,4vw,3rem)] font-bold">Projects</h1>
-      <p class="mt-3 max-w-[560px] text-white/90">
-        Explore Concord’s work across construction, infrastructure, and transportation.
-      </p>
-    </div>
-  </div>
 
-  <div class="mx-auto max-w-[1100px] p-6">
-    <div class="mb-6 grid grid-cols-1 gap-3 sm:grid-cols-2 lg:grid-cols-[1.4fr_1fr_1fr_auto]">
-      <input
-        type="search"
-        class="rounded-xl border border-concord-border bg-white px-[0.9rem] py-[0.8rem] font-inherit"
-        [(ngModel)]="search"
-        placeholder="Search projects"
-        (ngModelChange)="onSearchChange()"
-      />
-      <select
-        class="rounded-xl border border-concord-border bg-white px-[0.9rem] py-[0.8rem] font-inherit capitalize"
-        [(ngModel)]="location"
-        (ngModelChange)="onLocationChange()"
-      >
-        <option value="">All locations</option>
-        @for (city of locations(); track city.name) {
-          <option [value]="city.name">{{ city.name }} ({{ city.count }})</option>
+    <main class="projects-page">
+      <section class="projects-intro" aria-labelledby="projects-title">
+        <div class="projects-intro-inner">
+          <!-- <p class="projects-kicker">Portfolio / 01</p> -->
+          <h1 id="projects-title">Our Projects</h1>
+          <p>Work that connects places, strengthens communities, and moves the region forward.</p>
+        </div>
+      </section>
+
+      <section class="projects-content" aria-label="Project portfolio">
+        <div class="projects-toolbar">
+          <input
+            type="search"
+            class="project-search"
+            [(ngModel)]="search"
+            placeholder="Search projects"
+            aria-label="Search projects"
+            (ngModelChange)="onSearchChange()"
+          />
+          <select class="project-select" [(ngModel)]="location" aria-label="Filter by location" (ngModelChange)="onLocationChange()">
+            <option value="">All locations</option>
+            @for (city of locations(); track city.name) {
+              <option [value]="city.name">{{ city.name }} ({{ city.count }})</option>
+            }
+          </select>
+          <select class="project-select" [(ngModel)]="type" aria-label="Filter by service" (ngModelChange)="onTypeChange()">
+            <option value="">All services</option>
+            @for (item of typeOptions(); track item.name) {
+              <option [value]="item.name">{{ item.name }} ({{ item.count }})</option>
+            }
+          </select>
+          @if (hasActiveFilters) {
+            <button type="button" class="clear-filters" title="Clear filters" aria-label="Clear filters" (click)="clearFilters()">
+              <i class="fa-solid fa-rotate-left" aria-hidden="true"></i>
+              Clear
+            </button>
+          }
+        </div>
+
+        @if (error()) {
+          <div class="projects-state projects-error">{{ error() }}</div>
         }
-      </select>
-      <select
-        class="rounded-xl border border-concord-border bg-white px-[0.9rem] py-[0.8rem] font-inherit capitalize"
-        [(ngModel)]="type"
-        (ngModelChange)="onTypeChange()"
-      >
-        <option value="">All services</option>
-        @for (item of typeOptions(); track item.name) {
-          <option [value]="item.name">{{ item.name }} ({{ item.count }})</option>
-        }
-      </select>
-      @if (hasActiveFilters) {
-        <button
-          type="button"
-          class="inline-flex cursor-pointer items-center justify-center gap-2 rounded-xl border-0 bg-[#eef2f7] px-[0.9rem] py-[0.8rem] font-inherit text-concord-ink transition hover:bg-[#e4e9f0]"
-          title="Clear filters"
-          aria-label="Clear filters"
-          (click)="clearFilters()"
-        >
-          <i class="fa-solid fa-rotate-left"></i>
-          Clear
-        </button>
-      }
-    </div>
 
-    @if (error()) {
-      <div class="px-4 py-10 text-center text-concord-danger">{{ error() }}</div>
-    }
-
-    @if (loading()) {
-      <app-loading-spinner message="Loading projects…" />
-    } @else if (!projects().length) {
-      <div class="px-4 py-10 text-center text-concord-muted">No projects match your filters.</div>
-    } @else {
-      <div class="grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-3">
-        @for (project of projects(); track project._id) {
-          <div
-            class="overflow-hidden rounded-2xl border border-concord-border-soft bg-white text-inherit transition duration-200 hover:-translate-y-[3px] hover:shadow-[0_14px_30px_rgba(22,40,61,0.1)]"
-          >
-            <img
-              class="h-[190px] w-full bg-[#eef2f7] object-cover"
-              [src]="project.mainImage"
-              [alt]="project.name"
-            />
-            <div class="p-4">
-              <span class="mb-[0.35rem] inline-block text-xs font-bold capitalize text-concord-gold">
-                {{ project.type }}
-              </span>
-              <h3 class="m-0 text-[1.05rem]">{{ project.name }}</h3>
-              <p class="mt-[0.35rem] text-[0.9rem] text-concord-muted capitalize">
-                {{ project.location }} · {{ project.client }}
-              </p>
-            </div>
-            <a
-              [routerLink]="['/projects', project.slug || project._id]"
-              class="mx-[30px] mb-5 inline-block text-[1.1rem] font-semibold text-concord-navy no-underline transition-colors"
-            >
-              Read More <i class="fa-solid fa-arrow-right"></i>
-            </a>
+        @if (loading()) {
+          <div class="projects-state"><app-loading-spinner message="Loading projects..." /></div>
+        } @else if (!projects().length) {
+          <div class="projects-state">No projects match your filters.</div>
+        } @else {
+          <div class="projects-grid">
+            @for (project of projects(); track project._id) {
+              <article class="project-card">
+                <a [routerLink]="['/projects', project.slug || project._id]" class="project-image-link">
+                  <img class="project-image" [src]="project.mainImage" [alt]="project.name" />
+                </a>
+                <div class="project-card-body">
+                  <span class="project-type">{{ project.type }}</span>
+                  <h2>{{ project.name }}</h2>
+                  <p class="project-location">
+                    <i class="fa-solid fa-location-dot" aria-hidden="true"></i>
+                    {{ project.location }} · {{ project.client }}
+                  </p>
+                  <a [routerLink]="['/projects', project.slug || project._id]" class="project-read-more">
+                    View project <span aria-hidden="true">&#8594;</span>
+                  </a>
+                </div>
+              </article>
+            }
           </div>
         }
-      </div>
-    }
-  </div>
+      </section>
+    </main>
 </section>
