@@ -1,0 +1,58 @@
+<main class="contact-page">
+  <section class="contact-intro" aria-labelledby="contact-title">
+    <p class="contact-kicker">Concord Engineering &amp; Contracting</p>
+    <h1 id="contact-title">Let’s build a conversation.</h1>
+    <p>Tell us what you are working on, and our team will get back to you.</p>
+  </section>
+
+  <section class="contact-content" aria-label="Contact form and company information">
+    <div class="contact-details">
+      <p class="detail-label">Reach the team</p>
+      <h2>Good projects begin with a clear first step.</h2>
+      <p>Share your details and a little about your request. We will review your message and connect with you directly.</p>
+      <div class="detail-list">
+        <p><strong>Head Office</strong><br />Concord 2, Road 307, Maadi, Cairo, Egypt</p>
+        <p><strong>Response</strong><br />Our team will respond using the contact details you provide.</p>
+      </div>
+    </div>
+
+    <form class="contact-form" (ngSubmit)="submit()" #contactForm="ngForm">
+      <div class="form-grid">
+        <label>
+          <span>First name</span>
+          <input type="text" name="firstName" [(ngModel)]="form.firstName" required maxlength="80" autocomplete="given-name" />
+        </label>
+        <label>
+          <span>Last name</span>
+          <input type="text" name="lastName" [(ngModel)]="form.lastName" required maxlength="80" autocomplete="family-name" />
+        </label>
+      </div>
+      <div class="form-grid">
+        <label>
+          <span>Phone</span>
+          <input type="tel" name="phone" [(ngModel)]="form.phone" required maxlength="40" autocomplete="tel" />
+        </label>
+        <label>
+          <span>Email</span>
+          <input type="email" name="email" [(ngModel)]="form.email" required maxlength="160" autocomplete="email" />
+        </label>
+      </div>
+      <label>
+        <span>Message</span>
+        <textarea name="message" [(ngModel)]="form.message" required maxlength="5000" rows="7"></textarea>
+      </label>
+
+      @if (success()) {
+        <p class="form-status success" role="status">{{ success() }}</p>
+      }
+      @if (error()) {
+        <p class="form-status error" role="alert">{{ error() }}</p>
+      }
+
+      <button type="submit" [disabled]="contactForm.invalid || submitting()">
+        {{ submitting() ? 'Sending...' : 'Send message' }}
+        <span aria-hidden="true">&#8594;</span>
+      </button>
+    </form>
+  </section>
+</main>

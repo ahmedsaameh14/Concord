@@ -8,6 +8,7 @@ export const API_CONFIG = {
     projectFilters: '/category/projects/filters',
     articles: '/category/articles',
     awards: '/category/awards',
+    contact: '/contact',
   },
 } as const;
 

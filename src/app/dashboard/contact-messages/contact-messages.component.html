@@ -1,0 +1,77 @@
+<section class="flex flex-col gap-4 font-cairo text-concord-ink">
+  <div class="flex flex-wrap items-center justify-between gap-4">
+    <div>
+      <h2 class="m-0 text-[1.4rem]">Contact Messages</h2>
+      <p class="mt-[0.2rem] text-concord-muted">{{ messages().length }} messages</p>
+    </div>
+    <button
+      type="button"
+      class="inline-flex h-11 w-11 items-center justify-center rounded-[10px] border-0 bg-concord-navy text-white"
+      title="Refresh messages"
+      aria-label="Refresh messages"
+      (click)="loadMessages()"
+    >
+      <i class="fa-solid fa-rotate"></i>
+    </button>
+  </div>
+
+  <div class="rounded-2xl border border-[#e6ebf2] bg-white p-4">
+    <input
+      type="search"
+      class="w-full rounded-[10px] border border-concord-border px-3 py-2"
+      [(ngModel)]="search"
+      placeholder="Search by name or email"
+      aria-label="Search messages by name or email"
+      (ngModelChange)="onSearchChange()"
+    />
+  </div>
+
+  @if (error()) {
+    <div class="rounded-xl bg-[#fef3f2] px-4 py-3 text-concord-danger">{{ error() }}</div>
+  }
+
+  <div class="overflow-x-auto rounded-2xl border border-[#e6ebf2] bg-white">
+    @if (loading()) {
+      <app-loading-spinner message="Loading messages..." />
+    } @else if (!messages().length) {
+      <div class="px-4 py-10 text-center text-concord-muted">No contact messages yet.</div>
+    } @else {
+      <table class="w-full min-w-[980px] border-collapse text-left text-[0.92rem]">
+        <thead class="bg-[#f8fafc] text-concord-muted">
+          <tr>
+            <th class="px-4 py-3 font-medium">Date</th>
+            <th class="px-4 py-3 font-medium">Name</th>
+            <th class="px-4 py-3 font-medium">Phone</th>
+            <th class="px-4 py-3 font-medium">Email</th>
+            <th class="px-4 py-3 font-medium">Message</th>
+            <th class="px-4 py-3 font-medium">Actions</th>
+          </tr>
+        </thead>
+        <tbody>
+          @for (message of messages(); track message._id) {
+            <tr class="border-t border-[#eef2f7] align-top">
+              <td class="whitespace-nowrap px-4 py-3 text-concord-muted">
+                {{ message.createdAt | date: 'dd/MM/yy - HH:mm' }}
+              </td>
+              <td class="px-4 py-3 font-semibold">{{ message.firstName }} {{ message.lastName }}</td>
+              <td class="whitespace-nowrap px-4 py-3">{{ message.phone }}</td>
+              <td class="px-4 py-3">{{ message.email }}</td>
+              <td class="max-w-[360px] whitespace-pre-wrap px-4 py-3">{{ message.message }}</td>
+              <td class="px-4 py-3">
+                <button
+                  type="button"
+                  class="inline-flex h-9 w-9 items-center justify-center rounded-[10px] border-0 bg-[#fef3f2] text-concord-danger"
+                  title="Delete message"
+                  aria-label="Delete message"
+                  (click)="deleteMessage(message)"
+                >
+                  <i class="fa-solid fa-trash"></i>
+                </button>
+              </td>
+            </tr>
+          }
+        </tbody>
+      </table>
+    }
+  </div>
+</section>
