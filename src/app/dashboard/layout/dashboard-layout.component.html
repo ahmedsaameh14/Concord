@@ -41,6 +41,14 @@
         <span class="w-5 text-center opacity-90"><i class="fa-solid fa-award"></i></span>
         Awards
       </a>
+      
+      <a routerLink="/dashboard/careers" routerLinkActive="bg-white/10 text-white"
+        [routerLinkActiveOptions]="{ exact: true }"
+        class="flex items-center gap-[0.7rem] rounded-xl px-[0.9rem] py-[0.8rem] text-white/80 no-underline transition hover:bg-white/10 hover:text-white"
+        (click)="closeSidebar()">
+        <span class="w-5 text-center opacity-90"><i class="fa-solid fa-briefcase"></i></span>
+        Careers
+      </a>
 
       <a routerLink="/dashboard/contact-messages" routerLinkActive="bg-white/10 text-white"
         [routerLinkActiveOptions]="{ exact: true }"
@@ -49,6 +57,7 @@
         <span class="w-5 text-center opacity-90"><i class="fa-solid fa-envelope"></i></span>
         Messages
       </a>
+
 
     </nav>
 

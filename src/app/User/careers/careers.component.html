@@ -1,0 +1,10 @@
+<main class="min-h-[70vh] bg-concord-bg px-5 py-20 font-cairo text-concord-ink md:px-16">
+  <header class="mx-auto mb-10 max-w-5xl"><p class="uppercase tracking-[.14em] text-concord-gold">Careers</p><h1 class="m-0 text-4xl text-concord-navy md:text-6xl">Build what matters.</h1><p class="max-w-xl text-concord-muted">Join a team shaping infrastructure, transport, and construction across the region.</p></header>
+  <section class="mx-auto max-w-5xl" aria-label="Open positions">
+    <input class="mb-6 w-full rounded-[10px] border border-concord-border px-4 py-3" type="search" [(ngModel)]="search" (ngModelChange)="searchChanged()" placeholder="Search by job title" aria-label="Search careers by title" />
+    @if (loading()) { <app-loading-spinner message="Loading careers..." /> } @else if (error()) { <p class="bg-[#fef3f2] p-4 text-concord-danger">{{ error() }}</p> } @else if (!careers().length) { <p class="py-10 text-center text-concord-muted">No open positions found.</p> } @else {
+      <div class="grid gap-4 md:grid-cols-2">@for (career of careers(); track career._id) { <article class="border border-concord-border bg-white p-6 shadow-[0_8px_24px_rgba(22,40,61,.05)]"><p class="m-0 text-sm text-concord-gold">{{ career.experience }} years experience</p><h2 class="mt-2 text-2xl text-concord-navy">{{ career.title }}</h2><p class="text-concord-muted">{{ career.description }}</p><a class="inline-flex items-center gap-2 font-bold text-[#175cd3] no-underline" [routerLink]="['/careers', career._id]">View position <span aria-hidden="true">&#8594;</span></a></article> }</div>
+    }
+    @if (totalPages > 1) { <nav class="mt-8 flex items-center justify-center gap-4"><button class="h-10 w-10 border-0 bg-[#eef2f7]" (click)="go(page - 1)" [disabled]="page === 1">&#8592;</button><span>Page {{ page }} of {{ totalPages }}</span><button class="h-10 w-10 border-0 bg-[#eef2f7]" (click)="go(page + 1)" [disabled]="page === totalPages">&#8594;</button></nav> }
+  </section>
+</main>

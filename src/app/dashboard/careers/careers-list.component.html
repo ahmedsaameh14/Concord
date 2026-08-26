@@ -1,0 +1,53 @@
+<section class="flex flex-col gap-4 font-cairo text-concord-ink">
+	<div class="flex flex-wrap items-center justify-between gap-4">
+		<div>
+			<h2 class="m-0 text-[1.4rem]">Careers</h2>
+			<p class="mt-1 text-concord-muted">{{ total }} positions</p>
+		</div>
+		<a routerLink="/dashboard/careers/new" class="inline-flex h-11 w-11 items-center justify-center rounded-[10px] bg-concord-navy text-white no-underline" title="Add career" aria-label="Add career">
+			<i class="fa-solid fa-plus"></i>
+		</a>
+	</div>
+
+	<div class="flex gap-2 rounded-2xl border border-[#e6ebf2] bg-white p-4">
+		<input class="flex-1 rounded-[10px] border border-concord-border px-3 py-2" [(ngModel)]="search" (keyup.enter)="apply()" placeholder="Search by title" aria-label="Search careers by title" />
+		<button type="button" class="inline-flex h-10 w-10 cursor-pointer items-center justify-center border-0 bg-concord-navy text-white" (click)="apply()" title="Search" aria-label="Search">
+			<i class="fa-solid fa-magnifying-glass"></i>
+		</button>
+	</div>
+
+	<div class="overflow-x-auto rounded-2xl border border-[#e6ebf2] bg-white">
+		@if (loading()) {
+			<app-loading-spinner message="Loading careers..." />
+		} @else if (!careers().length) {
+			<p class="p-10 text-center text-concord-muted">No careers found.</p>
+		} @else {
+			<table class="w-full min-w-[820px] text-left">
+				<thead class="bg-[#f8fafc]"><tr><th class="p-4">Title</th><th class="p-4">Experience</th><th class="p-4">Status</th><th class="p-4">Actions</th></tr></thead>
+				<tbody>
+					@for (career of careers(); track career._id) {
+						<tr class="border-t border-[#eef2f7]">
+							<td class="p-4 font-semibold">{{ career.title }}</td>
+							<td class="p-4">{{ career.experience }} years</td>
+							<td class="p-4"><span class="inline-flex rounded-full px-3 py-1 text-xs font-semibold" [class.bg-[#ecfdf3]]="career.isActive" [class.text-concord-success]="career.isActive" [class.bg-[#fef3f2]]="!career.isActive" [class.text-concord-danger]="!career.isActive">{{ career.isActive ? 'Active' : 'Inactive' }}</span></td>
+							<td class="p-4"><div class="flex flex-wrap gap-2">
+								<a [routerLink]="['/dashboard/careers', career._id, 'applications']" class="inline-flex cursor-pointer items-center gap-2 rounded bg-[#eef4ff] p-2 text-[#175cd3] no-underline" title="Applications"><i class="fa-solid fa-users"></i> Applications</a>
+								<a [routerLink]="['/dashboard/careers', career._id, 'edit']" class="inline-flex h-9 w-9 cursor-pointer items-center justify-center rounded bg-[#eef2f7] p-2" title="Edit" aria-label="Edit"><i class="fa-solid fa-pen"></i></a>
+								<button type="button" class="inline-flex h-9 w-9 cursor-pointer items-center justify-center border-0 bg-[#eef2f7]" (click)="toggleStatus(career)" [title]="career.isActive ? 'Deactivate' : 'Activate'" [attr.aria-label]="career.isActive ? 'Deactivate' : 'Activate'"><i class="fa-solid" [class.fa-eye-slash]="career.isActive" [class.fa-eye]="!career.isActive"></i></button>
+								<button type="button" class="inline-flex h-9 w-9 cursor-pointer items-center justify-center border-0 bg-[#fef3f2] text-concord-danger" (click)="remove(career)" title="Delete" aria-label="Delete"><i class="fa-solid fa-trash"></i></button>
+							</div></td>
+						</tr>
+					}
+				</tbody>
+			</table>
+		}
+	</div>
+
+	@if (totalPages > 1) {
+		<nav class="flex justify-center gap-4" aria-label="Career pages">
+			<button type="button" class="cursor-pointer disabled:cursor-not-allowed" (click)="go(page - 1)" [disabled]="page === 1">←</button>
+			<span>{{ page }} / {{ totalPages }}</span>
+			<button type="button" class="cursor-pointer disabled:cursor-not-allowed" (click)="go(page + 1)" [disabled]="page === totalPages">→</button>
+		</nav>
+	}
+</section>

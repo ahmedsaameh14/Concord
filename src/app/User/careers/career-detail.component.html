@@ -1,0 +1,36 @@
+<main class="min-h-[70vh] bg-concord-bg px-5 py-20 font-cairo text-concord-ink md:px-16">
+  @if (loading()) {
+    <p>Loading...</p>
+  } @else if (career()) {
+    <div class="mx-auto grid max-w-5xl gap-10 lg:grid-cols-[.8fr_1.2fr]">
+      <section>
+        <a routerLink="/careers" class="text-[#175cd3]">&#8592; All careers</a>
+        <p class="mt-12 uppercase tracking-[.14em] text-concord-gold">{{ career().experience }} years experience</p>
+        <h1 class="text-4xl text-concord-navy md:text-6xl">{{ career().title }}</h1>
+        <p class="whitespace-pre-wrap leading-8 text-concord-muted">{{ career().description }}</p>
+      </section>
+      <form class="flex flex-col gap-4 border border-concord-border bg-white p-6 shadow-[0_8px_24px_rgba(22,40,61,.06)]" (ngSubmit)="submit()" #application="ngForm">
+        <h2 class="m-0 text-2xl text-concord-navy">Apply for this position</h2>
+        <div class="grid gap-4 sm:grid-cols-2">
+          <input class="border border-concord-border p-3" name="firstName" [(ngModel)]="form.firstName" required placeholder="First name" />
+          <input class="border border-concord-border p-3" name="lastName" [(ngModel)]="form.lastName" required placeholder="Last name" />
+        </div>
+        <div class="grid gap-4 sm:grid-cols-2">
+          <input class="border border-concord-border p-3" name="email" [(ngModel)]="form.email" required type="email" placeholder="Email" />
+          <input class="border border-concord-border p-3" name="phone" [(ngModel)]="form.phone" required placeholder="Phone" />
+        </div>
+        <textarea class="border border-concord-border p-3" name="coverLetter" [(ngModel)]="form.coverLetter" required rows="6" placeholder="Cover letter"></textarea>
+        <input class="border border-concord-border p-3" name="cvLink" [(ngModel)]="form.cvLink" required type="url" placeholder="CV link (Google Drive or other URL)" />
+        <label class="flex cursor-pointer gap-2 text-sm text-concord-muted">
+          <input type="checkbox" name="agreed" [(ngModel)]="agreed" required />
+          By using this form you agree with the storage and handling of your data by this website.
+        </label>
+        @if (success()) { <p class="bg-[#ecfdf3] p-3 text-concord-success">{{ success() }}</p> }
+        @if (error()) { <p class="bg-[#fef3f2] p-3 text-concord-danger">{{ error() }}</p> }
+        <button type="submit" class="cursor-pointer bg-concord-navy p-3 font-bold text-white disabled:cursor-not-allowed disabled:opacity-50" [disabled]="application.invalid || submitting()">
+          {{ submitting() ? 'Submitting...' : 'Submit application' }}
+        </button>
+      </form>
+    </div>
+  }
+</main>
