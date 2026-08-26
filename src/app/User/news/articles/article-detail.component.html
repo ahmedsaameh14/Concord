@@ -1,6 +1,8 @@
 <section class="min-h-[70vh] bg-concord-bg-alt text-concord-ink font-cairo">
   @if (loading()) {
-    <app-loading-spinner message="Loading article…" size="lg" />
+    <div class="grid min-h-[calc(100svh-220px)] place-items-center">
+      <app-loading-spinner message="Loading article..." size="lg" />
+    </div>
   } @else if (error()) {
     <div class="px-4 py-16 text-center text-concord-danger">
       <p>{{ error() }}</p>

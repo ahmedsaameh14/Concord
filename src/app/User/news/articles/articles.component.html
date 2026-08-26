@@ -1,25 +1,23 @@
-<section class="min-h-[70vh] bg-concord-bg text-concord-ink font-cairo">
-  <div class="bg-gradient-to-br from-concord-navy to-concord-navy-mid px-6 pb-14 pt-20 text-white">
-    <div class="mx-auto max-w-[1100px]">
-      <p class="mb-2 text-[0.8rem] uppercase tracking-[0.08em] text-white/75">News</p>
-      <h1 class="m-0 text-[clamp(2rem,4vw,3rem)] font-bold">Articles</h1>
-      <p class="mt-3 max-w-[560px] text-white/90">
-        Insights, updates, and stories from Concord’s projects and teams.
-      </p>
-    </div>
-  </div>
+<main class="articles-page min-h-[70vh] font-cairo">
+  <section class="articles-hero">
+    <div class="articles-hero-inner">
+      <!-- <p class="articles-kicker">News / 01</p> -->
+      <h1>Articles</h1>
 
-  <div class="mx-auto max-w-[1100px] p-6">
-    <div class="mb-6 grid grid-cols-1 gap-3 sm:grid-cols-[1.4fr_1fr_auto]">
+    </div>
+  </section>
+
+  <section class="articles-content" aria-label="Articles">
+    <div class="articles-toolbar">
       <input
         type="search"
-        class="rounded-xl border border-concord-border bg-white px-[0.9rem] py-[0.8rem]"
+        class="article-search"
         [(ngModel)]="search"
         placeholder="Search articles"
         (ngModelChange)="onSearchChange()"
       />
       <select
-        class="rounded-xl border border-concord-border bg-white px-[0.9rem] py-[0.8rem] capitalize"
+        class="article-select"
         [(ngModel)]="tag"
         (ngModelChange)="onTagChange()"
       >
@@ -31,7 +29,7 @@
       @if (hasActiveFilters) {
         <button
           type="button"
-          class="inline-flex items-center justify-center gap-2 rounded-xl border-0 bg-[#eef2f7] px-[0.9rem] py-[0.8rem]"
+          class="article-clear"
           (click)="clearFilters()"
         >
           <i class="fa-solid fa-rotate-left"></i>
@@ -41,33 +39,29 @@
     </div>
 
     @if (error()) {
-      <div class="px-4 py-10 text-center text-concord-danger">{{ error() }}</div>
+      <div class="articles-state articles-error">{{ error() }}</div>
     }
 
     @if (loading()) {
-      <app-loading-spinner message="Loading articles…" />
+      <div class="articles-state"><app-loading-spinner message="Loading articles..." /></div>
     } @else if (!articles().length) {
-      <div class="px-4 py-10 text-center text-concord-muted">No articles found.</div>
+      <div class="articles-state">No articles found.</div>
     } @else {
       @if (topArticle(); as top) {
         <article
-          class="mb-8 overflow-hidden rounded-2xl border border-concord-border-soft bg-white shadow-[0_12px_30px_rgba(22,40,61,0.08)] lg:grid lg:grid-cols-[1.2fr_1fr]"
+          class="article-feature"
         >
-          <img [src]="top.image" [alt]="top.title" class="h-full min-h-[260px] w-full object-cover" />
-          <div class="flex flex-col justify-center p-6 sm:p-8">
-            <span
-              class="mb-3 inline-flex w-fit items-center gap-2 rounded-full bg-concord-gold/15 px-3 py-1 text-xs font-bold uppercase tracking-wide text-[#8a6b10]"
-            >
+          <img [src]="top.image" [alt]="top.title" class="article-feature-image" />
+          <div class="article-feature-copy">
+            <span class="article-feature-label">
               <i class="fa-solid fa-star"></i>
               Top Article
             </span>
-            <h2 class="m-0 text-[clamp(1.4rem,3vw,2rem)] font-bold">{{ top.title }}</h2>
+            <h2>{{ top.title }}</h2>
             <!-- <p class="mt-3 line-clamp-3 text-concord-muted">{{ top.description }}</p> -->
             <a
               [routerLink]="['/news/articles', top.slug || top._id]"
-              target="_blank"
-              rel="noopener noreferrer"
-              class="mt-5 inline-flex w-fit items-center gap-2 font-semibold text-concord-navy no-underline"
+              class="article-link"
             >
               Read More <i class="fa-solid fa-arrow-right"></i>
             </a>
@@ -75,44 +69,42 @@
         </article>
       }
 
-      <div class="grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-3">
+      <div class="articles-grid">
         @for (article of articles(); track article._id) {
           <article
-            class="overflow-hidden rounded-2xl border border-concord-border-soft bg-white transition duration-200 hover:-translate-y-[3px] hover:shadow-[0_14px_30px_rgba(22,40,61,0.1)]"
+            class="article-card"
           >
-            <div class="relative">
+            <div class="article-card-image">
               <img
-                class="h-[190px] w-full bg-[#eef2f7] object-cover"
+                class="w-full"
                 [src]="article.image"
                 [alt]="article.title"
               />
               @if (article.isTopArticle) {
                 <span
-                  class="absolute left-3 top-3 rounded-full bg-concord-gold px-2.5 py-1 text-[0.72rem] font-bold uppercase text-white"
+                  class="article-feature-label absolute left-3 top-3 !mb-0 bg-concord-gold px-2.5 py-1 text-white"
                 >
                   Top
                 </span>
               }
             </div>
-            <div class="p-4">
+            <div class="article-card-body">
               @if (article.tags.length) {
-                <div class="mb-2 flex flex-wrap gap-1.5">
+                <div class="article-tags">
                   @for (tag of article.tags; track tag) {
                     <a
                       [routerLink]="serviceRoute(tag)"
-                      class="rounded-md bg-[#eef2f7] px-2 py-0.5 text-[0.72rem] capitalize text-concord-muted no-underline transition hover:bg-concord-navy hover:text-white"
+                      class="no-underline"
                     >
                       {{ tag }}
                     </a>
                   }
                 </div>
               }
-              <h3 class="m-0 text-[1.05rem]">{{ article.title }}</h3>
+              <h2>{{ article.title }}</h2>
               <a
                 [routerLink]="['/news/articles', article.slug || article._id]"
-                target="_blank"
-                rel="noopener noreferrer"
-                class="mt-4 inline-flex items-center gap-2 text-[1.05rem] font-semibold text-concord-navy no-underline"
+                class="article-link"
               >
                 Read More <i class="fa-solid fa-arrow-right"></i>
               </a>
@@ -121,5 +113,5 @@
         }
       </div>
     }
-  </div>
-</section>
+  </section>
+</main>

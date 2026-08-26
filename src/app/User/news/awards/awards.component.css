@@ -1,0 +1,22 @@
+:host { display: block; }
+
+.awards-page { background: #f7f8fa; color: #172033; }
+.awards-hero, .awards-content { width: min(100%, 1240px); margin: 0 auto; }
+.awards-hero-wrap { padding: clamp(4.5rem, 10vw, 8rem) 1.5rem clamp(4rem, 8vw, 6.5rem); background: #16283d; color: #fff; }
+.awards-kicker { margin: 0 0 1rem; color: #8ac6ed; font-size: .76rem; font-weight: 700; letter-spacing: .16em; text-transform: uppercase; }
+.awards-hero h1 { margin: 0; font-size: clamp(3rem, 8vw, 7rem); font-weight: 600; line-height: .98; }
+.awards-hero p:last-child { max-width: 620px; margin: 1.5rem 0 0; color: rgba(255,255,255,.76); font-size: 1.05rem; line-height: 1.8; }
+.awards-content { padding: clamp(3rem, 7vw, 6rem) 1.5rem 7rem; }
+.awards-state { min-height: 360px; display: grid; place-items: center; padding: 3rem; color: #66717c; text-align: center; }
+.awards-error { color: #b42318; }
+.awards-grid { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: clamp(2rem, 5vw, 4.5rem) 2rem; }
+.award-card { overflow: hidden; border-bottom: 1px solid #cad3dc; background: #fff; animation: award-in .7s cubic-bezier(.22,1,.36,1) both; transition: transform .35s ease, box-shadow .35s ease; }
+.award-card:hover { transform: translateY(-6px); box-shadow: 0 16px 36px rgba(22,40,61,.1); }
+.award-image-wrap { display: grid; place-items: center; min-height: 360px; padding: 3rem; background: #e9eff3; }
+.award-image { display: block; width: min(100%, 390px); height: 300px; object-fit: contain; transition: transform .5s cubic-bezier(.22,1,.36,1); }
+.award-card:hover .award-image { transform: scale(1.04); }
+.award-copy { padding: 1.5rem 1.5rem 2rem; }
+.award-copy h2 { margin: 0; color: #16283d; font-size: clamp(1.25rem, 2vw, 1.7rem); font-weight: 600; line-height: 1.2; }
+.award-copy p { margin: .75rem 0 0; color: #66717c; line-height: 1.8; }
+@keyframes award-in { from { opacity: 0; transform: translateY(20px); } to { opacity: 1; transform: translateY(0); } }
+@media (max-width: 650px) { .awards-hero-wrap, .awards-content { padding-left: 1rem; padding-right: 1rem; } .awards-grid { grid-template-columns: 1fr; } .award-image-wrap { min-height: 300px; } }

@@ -1,5 +1,3 @@
-@import url('https://fonts.googleapis.com/css2?family=Cairo:wght@300;400;500;600;700&display=swap');
-
 :host {
 	display: block;
 	color: #172033;
@@ -102,6 +100,8 @@
 
 .history-timeline {
 	position: relative;
+	display: grid;
+	row-gap: 4rem;
 }
 
 .history-timeline::before {
@@ -247,6 +247,10 @@
 		align-items: start;
 		min-height: 0;
 		padding-bottom: 3rem;
+	}
+
+	.history-timeline {
+		row-gap: 0;
 	}
 
 	.history-item:nth-child(odd) .history-media,
