@@ -1,0 +1,25 @@
+<section class="font-cairo text-concord-ink">
+  <div class="mb-6 flex items-center justify-between">
+    <h2>{{ id ? 'Edit' : 'Add' }} Career</h2>
+    <a routerLink="/dashboard/careers" title="Back" aria-label="Back to careers">&#8592;</a>
+  </div>
+  <form class="flex max-w-3xl flex-col gap-4 rounded-2xl border border-[#e6ebf2] bg-white p-6" (ngSubmit)="submit()">
+    <label>
+      Title
+      <input class="mt-1 w-full border border-concord-border p-3" name="title" [(ngModel)]="form.title" required />
+    </label>
+    <label>
+      Experience range
+      <input class="mt-1 w-full border border-concord-border p-3" name="experience" [(ngModel)]="form.experience" required placeholder="1-2 or 8-12" />
+    </label>
+    <label>
+      Description
+      <textarea class="mt-1 w-full border border-concord-border p-3" name="description" [(ngModel)]="form.description" required rows="8"></textarea>
+    </label>
+    <label class="flex cursor-pointer gap-2">
+      <input type="checkbox" name="isActive" [(ngModel)]="form.isActive" />
+      Active and visible
+    </label>
+    <button class="cursor-pointer bg-concord-navy p-3 font-bold text-white" type="submit">Save career</button>
+  </form>
+</section>

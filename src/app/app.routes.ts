@@ -12,6 +12,9 @@ import { TermsComponent } from './User/terms/terms.component';
 import { PrivacyComponent } from './User/privacy/privacy.component';
 import { SafetyComponent } from './User/safety/safety.component';
 import { SustainabilityComponent } from './User/sustainability/sustainability.component';
+import { ContactComponent } from './User/contact/contact.component';
+import { CareersComponent } from './User/careers/careers.component';
+import { CareerDetailComponent } from './User/careers/career-detail.component';
 import { ProjectsComponent } from './User/projects/projects.component';
 import { ProjectDetailComponent } from './User/projects/project-detail.component';
 import { ArticlesComponent } from './User/news/articles/articles.component';
@@ -26,6 +29,10 @@ import { DashboardArticleFormComponent } from './dashboard/articles/article-form
 import { DashboardAwardsListComponent } from './dashboard/awards/awards-list.component';
 import { DashboardAwardFormComponent } from './dashboard/awards/award-form.component';
 import { DashboardLoginComponent } from './dashboard/login/login.component';
+import { DashboardContactMessagesComponent } from './dashboard/contact-messages/contact-messages.component';
+import { DashboardCareersListComponent } from './dashboard/careers/careers-list.component';
+import { DashboardCareerFormComponent } from './dashboard/careers/career-form.component';
+import { DashboardCareerApplicationsComponent } from './dashboard/careers/applications.component';
 import { authGuard } from './core/guards/auth.guard';
 
 export const routes: Routes = [
@@ -50,6 +57,9 @@ export const routes: Routes = [
       { path: 'legal/privacy', component: PrivacyComponent },
       { path: 'safety', component: SafetyComponent },
       { path: 'sustainability', component: SustainabilityComponent },
+      { path: 'contact', component: ContactComponent },
+      { path: 'careers', component: CareersComponent },
+      { path: 'careers/:id', component: CareerDetailComponent },
     ],
   },
   {
@@ -72,6 +82,11 @@ export const routes: Routes = [
           { path: 'awards', component: DashboardAwardsListComponent },
           { path: 'awards/new', component: DashboardAwardFormComponent },
           { path: 'awards/:id/edit', component: DashboardAwardFormComponent },
+          { path: 'contact-messages', component: DashboardContactMessagesComponent },
+          { path: 'careers', component: DashboardCareersListComponent },
+          { path: 'careers/new', component: DashboardCareerFormComponent },
+          { path: 'careers/:id/edit', component: DashboardCareerFormComponent },
+          { path: 'careers/:id/applications', component: DashboardCareerApplicationsComponent },
         ],
       },
     ],

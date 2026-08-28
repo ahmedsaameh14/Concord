@@ -9,6 +9,7 @@ import { LoadingSpinnerComponent } from '../../../shared/loading-spinner/loading
   standalone: true,
   imports: [CommonModule, LoadingSpinnerComponent],
   templateUrl: './awards.component.html',
+  styleUrl: './awards.component.css',
 })
 export class AwardsComponent implements OnInit {
   private readonly awardsApi = inject(AwardService);

@@ -1,0 +1,59 @@
+<section class="flex flex-col gap-4 font-cairo text-concord-ink">
+	<div>
+		<a routerLink="/dashboard/careers">← Careers</a>
+		<h2 class="m-0 mt-2">Applications: {{ title }}</h2>
+		<p class="mt-1 text-concord-muted">{{ total }} applications</p>
+	</div>
+
+	<div class="flex flex-wrap gap-2 rounded-2xl border border-[#e6ebf2] bg-white p-4">
+		<input class="min-w-[220px] flex-1 border border-concord-border p-3" [(ngModel)]="search" (keyup.enter)="filter()" placeholder="Search name or email" aria-label="Search applications" />
+		<select class="cursor-pointer border border-concord-border px-3" [(ngModel)]="status" aria-label="Filter by status">
+			<option value="">All statuses</option>
+			<option>Waiting</option>
+			<option>Accepted</option>
+			<option>Rejected</option>
+		</select>
+		<button type="button" class="inline-flex h-11 w-11 cursor-pointer items-center justify-center border-0 bg-concord-navy text-white" (click)="filter()" title="Filter" aria-label="Filter">
+			<i class="fa-solid fa-filter"></i>
+		</button>
+	</div>
+
+	<div class="overflow-x-auto rounded-2xl border border-[#e6ebf2] bg-white">
+		@if (loading()) {
+			<app-loading-spinner message="Loading applications..." />
+		} @else if (!applications().length) {
+			<p class="p-10 text-center text-concord-muted">No applications found.</p>
+		} @else {
+			<table class="w-full min-w-[1100px] text-left">
+				<thead class="bg-[#f8fafc]"><tr><th class="p-4">Date</th><th class="p-4">Applicant</th><th class="p-4">Contact</th><th class="p-4">Cover letter</th><th class="p-4">CV</th><th class="p-4">Status</th><th class="p-4">Action</th></tr></thead>
+				<tbody>
+					@for (application of applications(); track application._id) {
+						<tr class="border-t border-[#eef2f7] align-top">
+							<td class="whitespace-nowrap p-4">{{ application.createdAt | date: 'dd/MM/yy - HH:mm' }}</td>
+							<td class="p-4 font-semibold">{{ application.firstName }} {{ application.lastName }}</td>
+							<td class="p-4">{{ application.email }}<br />{{ application.phone }}</td>
+							<td class="max-w-[300px] whitespace-pre-wrap p-4">{{ application.coverLetter }}</td>
+							<td class="p-4"><a [href]="application.cvLink" target="_blank" rel="noopener noreferrer">Open CV</a></td>
+							<td class="p-4">
+								<select class="cursor-pointer rounded-full border-0 px-3 py-1 text-xs font-semibold" [(ngModel)]="application.status" (ngModelChange)="change(application)" [class.bg-[#fef3c2]]="application.status === 'Waiting'" [class.text-[#854d0e]]="application.status === 'Waiting'" [class.bg-[#dcfce7]]="application.status === 'Accepted'" [class.text-[#166534]]="application.status === 'Accepted'" [class.bg-[#fee2e2]]="application.status === 'Rejected'" [class.text-[#991b1b]]="application.status === 'Rejected'">
+									<option>Waiting</option>
+									<option>Accepted</option>
+									<option>Rejected</option>
+								</select>
+							</td>
+							<td class="p-4"><button type="button" class="inline-flex h-9 w-9 cursor-pointer items-center justify-center border-0 bg-[#fef3f2] text-concord-danger" (click)="remove(application)" title="Delete" aria-label="Delete"><i class="fa-solid fa-trash"></i></button></td>
+						</tr>
+					}
+				</tbody>
+			</table>
+		}
+	</div>
+
+	@if (totalPages > 1) {
+		<nav class="flex justify-center gap-4" aria-label="Application pages">
+			<button type="button" class="cursor-pointer disabled:cursor-not-allowed" (click)="go(page - 1)" [disabled]="page === 1">←</button>
+			<span>{{ page }} / {{ totalPages }}</span>
+			<button type="button" class="cursor-pointer disabled:cursor-not-allowed" (click)="go(page + 1)" [disabled]="page === totalPages">→</button>
+		</nav>
+	}
+</section>

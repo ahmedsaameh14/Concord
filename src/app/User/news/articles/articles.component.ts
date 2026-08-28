@@ -12,6 +12,7 @@ import { LoadingSpinnerComponent } from '../../../shared/loading-spinner/loading
   standalone: true,
   imports: [CommonModule, FormsModule, RouterLink, LoadingSpinnerComponent],
   templateUrl: './articles.component.html',
+  styleUrl: './articles.component.css',
 })
 export class ArticlesComponent implements OnInit {
   private readonly articlesApi = inject(ArticleService);
