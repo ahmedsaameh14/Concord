@@ -10,3 +10,31 @@ export const authGuard: CanActivateFn = (_route, state) => {
     ? true
     : router.createUrlTree(['/dashboard/login'], { queryParams: { returnUrl: state.url } });
 };
+
+export const adminGuard: CanActivateFn = (_route, state) => {
+  const auth = inject(AuthService);
+  const router = inject(Router);
+
+  if (!auth.isAuthenticated()) {
+    return router.createUrlTree(['/dashboard/login'], { queryParams: { returnUrl: state.url } });
+  }
+
+  return auth.isAdmin() ? true : router.createUrlTree(['/dashboard/careers']);
+};
+
+export const usersManagerGuard: CanActivateFn = (_route, state) => {
+  const auth = inject(AuthService);
+  const router = inject(Router);
+
+  if (!auth.isAuthenticated()) {
+    return router.createUrlTree(['/dashboard/login'], { queryParams: { returnUrl: state.url } });
+  }
+
+  return auth.canManageUsers() ? true : router.createUrlTree([auth.defaultDashboardRoute()]);
+};
+
+export const dashboardHomeGuard: CanActivateFn = () => {
+  const auth = inject(AuthService);
+  const router = inject(Router);
+  return router.createUrlTree([auth.defaultDashboardRoute()]);
+};

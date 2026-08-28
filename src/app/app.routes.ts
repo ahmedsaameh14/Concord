@@ -33,7 +33,8 @@ import { DashboardContactMessagesComponent } from './dashboard/contact-messages/
 import { DashboardCareersListComponent } from './dashboard/careers/careers-list.component';
 import { DashboardCareerFormComponent } from './dashboard/careers/career-form.component';
 import { DashboardCareerApplicationsComponent } from './dashboard/careers/applications.component';
-import { authGuard } from './core/guards/auth.guard';
+import { DashboardUsersListComponent } from './dashboard/users/users-list.component';
+import { adminGuard, authGuard, dashboardHomeGuard, usersManagerGuard } from './core/guards/auth.guard';
 
 export const routes: Routes = [
   {
@@ -71,18 +72,19 @@ export const routes: Routes = [
         component: DashboardLayoutComponent,
         canActivate: [authGuard],
         children: [
-          { path: '', pathMatch: 'full', redirectTo: 'overview' },
-          { path: 'overview', component: DashboardOverviewComponent },
-          { path: 'projects', component: DashboardProjectsListComponent },
-          { path: 'projects/new', component: DashboardProjectFormComponent },
-          { path: 'projects/:id/edit', component: DashboardProjectFormComponent },
-          { path: 'articles', component: DashboardArticlesListComponent },
-          { path: 'articles/new', component: DashboardArticleFormComponent },
-          { path: 'articles/:id/edit', component: DashboardArticleFormComponent },
-          { path: 'awards', component: DashboardAwardsListComponent },
-          { path: 'awards/new', component: DashboardAwardFormComponent },
-          { path: 'awards/:id/edit', component: DashboardAwardFormComponent },
-          { path: 'contact-messages', component: DashboardContactMessagesComponent },
+          { path: '', pathMatch: 'full', canActivate: [dashboardHomeGuard], children: [] },
+          { path: 'overview', component: DashboardOverviewComponent, canActivate: [adminGuard] },
+          { path: 'projects', component: DashboardProjectsListComponent, canActivate: [adminGuard] },
+          { path: 'projects/new', component: DashboardProjectFormComponent, canActivate: [adminGuard] },
+          { path: 'projects/:id/edit', component: DashboardProjectFormComponent, canActivate: [adminGuard] },
+          { path: 'articles', component: DashboardArticlesListComponent, canActivate: [adminGuard] },
+          { path: 'articles/new', component: DashboardArticleFormComponent, canActivate: [adminGuard] },
+          { path: 'articles/:id/edit', component: DashboardArticleFormComponent, canActivate: [adminGuard] },
+          { path: 'awards', component: DashboardAwardsListComponent, canActivate: [adminGuard] },
+          { path: 'awards/new', component: DashboardAwardFormComponent, canActivate: [adminGuard] },
+          { path: 'awards/:id/edit', component: DashboardAwardFormComponent, canActivate: [adminGuard] },
+          { path: 'contact-messages', component: DashboardContactMessagesComponent, canActivate: [adminGuard] },
+          { path: 'users', component: DashboardUsersListComponent, canActivate: [usersManagerGuard] },
           { path: 'careers', component: DashboardCareersListComponent },
           { path: 'careers/new', component: DashboardCareerFormComponent },
           { path: 'careers/:id/edit', component: DashboardCareerFormComponent },
