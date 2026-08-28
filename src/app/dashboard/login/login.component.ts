@@ -31,7 +31,7 @@ export class DashboardLoginComponent {
     this.email = draft?.email || '';
 
     if (this.auth.isAuthenticated()) {
-      this.router.navigate(['/dashboard/overview']);
+      this.router.navigateByUrl(this.auth.defaultDashboardRoute());
     }
   }
 
@@ -53,13 +53,16 @@ export class DashboardLoginComponent {
       next: () => {
         this.loading.set(false);
         this.drafts.clear(this.draftKey);
-        this.notify.success('Admin session connected.');
-        const returnUrl = this.route.snapshot.queryParamMap.get('returnUrl') || '/dashboard/overview';
-        this.router.navigateByUrl(returnUrl.startsWith('/dashboard') ? returnUrl : '/dashboard/overview');
+        this.notify.success('Session connected.');
+        const returnUrl = this.route.snapshot.queryParamMap.get('returnUrl');
+        const fallback = this.auth.defaultDashboardRoute();
+        const target =
+          returnUrl && returnUrl.startsWith('/dashboard') ? returnUrl : fallback;
+        this.router.navigateByUrl(this.auth.isHr() && !returnUrl?.includes('/careers') ? fallback : target);
       },
       error: (err) => {
         this.loading.set(false);
-        const message = err?.error?.message || 'Unable to connect admin session.';
+        const message = err?.error?.message || 'Unable to connect session.';
         this.error.set(message);
         this.notify.error(message);
       },

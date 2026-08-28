@@ -18,7 +18,7 @@
 		</button>
 	</div>
 
-	<div class="overflow-x-auto rounded-2xl border border-[#e6ebf2] bg-white">
+	<div class="overflow-x-auto rounded-2xl border border-[#e6ebf2] bg-white" (scroll)="closeStatusMenu()">
 		@if (loading()) {
 			<app-loading-spinner message="Loading applications..." />
 		} @else if (!applications().length) {
@@ -35,11 +35,15 @@
 							<td class="max-w-[300px] whitespace-pre-wrap p-4">{{ application.coverLetter }}</td>
 							<td class="p-4"><a [href]="application.cvLink" target="_blank" rel="noopener noreferrer">Open CV</a></td>
 							<td class="p-4">
-								<select class="cursor-pointer rounded-full border-0 px-3 py-1 text-xs font-semibold" [(ngModel)]="application.status" (ngModelChange)="change(application)" [class.bg-[#fef3c2]]="application.status === 'Waiting'" [class.text-[#854d0e]]="application.status === 'Waiting'" [class.bg-[#dcfce7]]="application.status === 'Accepted'" [class.text-[#166534]]="application.status === 'Accepted'" [class.bg-[#fee2e2]]="application.status === 'Rejected'" [class.text-[#991b1b]]="application.status === 'Rejected'">
-									<option>Waiting</option>
-									<option>Accepted</option>
-									<option>Rejected</option>
-								</select>
+								<button
+									type="button"
+									class="inline-flex cursor-pointer items-center gap-2 rounded-full border-0 px-3 py-1 text-xs font-semibold"
+									[ngStyle]="statusStyles(application.status)"
+									(click)="toggleStatusMenu($event, application._id)"
+								>
+									{{ application.status }}
+									<i class="fa-solid fa-chevron-down text-[0.65rem] opacity-80"></i>
+								</button>
 							</td>
 							<td class="p-4"><button type="button" class="inline-flex h-9 w-9 cursor-pointer items-center justify-center border-0 bg-[#fef3f2] text-concord-danger" (click)="remove(application)" title="Delete" aria-label="Delete"><i class="fa-solid fa-trash"></i></button></td>
 						</tr>
@@ -48,6 +52,28 @@
 			</table>
 		}
 	</div>
+
+	@if (openStatusMenuId && menuPosition(); as position) {
+		@if (getApplication(openStatusMenuId); as activeApplication) {
+			<div
+				class="fixed z-50 flex min-w-[140px] flex-col gap-1 rounded-xl border border-[#e6ebf2] bg-white p-1 shadow-lg"
+				[style.top.px]="position.top"
+				[style.left.px]="position.left"
+				(click)="$event.stopPropagation()"
+			>
+				@for (option of statusOptions; track option) {
+					<button
+						type="button"
+						class="cursor-pointer rounded-lg border-0 px-3 py-2 text-left text-xs font-semibold"
+						[ngStyle]="statusStyles(option)"
+						(click)="selectStatus($event, activeApplication, option)"
+					>
+						{{ option }}
+					</button>
+				}
+			</div>
+		}
+	}
 
 	@if (totalPages > 1) {
 		<nav class="flex justify-center gap-4" aria-label="Application pages">

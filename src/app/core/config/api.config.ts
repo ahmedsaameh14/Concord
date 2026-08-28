@@ -4,6 +4,8 @@ export const API_CONFIG = {
   baseUrl: environment.apiBaseUrl,
   endpoints: {
     login: '/auth/login',
+    me: '/auth/me',
+    adminUsers: '/admin',
     projects: '/category/projects',
     projectFilters: '/category/projects/filters',
     articles: '/category/articles',
@@ -29,3 +31,4 @@ export const SERVICE_ROUTES: Record<(typeof ARTICLE_TAGS)[number], string> = {
 };
 
 export const AUTH_TOKEN_KEY = 'concord_admin_token';
+export const AUTH_USER_KEY = 'concord_admin_user';
