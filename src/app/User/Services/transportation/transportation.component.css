@@ -17,7 +17,17 @@
 	place-items: center;
 	overflow: hidden;
 	color: #fff;
-	background: #16283d url('/images/Transportation.jpg') center / cover no-repeat;
+	background: #16283d;
+}
+
+.transportation-hero::before {
+	position: absolute;
+	inset: -14px;
+	z-index: -3;
+	content: '';
+	background: url('/images/Transportation.jpg') center / cover no-repeat;
+	filter: blur(8px) brightness(.7) saturate(.85);
+	transform: scale(1.08);
 }
 
 .transportation-hero::after {

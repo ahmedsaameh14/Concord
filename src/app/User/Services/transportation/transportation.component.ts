@@ -13,17 +13,17 @@ export class TransportationComponent implements AfterViewInit, OnDestroy {
 
   readonly capabilities = [
     {
-      image: '/images/TransportationP1.jpeg',
+      image: '/images/TransportationP1.jpg',
       title: 'Tunneling',
       description: 'Advanced tunnel construction for transit, utilities, and infrastructure projects, with precision engineering and safety-first execution.'
     },
     {
-      image: '/images/TransportationP2.jpeg',
+      image: '/images/TransportationP2.jpg',
       title: 'Railways',
       description: 'Development of high-speed and urban rail systems that enhance mass transit capacity and regional integration, from track design to signaling and stations.'
     },
     {
-      image: '/images/TransportationP3.jpeg',
+      image: '/images/TransportationP3.jpg',
       title: 'Roads, Bridges, and Airports',
       description: 'Comprehensive transport infrastructure solutions that include highway systems, overpasses, interchanges, and airport facilities—designed to accommodate growing transportation demands while improving safety and traffic efficiency.'
     }

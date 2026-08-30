@@ -2,19 +2,9 @@
   <div class="flex flex-wrap items-center justify-between gap-4">
     <div>
       <h2 class="m-0 text-[1.4rem]">Overview</h2>
-      <p class="mt-1 text-concord-muted">Portfolio snapshot and quick actions.</p>
+      <p class="mt-1 text-concord-muted">Full dashboard summary across the company portfolio.</p>
     </div>
-    <div class="flex gap-2">
-      <a
-        routerLink="/dashboard/projects"
-        class="inline-flex h-11 w-11 items-center justify-center rounded-[10px] bg-[#eef2f7] text-concord-ink no-underline"
-        title="All projects"
-        aria-label="All projects"
-      >
-        <i class="fa-solid fa-folder-open"></i>
-      </a>
-     
-    </div>
+    
   </div>
 
   @if (error()) {
@@ -26,28 +16,49 @@
       <app-loading-spinner message="Loading overview…" size="lg" />
     </div>
   } @else {
-    <div class="grid grid-cols-1 gap-4 sm:grid-cols-2 xl:grid-cols-4">
+    <div class="grid grid-cols-1 gap-4 sm:grid-cols-2 xl:grid-cols-3">
       <div class="rounded-2xl border border-[#e6ebf2] bg-white p-5 shadow-[0_8px_24px_rgba(22,40,61,0.04)]">
-        <p class="m-0 text-[0.78rem] uppercase tracking-[0.06em] text-concord-muted">Total Projects</p>
+        <p class="m-0 text-[0.78rem] uppercase tracking-[0.06em] text-concord-muted">Projects</p>
         <p class="mt-2 mb-0 text-3xl font-bold text-concord-navy">{{ total() }}</p>
+        <p class="mt-2 mb-0 text-sm text-concord-muted">{{ active() }} active · {{ inactive() }} inactive</p>
       </div>
+
       <div class="rounded-2xl border border-[#e6ebf2] bg-white p-5 shadow-[0_8px_24px_rgba(22,40,61,0.04)]">
-        <p class="m-0 text-[0.78rem] uppercase tracking-[0.06em] text-concord-muted">Active</p>
-        <p class="mt-2 mb-0 text-3xl font-bold text-concord-success">{{ active() }}</p>
+        <p class="m-0 text-[0.78rem] uppercase tracking-[0.06em] text-concord-muted">Articles</p>
+        <p class="mt-2 mb-0 text-3xl font-bold text-concord-navy">{{ articlesTotal() }}</p>
+        <p class="mt-2 mb-0 text-sm text-concord-muted">{{ activeArticles() }} active · {{ topArticles() }} featured</p>
       </div>
+
       <div class="rounded-2xl border border-[#e6ebf2] bg-white p-5 shadow-[0_8px_24px_rgba(22,40,61,0.04)]">
-        <p class="m-0 text-[0.78rem] uppercase tracking-[0.06em] text-concord-muted">Inactive</p>
-        <p class="mt-2 mb-0 text-3xl font-bold text-concord-danger">{{ inactive() }}</p>
+        <p class="m-0 text-[0.78rem] uppercase tracking-[0.06em] text-concord-muted">Awards</p>
+        <p class="mt-2 mb-0 text-3xl font-bold text-concord-navy">{{ awardsTotal() }}</p>
+        <p class="mt-2 mb-0 text-sm text-concord-muted">Latest recognition items</p>
       </div>
+
       <div class="rounded-2xl border border-[#e6ebf2] bg-white p-5 shadow-[0_8px_24px_rgba(22,40,61,0.04)]">
-        <p class="m-0 text-[0.78rem] uppercase tracking-[0.06em] text-concord-muted">Locations</p>
-        <p class="mt-2 mb-0 text-3xl font-bold text-concord-navy">{{ locationsCount() }}</p>
+        <p class="m-0 text-[0.78rem] uppercase tracking-[0.06em] text-concord-muted">Messages</p>
+        <p class="mt-2 mb-0 text-3xl font-bold text-concord-navy">{{ messagesTotal() }}</p>
+        <p class="mt-2 mb-0 text-sm text-concord-muted">Contact form submissions</p>
       </div>
+
+      <div class="rounded-2xl border border-[#e6ebf2] bg-white p-5 shadow-[0_8px_24px_rgba(22,40,61,0.04)]">
+        <p class="m-0 text-[0.78rem] uppercase tracking-[0.06em] text-concord-muted">Careers</p>
+        <p class="mt-2 mb-0 text-3xl font-bold text-concord-navy">{{ careersTotal() }}</p>
+        <p class="mt-2 mb-0 text-sm text-concord-muted">{{ activeCareers() }} active openings</p>
+      </div>
+
+      @if (usersTotal() > 0) {
+        <div class="rounded-2xl border border-[#e6ebf2] bg-white p-5 shadow-[0_8px_24px_rgba(22,40,61,0.04)]">
+          <p class="m-0 text-[0.78rem] uppercase tracking-[0.06em] text-concord-muted">Users</p>
+          <p class="mt-2 mb-0 text-3xl font-bold text-concord-navy">{{ usersTotal() }}</p>
+          <p class="mt-2 mb-0 text-sm text-concord-muted">Admin and HR users</p>
+        </div>
+      }
     </div>
 
     <div class="grid grid-cols-1 gap-4 lg:grid-cols-[1fr_1.2fr]">
       <div class="rounded-2xl border border-[#e6ebf2] bg-white p-5 shadow-[0_8px_24px_rgba(22,40,61,0.04)]">
-        <h3 class="mt-0 mb-4 text-[1.05rem]">By Type</h3>
+        <h3 class="mt-0 mb-4 text-[1.05rem]">Project Types</h3>
         <div class="flex flex-col gap-3">
           @for (type of projectTypes; track type) {
             <div class="flex items-center justify-between rounded-xl bg-[#f8fafc] px-4 py-3">
@@ -91,6 +102,56 @@
                   {{ project.isActive ? 'Active' : 'Inactive' }}
                 </span>
               </a>
+            }
+          </div>
+        }
+      </div>
+    </div>
+
+    <div class="grid grid-cols-1 gap-4 xl:grid-cols-3">
+      <div class="rounded-2xl border border-[#e6ebf2] bg-white p-5 shadow-[0_8px_24px_rgba(22,40,61,0.04)]">
+        <h3 class="mt-0 mb-4 text-[1.05rem]">Latest Articles</h3>
+        @if (!recentArticles().length) {
+          <p class="m-0 text-concord-muted">No articles yet.</p>
+        } @else {
+          <div class="flex flex-col gap-3">
+            @for (article of recentArticles(); track article._id) {
+              <div class="rounded-xl bg-[#f8fafc] px-3 py-2">
+                <strong class="block truncate">{{ article.title }}</strong>
+                <small class="text-concord-muted">{{ article.isActive ? 'Published' : 'Draft' }} · {{ article.isTopArticle ? 'Featured' : 'Standard' }}</small>
+              </div>
+            }
+          </div>
+        }
+      </div>
+
+      <div class="rounded-2xl border border-[#e6ebf2] bg-white p-5 shadow-[0_8px_24px_rgba(22,40,61,0.04)]">
+        <h3 class="mt-0 mb-4 text-[1.05rem]">Latest Awards</h3>
+        @if (!recentAwards().length) {
+          <p class="m-0 text-concord-muted">No awards yet.</p>
+        } @else {
+          <div class="flex flex-col gap-3">
+            @for (award of recentAwards(); track award._id) {
+              <div class="rounded-xl bg-[#f8fafc] px-3 py-2">
+                <strong class="block truncate">{{ award.title }}</strong>
+                <small class="text-concord-muted">{{ award.subtitle || 'Award' }}</small>
+              </div>
+            }
+          </div>
+        }
+      </div>
+
+      <div class="rounded-2xl border border-[#e6ebf2] bg-white p-5 shadow-[0_8px_24px_rgba(22,40,61,0.04)]">
+        <h3 class="mt-0 mb-4 text-[1.05rem]">Recent Messages</h3>
+        @if (!recentMessages().length) {
+          <p class="m-0 text-concord-muted">No new messages.</p>
+        } @else {
+          <div class="flex flex-col gap-3">
+            @for (message of recentMessages(); track message._id) {
+              <div class="rounded-xl bg-[#f8fafc] px-3 py-2">
+                <strong class="block truncate">{{ message.firstName }} {{ message.lastName }}</strong>
+                <small class="text-concord-muted">{{ message.email }}</small>
+              </div>
             }
           </div>
         }
