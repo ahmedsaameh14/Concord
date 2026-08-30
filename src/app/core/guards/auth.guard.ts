@@ -33,6 +33,19 @@ export const usersManagerGuard: CanActivateFn = (_route, state) => {
   return auth.canManageUsers() ? true : router.createUrlTree([auth.defaultDashboardRoute()]);
 };
 
+export const messagesAccessGuard: CanActivateFn = (_route, state) => {
+  const auth = inject(AuthService);
+  const router = inject(Router);
+
+  if (!auth.isAuthenticated()) {
+    return router.createUrlTree(['/dashboard/login'], { queryParams: { returnUrl: state.url } });
+  }
+
+  return auth.isAdmin() || auth.isHr()
+    ? true
+    : router.createUrlTree([auth.defaultDashboardRoute()]);
+};
+
 export const dashboardHomeGuard: CanActivateFn = () => {
   const auth = inject(AuthService);
   const router = inject(Router);

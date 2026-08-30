@@ -34,7 +34,13 @@ import { DashboardCareersListComponent } from './dashboard/careers/careers-list.
 import { DashboardCareerFormComponent } from './dashboard/careers/career-form.component';
 import { DashboardCareerApplicationsComponent } from './dashboard/careers/applications.component';
 import { DashboardUsersListComponent } from './dashboard/users/users-list.component';
-import { adminGuard, authGuard, dashboardHomeGuard, usersManagerGuard } from './core/guards/auth.guard';
+import {
+  adminGuard,
+  authGuard,
+  dashboardHomeGuard,
+  messagesAccessGuard,
+  usersManagerGuard,
+} from './core/guards/auth.guard';
 
 export const routes: Routes = [
   {
@@ -83,7 +89,7 @@ export const routes: Routes = [
           { path: 'awards', component: DashboardAwardsListComponent, canActivate: [adminGuard] },
           { path: 'awards/new', component: DashboardAwardFormComponent, canActivate: [adminGuard] },
           { path: 'awards/:id/edit', component: DashboardAwardFormComponent, canActivate: [adminGuard] },
-          { path: 'contact-messages', component: DashboardContactMessagesComponent, canActivate: [adminGuard] },
+          { path: 'contact-messages', component: DashboardContactMessagesComponent, canActivate: [messagesAccessGuard] },
           { path: 'users', component: DashboardUsersListComponent, canActivate: [usersManagerGuard] },
           { path: 'careers', component: DashboardCareersListComponent },
           { path: 'careers/new', component: DashboardCareerFormComponent },
