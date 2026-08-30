@@ -4,7 +4,7 @@ import { FormsModule } from '@angular/forms';
 import { ActivatedRoute, RouterLink } from '@angular/router';
 import { CareerService } from '../../core/services/career.service';
 
-@Component({ selector: 'app-career-detail', standalone: true, imports: [CommonModule, FormsModule, RouterLink], templateUrl: './career-detail.component.html', styleUrl: './careers.component.css' })
+@Component({ selector: 'app-career-detail', standalone: true, imports: [CommonModule, FormsModule, RouterLink], templateUrl: './career-detail.component.html', styleUrls: ['./career-detail.component.css'] })
 export class CareerDetailComponent implements OnInit {
   private readonly api = inject(CareerService); private readonly route = inject(ActivatedRoute);
   career = signal<any>(null); loading = signal(true); success = signal(''); error = signal(''); submitting = signal(false); agreed = false;
