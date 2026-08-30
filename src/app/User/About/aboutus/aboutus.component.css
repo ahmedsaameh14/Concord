@@ -163,7 +163,7 @@
 
 .mission-vision-section::before {
 	z-index: -2;
-	background: url('/images/MV.webp') center / cover no-repeat;
+	background: url('/images/MV.jpg') center / cover no-repeat;
 	filter: blur(2.5px);
 	transform: scale(1.02);
 }

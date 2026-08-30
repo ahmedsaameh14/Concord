@@ -287,7 +287,7 @@
 	inset: -10px;
 	z-index: -2;
 	content: '';
-	background: url('/images/civil.webp') center / cover no-repeat;
+	background: url('/images/civil.jpg') center / cover no-repeat;
 	filter: blur(2.5px);
 	transform: scale(1.02);
 }

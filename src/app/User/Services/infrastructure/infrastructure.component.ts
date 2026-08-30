@@ -13,7 +13,7 @@ export class InfrastructureComponent implements AfterViewInit, OnDestroy {
 
   readonly capabilities = [
     {
-      image: '/images/InfraP1.png',
+      image: '/images/InfraP1.jpg',
       title: 'Micro-Tunneling Projects',
       paragraphs: [
         'We specialize in trenchless technology solutions that minimize surface disruption and environmental impact while ensuring efficient underground utility installations.',

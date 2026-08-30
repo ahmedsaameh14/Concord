@@ -37,7 +37,7 @@
 	background: rgba(7, 20, 35, .73);
 }
 
-.safety-hero::before { background-image: url('/images/safetyCover1.jpeg'); }
+.safety-hero::before { background-image: url('/images/safetyCover1.jpg'); }
 .approach-section::before { background-image: url('/images/safetyCover2.jpg'); }
 
 .safety-hero {

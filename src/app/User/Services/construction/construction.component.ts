@@ -18,17 +18,17 @@ export class ConstructionComponent implements AfterViewInit, OnDestroy {
       description: 'Master-planned developments that provide sustainable living solutions, modern amenities, and smart infrastructure for growing populations.'
     },
     {
-      image: '/images/ConstructionP2.jpeg',
+      image: '/images/ConstructionP2.jpg',
       title: 'Sports Complex',
       description: 'High-performance facilities designed to host local and international events, built with advanced materials and compliance with global sporting standards.'
     },
     {
-      image: '/images/ConstructionP3.jpeg',
+      image: '/images/ConstructionP3.jpg',
       title: 'Government Buildings',
       description: 'Secure, functional, and future-ready facilities that serve public sector needs and promote operational excellence in governance and civic service delivery.'
     },
     {
-      image: '/images/ConstructionP4.jpeg',
+      image: '/images/ConstructionP4.jpg',
       title: 'Commercial & Administrative Buildings',
       description: 'Innovative and efficient business spaces that reflect the evolving needs of today’s corporate and commercial environments, built for flexibility, comfort, and productivity.'
     }

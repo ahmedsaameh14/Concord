@@ -32,7 +32,7 @@
 }
 
 .way-section::before {
-	background-image: url('/images/sustainabilityCover1.jpeg');
+	background-image: url('/images/sustainabilityCover1.jpg');
 	filter: blur(2.5px);
 }
 
