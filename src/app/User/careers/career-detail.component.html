@@ -1,33 +1,44 @@
-<main class="min-h-[70vh] bg-concord-bg px-5 py-20 font-cairo text-concord-ink md:px-16">
+<main class="career-detail-page">
   @if (loading()) {
-    <p>Loading...</p>
+    <div class="career-detail-loading">Loading...</div>
   } @else if (career()) {
-    <div class="mx-auto grid max-w-5xl gap-10 lg:grid-cols-[.8fr_1.2fr]">
-      <section>
-        <a routerLink="/careers" class="text-[#175cd3]">&#8592; All careers</a>
-        <p class="mt-12 uppercase tracking-[.14em] text-concord-gold">{{ career().experience }} years experience</p>
-        <h1 class="text-4xl text-concord-navy md:text-6xl">{{ career().title }}</h1>
-        <p class="whitespace-pre-wrap leading-8 text-concord-muted">{{ career().description }}</p>
+    <div class="career-detail-shell">
+      <section class="career-detail-copy">
+        <a routerLink="/careers" class="back-link">&#8592; All careers</a>
+        <p class="career-detail-kicker">{{ career().experience }} years experience</p>
+        <h1>{{ career().title }}</h1>
+        <p class="career-description">{{ career().description }}</p>
       </section>
-      <form class="flex flex-col gap-4 border border-concord-border bg-white p-6 shadow-[0_8px_24px_rgba(22,40,61,.06)]" (ngSubmit)="submit()" #application="ngForm">
-        <h2 class="m-0 text-2xl text-concord-navy">Apply for this position</h2>
-        <div class="grid gap-4 sm:grid-cols-2">
-          <input class="border border-concord-border p-3" name="firstName" [(ngModel)]="form.firstName" required placeholder="First name" />
-          <input class="border border-concord-border p-3" name="lastName" [(ngModel)]="form.lastName" required placeholder="Last name" />
+
+      <form class="career-form" (ngSubmit)="submit()" #application="ngForm">
+        <h2>Apply for this position</h2>
+
+        <div class="form-grid">
+          <input name="firstName" [(ngModel)]="form.firstName" required placeholder="First name" />
+          <input name="lastName" [(ngModel)]="form.lastName" required placeholder="Last name" />
         </div>
-        <div class="grid gap-4 sm:grid-cols-2">
-          <input class="border border-concord-border p-3" name="email" [(ngModel)]="form.email" required type="email" placeholder="Email" />
-          <input class="border border-concord-border p-3" name="phone" [(ngModel)]="form.phone" required placeholder="Phone" />
+
+        <div class="form-grid">
+          <input name="email" [(ngModel)]="form.email" required type="email" placeholder="Email" />
+          <input name="phone" [(ngModel)]="form.phone" required placeholder="Phone" />
         </div>
-        <textarea class="border border-concord-border p-3" name="coverLetter" [(ngModel)]="form.coverLetter" required rows="6" placeholder="Cover letter"></textarea>
-        <input class="border border-concord-border p-3" name="cvLink" [(ngModel)]="form.cvLink" required type="url" placeholder="CV link (Google Drive or other URL)" />
-        <label class="flex cursor-pointer gap-2 text-sm text-concord-muted">
+
+        <textarea name="coverLetter" [(ngModel)]="form.coverLetter" required rows="6" placeholder="Cover letter"></textarea>
+        <input name="cvLink" [(ngModel)]="form.cvLink" required type="url" placeholder="CV link (Google Drive or other URL)" />
+
+        <label class="data-check">
           <input type="checkbox" name="agreed" [(ngModel)]="agreed" required />
-          By using this form you agree with the storage and handling of your data by this website.
+          <span>By using this form you agree with the storage and handling of your data by this website.</span>
         </label>
-        @if (success()) { <p class="bg-[#ecfdf3] p-3 text-concord-success">{{ success() }}</p> }
-        @if (error()) { <p class="bg-[#fef3f2] p-3 text-concord-danger">{{ error() }}</p> }
-        <button type="submit" class="cursor-pointer bg-concord-navy p-3 font-bold text-white disabled:cursor-not-allowed disabled:opacity-50" [disabled]="application.invalid || submitting()">
+
+        @if (success()) {
+          <p class="form-status success">{{ success() }}</p>
+        }
+        @if (error()) {
+          <p class="form-status error">{{ error() }}</p>
+        }
+
+        <button type="submit" [disabled]="application.invalid || submitting()">
           {{ submitting() ? 'Submitting...' : 'Submit application' }}
         </button>
       </form>
