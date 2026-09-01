@@ -3,10 +3,24 @@
 		<div class="founders-grid">
 			<div class="section-heading reveal" #reveal>
 				<!-- <p class="section-kicker">01 / Origins</p> -->
-				<h1 id="founders-title">Founders</h1>
+				<h1 id="founders-title">Our Story</h1>
 			</div>
 			<p class="founders-copy reveal" #reveal>
-				It all started with four ambitious young men who met during their university years at the Faculty of Engineering, Cairo University. Brought together by a shared passion for building and innovation, their friendship quickly evolved into a strong partnership rooted in trust, determination, and a dream to make a lasting impact on their country. United by a vision to shape Egypt’s future, especially through the development of its infrastructure, transportation networks, and construction landscape, they turned their ambition into action. What began as shared ideas and late-night discussions soon materialized into a bold venture: Concord for Engineering and Contracting. Founded on collaboration, technical expertise, and a commitment to national progress, Concord has grown into one of Egypt’s leading firms, delivering large-scale, transformative projects across the country and the MENA region.
+				Concord’s story began with four young engineers whose shared journey at Cairo University laid the
+				foundation for a partnership built on ambition, technical excellence, and a deep commitment to Egypt’s
+				progress.<br><br>
+				United by a common vision to contribute to the development of the nation’s infrastructure,
+				transportation networks, and built environment, the founders transformed their expertise and aspirations
+				into a company driven by purpose: to build the infrastructure that moves nations forward.<br><br>
+				Founded on the principles of engineering excellence, integrity, collaboration, and long-term value,
+				Concord for Engineering and Contracting has evolved into one of Egypt’s leading engineering and
+				contracting companies. Over the years, Concord has contributed to some of the country’s most significant
+				infrastructure, transportation, and construction developments, delivering complex, large-scale projects
+				that help shape communities and connect people.<br><br>
+				Today, Concord’s legacy extends beyond Egypt, with a growing presence across the MENA region. While the
+				scale of its operations has transformed, its founding ambition remains unchanged: to engineer progress,
+				build with purpose, and contribute to a stronger future for generations to come.
+
 			</p>
 		</div>
 	</section>
@@ -21,11 +35,21 @@
 				<h2 id="chairman-title">Eng. Ahmed Elabd</h2>
 				<p class="chairman-position">Chairman</p>
 				<blockquote>
-					<p>“Proceeding from a national responsibility, Concord has always been keen on achieving the highest efficiency rates, moving forward with its plan of expanding internationally in conjunction with following specific guidelines arising from its commitment to provide the nation with healthy and sustainable development.</p>
-					<p>We are determined to provide a modern form of our company, dedicate our resources towards building a new Egypt, and provide extraordinary human capital and expertise in the achievement of every project that we are eligible for, along with incorporating the latest technologies worldwide in design and construction.</p>
-					<p>At Concord, we are a uniquely collaborative culture run by passionate employees, where success is our ultimate goal. Therefore, we are capable of reducing organizationally induced waste, obstacles, complexities, incoherences, and conflicts to assure the most efficient performance.”</p>
+					<p>“Proceeding from a national responsibility, Concord has always been keen on achieving the highest
+						efficiency rates, moving forward with its plan of expanding internationally in conjunction with
+						following specific guidelines arising from its commitment to provide the nation with healthy and
+						sustainable development.</p>
+					<p>We are determined to provide a modern form of our company, dedicate our resources towards
+						building a new Egypt, and provide extraordinary human capital and expertise in the achievement
+						of every project that we are eligible for, along with incorporating the latest technologies
+						worldwide in design and construction.</p>
+					<p>At Concord, we are a uniquely collaborative culture run by passionate employees, where success is
+						our ultimate goal. Therefore, we are capable of reducing organizationally induced waste,
+						obstacles, complexities, incoherences, and conflicts to assure the most efficient performance.”
+					</p>
 				</blockquote>
-				<button type="button" class="learn-more-button" (click)="openChairmanModal()">Learn more <span aria-hidden="true">&#8594;</span></button>
+				<!-- <button type="button" class="learn-more-button" (click)="openChairmanModal()">Learn more <span
+						aria-hidden="true">&#8594;</span></button> -->
 			</div>
 		</div>
 	</section>
@@ -36,7 +60,8 @@
 			<h2 id="board-title">Board Of Directors</h2>
 		</div>
 		<div class="board-grid">
-			<article *ngFor="let member of boardMembers; let index = index" class="board-member reveal" #reveal [style.transition-delay.ms]="index * 120">
+			<article *ngFor="let member of boardMembers; let index = index" class="board-member reveal" #reveal
+				[style.transition-delay.ms]="index * 120">
 				<!-- <p class="board-number">0{{ index + 1 }}</p> -->
 				<h3>{{ member.name }}</h3>
 				<p>{{ member.position }}</p>
@@ -44,13 +69,17 @@
 		</div>
 	</section>
 
-	<div *ngIf="isChairmanModalOpen" class="modal-backdrop" role="presentation" (click)="closeChairmanModal()">
-		<section class="chairman-modal" role="dialog" aria-modal="true" aria-labelledby="modal-title" (click)="$event.stopPropagation()">
-			<button type="button" class="modal-close" aria-label="Close Chairman details" (click)="closeChairmanModal()">&#215;</button>
+	<!-- <div *ngIf="isChairmanModalOpen" class="modal-backdrop" role="presentation" (click)="closeChairmanModal()">
+		<section class="chairman-modal" role="dialog" aria-modal="true" aria-labelledby="modal-title"
+			(click)="$event.stopPropagation()">
+			<button type="button" class="modal-close" aria-label="Close Chairman details"
+				(click)="closeChairmanModal()">&#215;</button>
 			<p class="section-kicker">Leadership profile</p>
 			<h2 id="modal-title">Eng. Ahmed Elabd</h2>
 			<p class="modal-position">Chairman</p>
-			<p>38 years of professional experience, mostly at Company leadership to Monitor business development financial performance, back logs and recommend early actions with the aim of generating healthy cash flow and financial management.</p>
+			<p>38 years of professional experience, mostly at Company leadership to Monitor business development
+				financial performance, back logs and recommend early actions with the aim of generating healthy cash
+				flow and financial management.</p>
 		</section>
-	</div>
+	</div> -->
 </main>

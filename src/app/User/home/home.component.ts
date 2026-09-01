@@ -31,7 +31,7 @@ export class HomeComponent implements AfterViewInit, OnDestroy {
   readonly strengths = [
     { target: 600, current: 0, suffix: '+', description: 'Completed projects, showcasing technical excellence.' },
     { target: 15000, current: 0, suffix: '+', description: 'Skilled professionals, trained to adapt to diverse conditions.' },
-    { target: 40, current: 0, suffix: '+', description: 'Years of industry experience, driving innovation and community development.' }
+    { target: 35, current: 0, suffix: '+', description: 'Years of industry experience, driving innovation and community development.' }
   ];
 
   readonly companies = [
