@@ -76,6 +76,34 @@
 		</div>
 	</section>
 
+	@if (ongoingProjects().length) {
+		<section class="ongoing-projects-section" aria-labelledby="ongoing-projects-title">
+			<div class="ongoing-projects-inner">
+				<div class="ongoing-projects-heading">
+					<div>
+						<!-- <p class="section-kicker">Currently underway</p> -->
+						<h2 id="ongoing-projects-title">Ongoing projects</h2>
+					</div>
+					<a routerLink="/projects" class="read-more">View all projects <span aria-hidden="true">&#8594;</span></a>
+				</div>
+				<div class="ongoing-projects-grid">
+					@for (project of ongoingProjects(); track project._id) {
+						<article class="ongoing-project-card">
+							<a [routerLink]="['/projects', project.slug || project._id]" class="ongoing-project-image-link">
+								<img [src]="project.mainImage" [alt]="project.name" />
+							</a>
+							<div class="ongoing-project-card-body">
+								<span>{{ projectDuration(project) }}</span>
+								<h3>{{ project.name }}</h3>
+								<p>{{ project.location }} · {{ project.type }}</p>
+							</div>
+						</article>
+					}
+				</div>
+			</div>
+		</section>
+	}
+
 	<section class="sustainability-section" aria-labelledby="sustainability-title">
 		<div class="sustainability-inner">
 			<div class="sustainability-heading reveal" #reveal>

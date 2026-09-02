@@ -1,6 +1,8 @@
-import { AfterViewInit, Component, ElementRef, OnDestroy, QueryList, ViewChild, ViewChildren } from '@angular/core';
+import { AfterViewInit, Component, ElementRef, OnDestroy, OnInit, QueryList, ViewChild, ViewChildren, inject, signal } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { RouterModule } from '@angular/router';
+import { ProjectService } from '../../core/services/project.service';
+import { Project, projectDuration } from '../../core/models/project.model';
 
 @Component({
   selector: 'app-home',
@@ -8,9 +10,14 @@ import { RouterModule } from '@angular/router';
   templateUrl: './home.component.html',
   styleUrl: './home.component.css'
 })
-export class HomeComponent implements AfterViewInit, OnDestroy {
+export class HomeComponent implements OnInit, AfterViewInit, OnDestroy {
+  private readonly projectsApi = inject(ProjectService);
+
   @ViewChildren('reveal') revealElements!: QueryList<ElementRef<HTMLElement>>;
   @ViewChild('strengthsSection') strengthsSection!: ElementRef<HTMLElement>;
+
+  ongoingProjects = signal<Project[]>([]);
+  projectDuration = projectDuration;
 
   readonly heroVideo = '/video/hero-vid.mp4';
   readonly sustainabilityColumns = [
@@ -44,6 +51,12 @@ export class HomeComponent implements AfterViewInit, OnDestroy {
 
   private observer?: IntersectionObserver;
   private countersStarted = false;
+
+  ngOnInit(): void {
+    this.projectsApi.getProjects({ isOngoing: true, limit: 6 }).subscribe({
+      next: (response) => this.ongoingProjects.set(response.data || []),
+    });
+  }
 
   ngAfterViewInit(): void {
     if (typeof IntersectionObserver === 'undefined') {
