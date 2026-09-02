@@ -76,34 +76,6 @@
 		</div>
 	</section>
 
-	@if (ongoingProjects().length) {
-		<section class="ongoing-projects-section" aria-labelledby="ongoing-projects-title">
-			<div class="ongoing-projects-inner">
-				<div class="ongoing-projects-heading">
-					<div>
-						<!-- <p class="section-kicker">Currently underway</p> -->
-						<h2 id="ongoing-projects-title">Ongoing projects</h2>
-					</div>
-					<a routerLink="/projects" class="read-more">View all projects <span aria-hidden="true">&#8594;</span></a>
-				</div>
-				<div class="ongoing-projects-grid">
-					@for (project of ongoingProjects(); track project._id) {
-						<article class="ongoing-project-card">
-							<a [routerLink]="['/projects', project.slug || project._id]" class="ongoing-project-image-link">
-								<img [src]="project.mainImage" [alt]="project.name" />
-							</a>
-							<div class="ongoing-project-card-body">
-								<span>{{ projectDuration(project) }}</span>
-								<h3>{{ project.name }}</h3>
-								<p>{{ project.location }} · {{ project.type }}</p>
-							</div>
-						</article>
-					}
-				</div>
-			</div>
-		</section>
-	}
-
 	<section class="sustainability-section" aria-labelledby="sustainability-title">
 		<div class="sustainability-inner">
 			<div class="sustainability-heading reveal" #reveal>
@@ -134,6 +106,65 @@
 			<img src="/images/building.png" alt="Concord construction project" class="building-image" />
 		</div> -->
 	</section>
+
+	@if (ongoingProjects().length) {
+		<section class="ongoing-projects-section" aria-labelledby="ongoing-projects-title">
+			<div class="ongoing-projects-inner">
+				<div class="ongoing-projects-heading reveal" #reveal>
+					<div>
+						<!-- <p class="section-kicker">Currently underway</p> -->
+						<h2 id="ongoing-projects-title">Ongoing projects</h2>
+					</div>
+					<a routerLink="/projects" class="read-more">View all projects <span aria-hidden="true">&#8594;</span></a>
+				</div>
+				<div class="ongoing-projects-grid">
+					@for (project of ongoingProjects(); track project._id; let index = $index) {
+						<article class="ongoing-project-card reveal" #reveal [style.transition-delay.ms]="index * 120">
+							<a [routerLink]="['/projects', project.slug || project._id]" class="ongoing-project-image-link">
+								<img [src]="project.mainImage" [alt]="project.name" />
+							</a>
+							<div class="ongoing-project-card-body">
+								<span>{{ projectDuration(project) }}</span>
+								<h3>{{ project.name }}</h3>
+								<p>{{ project.location }} · {{ project.type }}</p>
+							</div>
+						</article>
+					}
+				</div>
+			</div>
+		</section>
+	}
+
+	@if (latestArticles().length) {
+		<section class="latest-articles-section" aria-labelledby="latest-articles-title">
+			<div class="latest-articles-inner">
+				<div class="latest-articles-heading reveal" #reveal>
+					<div>
+						<!-- <p class="section-kicker">News and updates</p> -->
+						<h2 id="latest-articles-title">Latest Articles</h2>
+					</div>
+					<a routerLink="/news/articles" class="read-more">View all articles <span aria-hidden="true">&#8594;</span></a>
+				</div>
+				<div class="latest-articles-grid">
+					@for (article of latestArticles(); track article._id; let index = $index) {
+						<article class="latest-article-card reveal" #reveal [style.transition-delay.ms]="index * 120">
+							<a [routerLink]="['/news/articles', article.slug || article._id]" class="latest-article-image-link">
+								<img [src]="article.image" [alt]="article.title" />
+							</a>
+							<div class="latest-article-card-body">
+								@if (article.publishedAt) {
+									<time [attr.datetime]="article.publishedAt">{{ article.publishedAt | date: 'MMM d, y' }}</time>
+								}
+								<h3>{{ article.title }}</h3>
+								<a [routerLink]="['/news/articles', article.slug || article._id]" class="read-more">Read article <span aria-hidden="true">&#8594;</span></a>
+							</div>
+						</article>
+					}
+				</div>
+			</div>
+		</section>
+	}
+
 
 	<section class="care-section" aria-labelledby="care-title">
 		<div class="care-inner">
