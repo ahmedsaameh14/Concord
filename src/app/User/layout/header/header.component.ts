@@ -86,7 +86,7 @@ export class HeaderComponent implements OnInit, OnDestroy {
 
   private updateRouteState(url: string): void {
     this.activeRoute = url;
-    this.isHomeRoute = url === '/' || url === '';
+    this.isHomeRoute = url === '/' || url === '' || /^\/projects\/[^/]+/.test(url);
     this.isScrolled = !this.isHomeRoute || window.pageYOffset > 50;
   }
 
