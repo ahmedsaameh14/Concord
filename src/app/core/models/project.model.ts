@@ -17,7 +17,7 @@ export interface Project {
   mainImage: string;
   overview: string;
   startYear?: number;
-  endYear?: number;
+  endYear?: number | null;
   duration?: string;
   date?: string;
   address: string;
@@ -76,6 +76,7 @@ export interface ProjectListQuery {
   search?: string;
   page?: number;
   limit?: number;
+  isOngoing?: boolean;
   isActive?: 'true' | 'false' | '';
   /** Dashboard only: include inactive projects when admin token is present */
   admin?: 'true';
@@ -84,7 +85,10 @@ export interface ProjectListQuery {
 export const projectDuration = (project: Pick<Project, 'startYear' | 'endYear' | 'duration'>): string => {
   if (project.duration) return project.duration;
   if (!project.startYear) return '';
-  if (!project.endYear || project.endYear === project.startYear) {
+  if (!project.endYear) {
+    return `${project.startYear} – now`;
+  }
+  if (project.endYear === project.startYear) {
     return String(project.startYear);
   }
   return `${project.startYear} – ${project.endYear}`;

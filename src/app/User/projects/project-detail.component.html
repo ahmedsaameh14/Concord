@@ -14,22 +14,12 @@
         class="project-detail-hero relative min-h-[360px] bg-cover bg-center"
         [style.backgroundImage]="'url(' + item.mainImage + ')'"
       >
-        <div
-          class="project-detail-hero-content flex min-h-[360px] flex-col justify-end bg-gradient-to-b from-[rgba(15,28,44,0.25)] to-[rgba(15,28,44,0.82)] px-6 pb-8 pt-20 text-white"
-        >
-          <a routerLink="/projects" class="text-white no-underline">← All projects</a>
-          <span class="font-bold capitalize text-concord-gold">{{ item.type }}</span>
-          <h1 class="my-[0.3rem] text-[clamp(1.8rem,4vw,3rem)] font-bold">{{ item.name }}</h1>
-          <p>{{ item.location }} · {{ duration(item) }}</p>
-        </div>
-      </div>
-
-      <section
-        class="border-t-[3px] border-concord-gold bg-gradient-to-r from-concord-navy-deep via-concord-navy-soft to-concord-navy-alt px-6 py-[1.4rem] text-white"
-      >
-        <div class="project-meta-band"
-          class="mx-auto grid max-w-[1180px] grid-cols-1 gap-[0.9rem] md:grid-cols-3 xl:grid-cols-6"
-        >
+        <div class="project-detail-hero-content">
+          <div class="project-detail-hero-inner">
+            <a routerLink="/projects" class="project-back-link">← All projects</a>
+            <!-- <span class="project-type">{{ item.type }}</span> -->
+            <h1>{{ item.name }}</h1>
+            <div class="project-meta-band">
           <div class="project-meta-item border-t border-[rgba(201,162,39,0.22)] pt-[0.7rem] md:border-t-0 md:border-l md:border-[rgba(201,162,39,0.28)] md:pt-0 md:pl-[0.85rem] md:first:border-l-0 md:first:pl-0">
             <span class="mb-[0.3rem] block text-[0.72rem] font-bold tracking-[0.06em] text-concord-gold">Duration</span>
             <strong class="text-[0.95rem] font-semibold capitalize leading-[1.35]">{{ duration(item) }}</strong>
@@ -54,57 +44,59 @@
             <span class="mb-[0.3rem] block text-[0.72rem] font-bold tracking-[0.06em] text-concord-gold">Address</span>
             <strong class="text-[0.95rem] font-semibold capitalize leading-[1.35]">{{ item.address }}</strong>
           </div>
-        </div>
-      </section>
-
-      <div class="mx-auto max-w-[1180px] px-6 pb-16 pt-8">
-        <div class="grid grid-cols-1 items-start gap-6 lg:grid-cols-[1.4fr_0.9fr]">
-          <article>
-            <h2 class="text-concord-navy-deep text-[1.2rem] mt-4 mb-2 font-bold">Overview</h2>
-            <p>{{ item.overview }}</p>
-
-            @if (item.keyFeatures?.sections?.length) {
-              <h2 class="text-concord-navy-deep text-[1.2rem] mt-4 mb-2 font-bold">Key Features</h2>
-              <div class="grid gap-[0.8rem]">
-                @for (section of item.keyFeatures?.sections; track section.title) {
-                  <div class="rounded-2xl border border-concord-border-soft bg-white p-[1.1rem]">
-                    <h3 class=" font-bold">{{ section.title }}</h3>
-                    @if (section.value) {
-                      <p class="m-0 text-[1.2rem]">{{ section.value }}</p>
-                    }
-                    @if (section.items?.length) {
-                      <ul>
-                        @for (point of section.items; track point) {
-                          <li class="text-concord-navy-deep text-[1rem] list-disc list-inside">{{ point }}</li>
-                        }
-                      </ul>
-                    }
-                  </div>
-                }
-              </div>
-            }
-          </article>
-
-          <aside class="flex flex-col gap-3">
-            <img
-              class="h-[280px] w-full rounded-2xl border border-[#e4eadf] object-cover"
-              [src]="item.mainImage"
-              [alt]="item.name"
-            />
-            @if (item.ProjectImages?.length) {
-              <div class="grid grid-cols-1 gap-3 sm:grid-cols-2">
-                @for (image of item.ProjectImages; track image) {
-                  <img
-                    class="h-40 w-full rounded-2xl border border-[#e4eadf] object-cover"
-                    [src]="image"
-                    [alt]="item.name"
-                  />
-                }
-              </div>
-            }
-          </aside>
+            </div>
+          </div>
         </div>
       </div>
+
+      <div class="project-detail-content">
+        <article class="project-copy">
+          <h2>Overview</h2>
+          <p>{{ item.overview }}</p>
+
+          @if (item.keyFeatures?.sections?.length) {
+            <h2>Key Features</h2>
+            <div class="key-features">
+              @for (section of item.keyFeatures?.sections; track section.title) {
+                <div class="key-feature">
+                  <h3>{{ section.title }}</h3>
+                    @if (section.value) {
+                    <p>{{ section.value }}</p>
+                    }
+                    @if (section.items?.length) {
+                    <ul>
+                        @for (point of section.items; track point) {
+                        <li>{{ point }}</li>
+                        }
+                    </ul>
+                    }
+                </div>
+              }
+            </div>
+          }
+        </article>
+      </div>
+
+      @if (galleryImages().length) {
+        <section class="project-gallery" aria-labelledby="gallery-title">
+          <div class="gallery-heading">
+            <!-- <span>Project gallery</span> -->
+            <!-- <h2 id="gallery-title">Built to be seen.</h2> -->
+          </div>
+          <div class="gallery-slider">
+            <img [src]="activeImage()" [alt]="item.name + ' project view ' + (activeSlide() + 1)" />
+            <button type="button" class="gallery-control previous" (click)="previousSlide()" aria-label="Previous image">&#8592;</button>
+            <button type="button" class="gallery-control next" (click)="nextSlide()" aria-label="Next image">&#8594;</button>
+          </div>
+          <div class="gallery-thumbnails" aria-label="Choose gallery image">
+            @for (image of galleryImages(); track image; let index = $index) {
+              <button type="button" [class.active]="activeSlide() === index" (click)="selectSlide(index)" [attr.aria-label]="'Show image ' + (index + 1)">
+                <img [src]="image" [alt]="''" />
+              </button>
+            }
+          </div>
+        </section>
+      }
     }
   }
 </section>

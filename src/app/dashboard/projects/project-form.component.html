@@ -53,8 +53,12 @@
             <input type="number" class="rounded-[10px] border border-concord-border bg-white px-[0.85rem] py-[0.7rem] text-concord-ink" [(ngModel)]="form.startYear" name="startYear" min="1950" max="2100" required />
           </label>
           <label class="flex flex-col gap-[0.35rem] text-[0.86rem] text-[#475467]">
-            <span>End Year *</span>
-            <input type="number" class="rounded-[10px] border border-concord-border bg-white px-[0.85rem] py-[0.7rem] text-concord-ink" [(ngModel)]="form.endYear" name="endYear" min="1950" max="2100" required />
+            <span>End Year</span>
+            <input type="number" class="rounded-[10px] border border-concord-border bg-white px-[0.85rem] py-[0.7rem] text-concord-ink" [(ngModel)]="form.endYear" name="endYear" min="1950" max="2100" [disabled]="form.isOngoing" />
+          </label>
+          <label class="flex items-center gap-[0.55rem] self-end pb-[0.7rem] text-[0.86rem] text-[#475467]">
+            <input type="checkbox" [(ngModel)]="form.isOngoing" name="isOngoing" />
+            <span>Ongoing project (until now)</span>
           </label>
           <label class="flex flex-col gap-[0.35rem] text-[0.86rem] text-[#475467]">
             <span>Location (city) *</span>

@@ -26,7 +26,8 @@ interface ProjectFormDraft {
     name: string;
     overview: string;
     startYear: number;
-    endYear: number;
+    endYear: number | null;
+    isOngoing: boolean;
     address: string;
     location: string;
     client: string;
@@ -64,11 +65,12 @@ export class DashboardProjectFormComponent implements OnInit, OnDestroy {
   error = signal('');
   draftRestored = signal(false);
 
-  form = {
+  form: ProjectFormDraft['form'] = {
     name: '',
     overview: '',
     startYear: this.currentYear,
     endYear: this.currentYear,
+    isOngoing: false,
     address: '',
     location: '',
     client: '',
@@ -122,6 +124,7 @@ export class DashboardProjectFormComponent implements OnInit, OnDestroy {
           overview: project.overview || '',
           startYear: project.startYear || this.currentYear,
           endYear: project.endYear || project.startYear || this.currentYear,
+          isOngoing: !project.endYear,
           address: project.address || '',
           location: project.location || '',
           client: project.client || '',
@@ -291,7 +294,6 @@ export class DashboardProjectFormComponent implements OnInit, OnDestroy {
       ['name', this.form.name],
       ['overview', this.form.overview],
       ['startYear', this.form.startYear],
-      ['endYear', this.form.endYear],
       ['address', this.form.address],
       ['location', this.form.location],
       ['client', this.form.client],
@@ -314,7 +316,7 @@ export class DashboardProjectFormComponent implements OnInit, OnDestroy {
       return null;
     }
 
-    if (Number(this.form.endYear) < Number(this.form.startYear)) {
+    if (!this.form.isOngoing && Number(this.form.endYear) < Number(this.form.startYear)) {
       const message = 'End year cannot be before start year.';
       this.error.set(message);
       this.notify.warning(message);
@@ -340,7 +342,7 @@ export class DashboardProjectFormComponent implements OnInit, OnDestroy {
     formData.append('name', this.form.name.trim());
     formData.append('overview', this.form.overview.trim());
     formData.append('startYear', String(this.form.startYear));
-    formData.append('endYear', String(this.form.endYear));
+    formData.append('endYear', this.form.isOngoing ? '' : String(this.form.endYear));
     formData.append('address', this.form.address.trim());
     formData.append('location', this.form.location.trim().toLowerCase());
     formData.append('client', this.form.client.trim());

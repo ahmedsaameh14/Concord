@@ -1,4 +1,4 @@
-import { Component, OnInit, inject, signal } from '@angular/core';
+import { Component, OnInit, computed, inject, signal } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { ActivatedRoute, RouterLink } from '@angular/router';
 import { ProjectService } from '../../core/services/project.service';
@@ -19,6 +19,9 @@ export class ProjectDetailComponent implements OnInit {
   project = signal<Project | null>(null);
   loading = signal(true);
   error = signal('');
+  galleryImages = signal<string[]>([]);
+  activeSlide = signal(0);
+  activeImage = computed(() => this.galleryImages()[this.activeSlide()] || '');
 
   duration = projectDuration;
 
@@ -33,6 +36,7 @@ export class ProjectDetailComponent implements OnInit {
     this.projectsApi.getBySlugOrId(slug).subscribe({
       next: (res) => {
         this.project.set(res.data);
+        this.galleryImages.set([res.data.mainImage, ...(res.data.ProjectImages || [])]);
         this.loading.set(false);
       },
       error: (err) => {
@@ -40,5 +44,19 @@ export class ProjectDetailComponent implements OnInit {
         this.error.set(err?.error?.message || 'Project not found.');
       },
     });
+  }
+
+  previousSlide(): void {
+    const total = this.galleryImages().length;
+    if (total) this.activeSlide.update(index => (index - 1 + total) % total);
+  }
+
+  nextSlide(): void {
+    const total = this.galleryImages().length;
+    if (total) this.activeSlide.update(index => (index + 1) % total);
+  }
+
+  selectSlide(index: number): void {
+    this.activeSlide.set(index);
   }
 }

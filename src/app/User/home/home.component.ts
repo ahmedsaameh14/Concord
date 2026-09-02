@@ -1,16 +1,28 @@
-import { AfterViewInit, Component, ElementRef, OnDestroy, QueryList, ViewChild, ViewChildren } from '@angular/core';
-import { CommonModule } from '@angular/common';
+import { AfterViewInit, Component, ElementRef, OnDestroy, OnInit, QueryList, ViewChild, ViewChildren, inject, signal } from '@angular/core';
+import { CommonModule, DatePipe } from '@angular/common';
 import { RouterModule } from '@angular/router';
+import { Subscription } from 'rxjs';
+import { ProjectService } from '../../core/services/project.service';
+import { Project, projectDuration } from '../../core/models/project.model';
+import { ArticleService } from '../../core/services/article.service';
+import { Article } from '../../core/models/news.model';
 
 @Component({
   selector: 'app-home',
-  imports: [CommonModule, RouterModule],
+  imports: [CommonModule, DatePipe, RouterModule],
   templateUrl: './home.component.html',
   styleUrl: './home.component.css'
 })
-export class HomeComponent implements AfterViewInit, OnDestroy {
+export class HomeComponent implements OnInit, AfterViewInit, OnDestroy {
+  private readonly projectsApi = inject(ProjectService);
+  private readonly articlesApi = inject(ArticleService);
+
   @ViewChildren('reveal') revealElements!: QueryList<ElementRef<HTMLElement>>;
   @ViewChild('strengthsSection') strengthsSection!: ElementRef<HTMLElement>;
+
+  ongoingProjects = signal<Project[]>([]);
+  projectDuration = projectDuration;
+  latestArticles = signal<Article[]>([]);
 
   readonly heroVideo = '/video/hero-vid.mp4';
   readonly sustainabilityColumns = [
@@ -43,7 +55,17 @@ export class HomeComponent implements AfterViewInit, OnDestroy {
   ];
 
   private observer?: IntersectionObserver;
+  private revealChangesSubscription?: Subscription;
   private countersStarted = false;
+
+  ngOnInit(): void {
+    this.projectsApi.getProjects({ isOngoing: true, limit: 6 }).subscribe({
+      next: (response) => this.ongoingProjects.set(response.data || []),
+    });
+    this.articlesApi.getArticles({ limit: 3 }).subscribe({
+      next: (response) => this.latestArticles.set(response.data || []),
+    });
+  }
 
   ngAfterViewInit(): void {
     if (typeof IntersectionObserver === 'undefined') {
@@ -67,8 +89,17 @@ export class HomeComponent implements AfterViewInit, OnDestroy {
       { threshold: 0.16 }
     );
 
-    this.revealElements.forEach(element => this.observer?.observe(element.nativeElement));
+    this.observeRevealElements();
+    this.revealChangesSubscription = this.revealElements.changes.subscribe(() => this.observeRevealElements());
     this.observer.observe(this.strengthsSection.nativeElement);
+  }
+
+  private observeRevealElements(): void {
+    this.revealElements.forEach(element => {
+      if (!element.nativeElement.classList.contains('is-visible')) {
+        this.observer?.observe(element.nativeElement);
+      }
+    });
   }
 
   startCounters(): void {
@@ -98,6 +129,7 @@ export class HomeComponent implements AfterViewInit, OnDestroy {
 
   ngOnDestroy(): void {
     this.observer?.disconnect();
+    this.revealChangesSubscription?.unsubscribe();
   }
 
 }
