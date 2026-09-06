@@ -3,7 +3,7 @@
   role="contentinfo"
 >
   <div
-    class="mx-auto mb-8 grid max-w-[1400px] grid-cols-1 gap-10 sm:grid-cols-2 lg:grid-cols-5 lg:gap-8"
+    class="mx-auto mb-8 grid max-w-[1400px] grid-cols-1 gap-8 sm:grid-cols-2 lg:grid-cols-5 lg:gap-8"
   >
     <div class="sm:col-span-2 lg:col-span-1">
       <a
@@ -19,15 +19,15 @@
       </a>
     </div>
 
-    <div class="flex flex-col gap-4">
+    <div class="order-last flex flex-col gap-4 sm:col-span-2 lg:col-span-5">
       <h3
         class="m-0 border-b border-concord-gold/30 pb-3 text-[1.05rem] font-semibold text-white"
       >
         Company Branches
       </h3>
-      <ul class="m-0 flex list-none flex-col gap-5 p-0">
+      <ul class="m-0 grid list-none grid-cols-1 gap-4 p-0 sm:grid-cols-2 lg:grid-cols-4 lg:gap-6">
         @for (location of locations; track location.name) {
-          <li class="flex flex-col gap-1 transition duration-200 hover:translate-x-1">
+          <li class="flex min-w-0 flex-col gap-1 transition duration-200 hover:translate-x-1">
             <span class="text-[0.95rem] font-semibold text-concord-gold">{{ location.name }}</span>
             <span class="text-[0.85rem] leading-relaxed text-white/55">{{ location.address }}</span>
           </li>
@@ -80,6 +80,32 @@
           </a>
         }
       </div>
+    </div>
+
+    <div class="flex flex-col gap-4">
+      <h3
+        class="m-0 border-b border-concord-gold/30 pb-3 text-[1.05rem] font-semibold text-white"
+      >
+        Contact Us
+      </h3>
+      <ul class="m-0 flex list-none flex-col gap-3 p-0">
+        <li>
+          <a
+            href="mailto:info@concord-ec.com"
+            class="text-[0.95rem] text-white/75 no-underline transition hover:text-concord-gold"
+          >
+            info&#64;concord-ec.com
+          </a>
+        </li>
+        <li>
+          <a
+            href="tel:+20227530485"
+            class="text-[0.95rem] text-white/75 no-underline transition hover:text-concord-gold"
+          >
+            +202 27530485
+          </a>
+        </li>
+      </ul>
     </div>
 
     <div class="flex flex-col gap-4">

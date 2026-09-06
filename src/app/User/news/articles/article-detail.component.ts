@@ -1,5 +1,6 @@
 import { Component, OnInit, inject, signal } from '@angular/core';
 import { CommonModule } from '@angular/common';
+import { Title } from '@angular/platform-browser';
 import { ActivatedRoute, RouterLink } from '@angular/router';
 import { ArticleService } from '../../../core/services/article.service';
 import { Article } from '../../../core/models/news.model';
@@ -14,6 +15,7 @@ import { LoadingSpinnerComponent } from '../../../shared/loading-spinner/loading
 })
 export class ArticleDetailComponent implements OnInit {
   private readonly route = inject(ActivatedRoute);
+  private readonly titleService = inject(Title);
   private readonly articlesApi = inject(ArticleService);
 
   readonly serviceRoutes = SERVICE_ROUTES;
@@ -23,22 +25,27 @@ export class ArticleDetailComponent implements OnInit {
   error = signal('');
 
   ngOnInit(): void {
-    const slug = this.route.snapshot.paramMap.get('slug');
-    if (!slug) {
-      this.loading.set(false);
-      this.error.set('Article not found.');
-      return;
-    }
+    this.route.paramMap.subscribe((params) => {
+      const slug = params.get('slug');
+      if (!slug) {
+        this.loading.set(false);
+        this.error.set('Article not found.');
+        return;
+      }
 
-    this.articlesApi.getBySlugOrId(slug).subscribe({
-      next: (res) => {
-        this.article.set(res.data);
-        this.loading.set(false);
-      },
-      error: (err) => {
-        this.loading.set(false);
-        this.error.set(err?.error?.message || 'Article not found.');
-      },
+      this.loading.set(true);
+      this.error.set('');
+      this.articlesApi.getBySlugOrId(slug).subscribe({
+        next: (res) => {
+          this.article.set(res.data);
+          this.titleService.setTitle(`${res.data.title} | Concord`);
+          this.loading.set(false);
+        },
+        error: (err) => {
+          this.loading.set(false);
+          this.error.set(err?.error?.message || 'Article not found.');
+        },
+      });
     });
   }
 
