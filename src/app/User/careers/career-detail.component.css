@@ -14,13 +14,20 @@
   width: min(100%, 1180px);
   margin: 0 auto;
   display: grid;
-  grid-template-columns: minmax(260px, 0.8fr) minmax(320px, 1.2fr);
-  gap: clamp(2rem, 6vw, 5rem);
+  grid-template-columns: 1fr;
+  gap: 2rem;
   align-items: start;
 }
 
 .career-detail-copy {
-  padding-top: 1rem;
+  padding: 1rem 0 2rem;
+  border-bottom: 1px solid #d9e1ea;
+}
+
+.career-info {
+  max-width: 800px;
+  margin: 0 auto;
+  text-align: center;
 }
 
 .back-link {
@@ -40,11 +47,26 @@
   text-transform: uppercase;
 }
 
+.career-info span {
+  color: #c9a227;
+  font-size: .8rem;
+  font-weight: 700;
+  letter-spacing: .12em;
+  text-transform: uppercase;
+}
+
 .career-detail-copy h1 {
   margin: 0;
   color: #16283d;
   font-size: clamp(2.6rem, 5vw, 4.5rem);
   line-height: 1.08;
+}
+
+.career-info p {
+  margin: 1.3rem 0 0;
+  color: #667085;
+  line-height: 1.9;
+  white-space: pre-wrap;
 }
 
 .career-description {
@@ -71,6 +93,32 @@
   font-size: clamp(1.5rem, 2.8vw, 2.3rem);
 }
 
+.career-form fieldset {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+  margin: 0;
+  padding: 1.25rem;
+  border: 1px solid #d9e1ea;
+  border-radius: 16px;
+}
+
+.career-form legend {
+  padding: 0 .5rem;
+  color: #16283d;
+  font-size: 1.1rem;
+  font-weight: 700;
+}
+
+.career-form label {
+  display: flex;
+  flex-direction: column;
+  gap: .4rem;
+  color: #475467;
+  font-size: .85rem;
+  font-weight: 600;
+}
+
 .form-grid {
   display: grid;
   grid-template-columns: repeat(2, minmax(0, 1fr));
@@ -78,7 +126,8 @@
 }
 
 .career-form input,
-.career-form textarea {
+.career-form textarea,
+.career-form select {
   width: 100%;
   border: 1px solid #cbd5df;
   border-radius: 12px;
@@ -89,6 +138,16 @@
   outline: none;
   transition: border-color 180ms ease, box-shadow 180ms ease;
 }
+
+.career-form input[readonly] { background: #f2f5f8; color: #667085; }
+.file-field small { color: #667085; font-weight: 400; }
+.repeat-row { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)) auto; gap: .75rem; align-items: end; }
+.experience-row { grid-template-columns: repeat(6, minmax(0, 1fr)) auto; }
+.current-work { align-items: center; justify-content: center; min-height: 2.6rem; white-space: nowrap; }
+.current-work input { width: 1.1rem; height: 1.1rem; }
+.add-row, .remove-row { width: fit-content; border: 0; background: transparent; font: inherit; cursor: pointer; }
+.add-row { color: #175cd3; font-weight: 700; }
+.remove-row { min-width: 2rem; min-height: 2.6rem; color: #b42318; font-size: 1.4rem; }
 
 .career-form textarea {
   min-height: 140px;
@@ -173,4 +232,9 @@
   .form-grid {
     grid-template-columns: 1fr;
   }
+
+  .career-form { padding: 1rem; }
+  .career-form fieldset { padding: 1rem; }
+  .repeat-row, .experience-row { grid-template-columns: 1fr; }
+  .remove-row { justify-self: start; min-height: 1.8rem; }
 }

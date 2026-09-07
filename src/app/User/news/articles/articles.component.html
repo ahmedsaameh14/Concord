@@ -48,8 +48,10 @@
       <div class="articles-state">No articles found.</div>
     } @else {
       @if (topArticle(); as top) {
-        <article
+        <a
           class="article-feature"
+          [routerLink]="['/news/articles', top.slug || top._id]"
+          [attr.aria-label]="'Read article: ' + top.title"
         >
           <img [src]="top.image" [alt]="top.title" class="article-feature-image" />
           <div class="article-feature-copy">
@@ -59,20 +61,19 @@
             </span>
             <h2>{{ top.title }}</h2>
             <!-- <p class="mt-3 line-clamp-3 text-concord-muted">{{ top.description }}</p> -->
-            <a
-              [routerLink]="['/news/articles', top.slug || top._id]"
-              class="article-link"
-            >
+            <span class="article-link">
               Read More <i class="fa-solid fa-arrow-right"></i>
-            </a>
+            </span>
           </div>
-        </article>
+        </a>
       }
 
       <div class="articles-grid">
         @for (article of articles(); track article._id) {
-          <article
+          <a
+            [routerLink]="['/news/articles', article.slug || article._id]"
             class="article-card"
+            [attr.aria-label]="'Read article: ' + article.title"
           >
             <div class="article-card-image">
               <img
@@ -92,24 +93,18 @@
               @if (article.tags.length) {
                 <div class="article-tags">
                   @for (tag of article.tags; track tag) {
-                    <a
-                      [routerLink]="serviceRoute(tag)"
-                      class="no-underline"
-                    >
+                    <span class="no-underline">
                       {{ tag }}
-                    </a>
+                    </span>
                   }
                 </div>
               }
               <h2>{{ article.title }}</h2>
-              <a
-                [routerLink]="['/news/articles', article.slug || article._id]"
-                class="article-link"
-              >
+              <span class="article-link">
                 Read More <i class="fa-solid fa-arrow-right"></i>
-              </a>
+              </span>
             </div>
-          </article>
+          </a>
         }
       </div>
     }

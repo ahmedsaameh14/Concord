@@ -1,5 +1,5 @@
 import { Component, HostListener, OnInit, inject, signal } from '@angular/core';
-import { CommonModule, DatePipe } from '@angular/common';
+import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { ActivatedRoute, RouterLink } from '@angular/router';
 import { CareerService } from '../../core/services/career.service';
@@ -17,7 +17,7 @@ interface MenuPosition {
 @Component({
   selector: 'app-dashboard-career-applications',
   standalone: true,
-  imports: [CommonModule, FormsModule, DatePipe, RouterLink, LoadingSpinnerComponent],
+  imports: [CommonModule, FormsModule, RouterLink, LoadingSpinnerComponent],
   templateUrl: './applications.component.html',
 })
 export class DashboardCareerApplicationsComponent implements OnInit {
@@ -134,7 +134,7 @@ export class DashboardCareerApplicationsComponent implements OnInit {
   }
 
   remove(a: Application): void {
-    if (!confirm(`Delete application from ${a.firstName} ${a.lastName}?`)) return;
+    if (!confirm(`Delete application from ${a.fullName}?`)) return;
     this.api.deleteApplication(this.id, a._id).subscribe({
       next: () => {
         this.notify.success('Application deleted.');

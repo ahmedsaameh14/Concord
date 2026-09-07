@@ -1,0 +1,54 @@
+`<section class="flex flex-col gap-5 font-cairo text-concord-ink">
+  <div class="flex flex-wrap items-center justify-between gap-3">
+    <div>
+      <a [routerLink]="['/dashboard/careers', careerId, 'applications']">← Applications</a>
+      <h2 class="m-0 mt-2">Application details</h2>
+    </div>
+    @if (application) {
+      <button type="button" (click)="downloadPdf()" [disabled]="downloading" class="inline-flex items-center gap-2 border-0 bg-concord-navy px-4 py-3 text-white"><i class="fa-solid fa-download"></i> {{ downloading ? 'Downloading...' : 'Download resume PDF' }}</button>
+    }
+  </div>
+
+  @if (loading) {
+    <app-loading-spinner message="Loading application..." />
+  } @else if (application) {
+    <div class="grid gap-5 lg:grid-cols-2">
+      <section class="rounded-2xl border border-[#e6ebf2] bg-white p-5">
+        <h3 class="mt-0">1. Personal information</h3>
+        <dl class="grid gap-3 sm:grid-cols-2">
+          <div><dt>Full name</dt><dd>{{ application.fullName }}</dd></div>
+          <div><dt>Position</dt><dd>{{ application.positionAppliedFor }}</dd></div>
+          <div><dt>Date of birth</dt><dd>{{ application.dateOfBirth | date: 'dd/MM/yyyy' }}</dd></div>
+          <div><dt>Application date</dt><dd>{{ application.applicationDate | date: 'dd/MM/yyyy' }}</dd></div>
+          <div><dt>Gender</dt><dd>{{ application.gender }}</dd></div>
+          <div><dt>Email</dt><dd>{{ application.email }}</dd></div>
+          <div><dt>Phone</dt><dd>{{ application.phone }}</dd></div>
+          <div><dt>Alternative phone</dt><dd>{{ application.alternatePhone || 'Not provided' }}</dd></div>
+          <div class="sm:col-span-2"><dt>Address</dt><dd>{{ application.address }}, {{ application.city }}, {{ application.country }}</dd></div>
+        </dl>
+      </section>
+
+      <section class="rounded-2xl border border-[#e6ebf2] bg-white p-5">
+        <h3 class="mt-0">2. Educational qualifications</h3>
+        @for (education of application.educationalQualifications; track $index) {
+          <div class="border-b border-[#eef2f7] py-3 last:border-0"><strong>{{ education.degree }}</strong><br />{{ education.universityName }}<br /><span>{{ education.graduationDate | date: 'dd/MM/yyyy' }}</span></div>
+        }
+      </section>
+
+      <section class="rounded-2xl border border-[#e6ebf2] bg-white p-5">
+        <h3 class="mt-0">3. Courses</h3>
+        @if (application.courses.length) { @for (course of application.courses; track $index) { <p>{{ course.courseName }}</p> } } @else { <p>No courses provided.</p> }
+      </section>
+
+      <section class="rounded-2xl border border-[#e6ebf2] bg-white p-5">
+        <h3 class="mt-0">4. Work experience</h3>
+        @if (application.workExperience.length) { @for (experience of application.workExperience; track $index) { <div class="border-b border-[#eef2f7] py-3 last:border-0"><strong>{{ experience.jobTitle }}</strong> at {{ experience.placeOfWork }}<br />{{ experience.startDate | date: 'dd/MM/yyyy' }} - {{ experience.currentlyWorking ? 'Present' : (experience.endDate | date: 'dd/MM/yyyy') }}<br />Salary: {{ experience.salary }}</div> } } @else { <p>No work experience provided.</p> }
+      </section>
+
+      <section class="rounded-2xl border border-[#e6ebf2] bg-white p-5 lg:col-span-2">
+        <h3 class="mt-0">5. Salary</h3>
+        <p>Expected salary: <strong>{{ application.expectedSalary }}</strong></p>
+      </section>
+    </div>
+  }
+</section>

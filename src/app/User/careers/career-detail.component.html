@@ -5,26 +5,78 @@
     <div class="career-detail-shell">
       <section class="career-detail-copy">
         <a routerLink="/careers" class="back-link">&#8592; All careers</a>
-        <p class="career-detail-kicker">{{ career().experience }} years experience</p>
-        <h1>{{ career().title }}</h1>
-        <p class="career-description">{{ career().description }}</p>
+        <div class="career-info">
+          <span>{{ career().experience }} years experience</span>
+          <h1>{{ career().title }}</h1>
+          <p>{{ career().description }}</p>
+        </div>
       </section>
 
       <form class="career-form" (ngSubmit)="submit()" #application="ngForm">
         <h2>Apply for this position</h2>
 
-        <div class="form-grid">
-          <input name="firstName" [(ngModel)]="form.firstName" required placeholder="First name" />
-          <input name="lastName" [(ngModel)]="form.lastName" required placeholder="Last name" />
-        </div>
+        <fieldset>
+          <legend>1. Personal information</legend>
+          <div class="form-grid">
+            <label>Full name *<input name="fullName" [(ngModel)]="form.fullName" required /></label>
+            <label>Date of birth *<input name="dateOfBirth" [(ngModel)]="form.dateOfBirth" required type="date" /></label>
+            <label>Application date<input name="applicationDate" [(ngModel)]="form.applicationDate" readonly type="date" /></label>
+            <label>Gender *<select name="gender" [(ngModel)]="form.gender" required><option value="">Select gender</option><option>Male</option><option>Female</option><option>Other</option><option>Prefer not to say</option></select></label>
+            <label>Phone number *<input name="phone" [(ngModel)]="form.phone" required type="tel" /></label>
+            <label>Alternative phone<input name="alternatePhone" [(ngModel)]="form.alternatePhone" type="tel" /></label>
+            <label>Email *<input name="email" [(ngModel)]="form.email" required type="email" /></label>
+            <label>Position applied for<input name="positionAppliedFor" [ngModel]="career().title" readonly /></label>
+            <label>Address *<input name="address" [(ngModel)]="form.address" required /></label>
+            <label>Country *<input name="country" [(ngModel)]="form.country" required /></label>
+            <label>City *<input name="city" [(ngModel)]="form.city" required /></label>
+            <label class="file-field">Resume / CV *<input name="resume" required type="file" accept=".pdf,application/pdf" (change)="onResumeChange($event)" /><small>{{ resume?.name || 'PDF only, max 1 MB' }}</small></label>
+          </div>
+        </fieldset>
 
-        <div class="form-grid">
-          <input name="email" [(ngModel)]="form.email" required type="email" placeholder="Email" />
-          <input name="phone" [(ngModel)]="form.phone" required placeholder="Phone" />
-        </div>
+        <fieldset>
+          <legend>2. Educational qualifications</legend>
+          @for (education of form.educationalQualifications; track $index; let index = $index) {
+            <div class="repeat-row">
+              <label>University name *<input [name]="'universityName' + index" [(ngModel)]="education.universityName" required /></label>
+              <label>Degree *<input [name]="'degree' + index" [(ngModel)]="education.degree" required /></label>
+              <label>Graduation date *<input [name]="'graduationDate' + index" [(ngModel)]="education.graduationDate" required type="date" /></label>
+              @if (form.educationalQualifications.length > 1) { <button type="button" class="remove-row" (click)="removeEducation(index)" aria-label="Remove qualification">×</button> }
+            </div>
+          }
+          <button type="button" class="add-row" (click)="addEducation()">+ Add qualification</button>
+        </fieldset>
 
-        <textarea name="coverLetter" [(ngModel)]="form.coverLetter" required rows="6" placeholder="Cover letter"></textarea>
-        <input name="cvLink" [(ngModel)]="form.cvLink" required type="url" placeholder="CV link (Google Drive or other URL)" />
+        <fieldset>
+          <legend>3. Courses</legend>
+          @for (course of form.courses; track $index; let index = $index) {
+            <div class="repeat-row">
+              <label>Course name<input [name]="'courseName' + index" [(ngModel)]="course.courseName" /></label>
+              @if (form.courses.length > 1) { <button type="button" class="remove-row" (click)="removeCourse(index)" aria-label="Remove course">×</button> }
+            </div>
+          }
+          <button type="button" class="add-row" (click)="addCourse()">+ Add course</button>
+        </fieldset>
+
+        <fieldset>
+          <legend>4. Work experience</legend>
+          @for (experience of form.workExperience; track $index; let index = $index) {
+            <div class="repeat-row experience-row">
+              <label>Job title<input [name]="'jobTitle' + index" [(ngModel)]="experience.jobTitle" /></label>
+              <label>Place of work<input [name]="'placeOfWork' + index" [(ngModel)]="experience.placeOfWork" /></label>
+              <label>Start date<input [name]="'startDate' + index" [(ngModel)]="experience.startDate" type="date" /></label>
+              <label>End date<input [name]="'endDate' + index" [(ngModel)]="experience.endDate" [disabled]="experience.currentlyWorking" type="date" /></label>
+              <label class="current-work"><span>Work until now</span><input [name]="'currentlyWorking' + index" [(ngModel)]="experience.currentlyWorking" type="checkbox" /></label>
+              <label>Salary<input [name]="'salary' + index" [(ngModel)]="experience.salary" /></label>
+              @if (form.workExperience.length > 1) { <button type="button" class="remove-row" (click)="removeExperience(index)" aria-label="Remove experience">×</button> }
+            </div>
+          }
+          <button type="button" class="add-row" (click)="addExperience()">+ Add work experience</button>
+        </fieldset>
+
+        <fieldset>
+          <legend>5. Salary</legend>
+          <label>Expected salary *<input name="expectedSalary" [(ngModel)]="form.expectedSalary" required /></label>
+        </fieldset>
 
         <label class="data-check">
           <input type="checkbox" name="agreed" [(ngModel)]="agreed" required />
@@ -38,7 +90,7 @@
           <p class="form-status error">{{ error() }}</p>
         }
 
-        <button type="submit" [disabled]="application.invalid || submitting()">
+        <button type="submit" [disabled]="application.invalid || !resume || submitting()">
           {{ submitting() ? 'Submitting...' : 'Submit application' }}
         </button>
       </form>

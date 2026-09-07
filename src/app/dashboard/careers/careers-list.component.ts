@@ -59,4 +59,18 @@ export class DashboardCareersListComponent implements OnInit {
 			error: (error) => this.notify.error(error?.error?.message || 'Failed to delete career.'),
 		});
 	}
+
+	downloadApplications(career: Career): void {
+		this.api.exportApplications(career._id).subscribe({
+			next: (file) => {
+				const url = URL.createObjectURL(file);
+				const link = document.createElement('a');
+				link.href = url;
+				link.download = `${career.title.replace(/[^a-z0-9]+/gi, '-').toLowerCase()}-applications.xlsx`;
+				link.click();
+				URL.revokeObjectURL(url);
+			},
+			error: (error) => this.notify.error(error?.error?.message || 'Failed to download applications.'),
+		});
+	}
 }
