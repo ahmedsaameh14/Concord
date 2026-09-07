@@ -1,4 +1,4 @@
-import { Component, OnInit, inject, signal } from '@angular/core';
+import { Component, HostListener, OnInit, inject, signal } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { AwardService } from '../../../core/services/award.service';
 import { Award } from '../../../core/models/news.model';
@@ -15,6 +15,7 @@ export class AwardsComponent implements OnInit {
   private readonly awardsApi = inject(AwardService);
 
   awards = signal<Award[]>([]);
+  selectedAward = signal<Award | null>(null);
   loading = signal(true);
   error = signal('');
 
@@ -29,5 +30,18 @@ export class AwardsComponent implements OnInit {
         this.error.set(err?.error?.message || 'Unable to load awards.');
       },
     });
+  }
+
+  openAward(award: Award): void {
+    this.selectedAward.set(award);
+  }
+
+  closeAward(): void {
+    this.selectedAward.set(null);
+  }
+
+  @HostListener('document:keydown.escape')
+  onEscape(): void {
+    this.closeAward();
   }
 }

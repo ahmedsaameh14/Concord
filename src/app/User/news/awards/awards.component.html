@@ -19,8 +19,11 @@
     } @else {
       <div class="awards-grid">
         @for (award of awards(); track award._id) {
-          <article
+          <button
+            type="button"
             class="award-card"
+            [attr.aria-label]="'Open award: ' + award.title"
+            (click)="openAward(award)"
           >
             <div class="award-image-wrap">
               <img
@@ -33,9 +36,27 @@
               <h2>{{ award.title }}</h2>
               <p>{{ award.subtitle }}</p>
             </div>
-          </article>
+          </button>
         }
       </div>
     }
   </section>
+
+  @if (selectedAward(); as award) {
+    <div
+      class="award-modal"
+      role="dialog"
+      aria-modal="true"
+      [attr.aria-label]="award.title"
+      (click)="closeAward()"
+    >
+      <div class="award-modal-panel" (click)="$event.stopPropagation()">
+        <button type="button" class="award-modal-close" aria-label="Close award image" (click)="closeAward()">
+          <i class="fa-solid fa-xmark" aria-hidden="true"></i>
+        </button>
+        <img [src]="award.image" [alt]="award.title" class="award-modal-image" />
+        <p class="award-modal-title">{{ award.title }}</p>
+      </div>
+    </div>
+  }
 </main>

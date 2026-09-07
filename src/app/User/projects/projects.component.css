@@ -123,3 +123,37 @@
 :host {
   display: block;
 }
+
+.projects-page {
+  width: 100%;
+  overflow-x: hidden;
+}
+
+.projects-intro {
+  min-height: clamp(280px, 38vw, 430px);
+  display: grid;
+  place-items: center;
+  padding: clamp(6rem, 12vw, 9rem) 1rem 3rem;
+}
+
+.projects-intro-inner {
+  width: min(100%, 1240px);
+  margin: 0 auto;
+  text-align: center;
+}
+
+.projects-intro h1 {
+  max-width: 100%;
+  overflow-wrap: anywhere;
+}
+
+@media (max-width: 560px) {
+  .projects-intro {
+    min-height: 250px;
+    padding: 6.5rem 1rem 3rem;
+  }
+
+  .projects-intro h1 {
+    font-size: clamp(2.5rem, 13vw, 4rem);
+  }
+}
