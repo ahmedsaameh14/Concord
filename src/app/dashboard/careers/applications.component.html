@@ -24,16 +24,12 @@
 		} @else if (!applications().length) {
 			<p class="p-10 text-center text-concord-muted">No applications found.</p>
 		} @else {
-			<table class="w-full min-w-[1100px] text-left">
-				<thead class="bg-[#f8fafc]"><tr><th class="p-4">Date</th><th class="p-4">Applicant</th><th class="p-4">Contact</th><th class="p-4">Cover letter</th><th class="p-4">CV</th><th class="p-4">Status</th><th class="p-4">Action</th></tr></thead>
+			<table class="w-full min-w-[520px] text-left">
+				<thead class="bg-[#f8fafc]"><tr><th class="p-4">Applicant name</th><th class="p-4">Status</th><th class="p-4">Delete</th></tr></thead>
 				<tbody>
 					@for (application of applications(); track application._id) {
 						<tr class="border-t border-[#eef2f7] align-top">
-							<td class="whitespace-nowrap p-4">{{ application.createdAt | date: 'dd/MM/yy - HH:mm' }}</td>
-							<td class="p-4 font-semibold">{{ application.firstName }} {{ application.lastName }}</td>
-							<td class="p-4">{{ application.email }}<br />{{ application.phone }}</td>
-							<td class="max-w-[300px] whitespace-pre-wrap p-4">{{ application.coverLetter }}</td>
-							<td class="p-4"><a [href]="application.cvLink" target="_blank" rel="noopener noreferrer">Open CV</a></td>
+							<td class="p-4 font-semibold"><a [routerLink]="['/dashboard/careers', id, 'applications', application._id]" class="text-concord-navy underline">{{ application.fullName }}</a></td>
 							<td class="p-4">
 								<button
 									type="button"

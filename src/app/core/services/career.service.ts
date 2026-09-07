@@ -21,13 +21,15 @@ export class CareerService {
   update(id: string, data: Partial<Career>): Observable<CareerResponse> { return this.http.patch<CareerResponse>(`${this.baseUrl}/${id}`, data); }
   toggleStatus(id: string, isActive: boolean): Observable<CareerResponse> { return this.http.patch<CareerResponse>(`${this.baseUrl}/${id}/status`, { isActive }); }
   delete(id: string): Observable<{ message: string }> { return this.http.delete<{ message: string }>(`${this.baseUrl}/${id}`); }
-  apply(id: string, data: Omit<Application, '_id' | 'career' | 'status' | 'createdAt'>): Observable<ApplicationResponse> { return this.http.post<ApplicationResponse>(`${this.baseUrl}/${id}/applications`, data); }
+  apply(id: string, data: FormData): Observable<ApplicationResponse> { return this.http.post<ApplicationResponse>(`${this.baseUrl}/${id}/applications`, data); }
   applications(id: string, search = '', status = '', page = 1, limit = 10): Observable<ApplicationListResponse> {
     let params = new HttpParams().set('page', page).set('limit', limit);
     if (search.trim()) params = params.set('search', search.trim());
     if (status) params = params.set('status', status);
     return this.http.get<ApplicationListResponse>(`${this.baseUrl}/${id}/applications`, { params });
   }
+  application(id: string, applicationId: string): Observable<{ message: string; data: Application }> { return this.http.get<{ message: string; data: Application }>(`${this.baseUrl}/${id}/applications/${applicationId}`); }
+  exportApplications(id: string): Observable<Blob> { return this.http.get(`${this.baseUrl}/${id}/applications/export`, { responseType: 'blob' }); }
   updateApplicationStatus(id: string, applicationId: string, status: string): Observable<ApplicationResponse> { return this.http.patch<ApplicationResponse>(`${this.baseUrl}/${id}/applications/${applicationId}/status`, { status }); }
   deleteApplication(id: string, applicationId: string): Observable<{ message: string }> { return this.http.delete<{ message: string }>(`${this.baseUrl}/${id}/applications/${applicationId}`); }
 }

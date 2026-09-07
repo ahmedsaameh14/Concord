@@ -10,12 +10,23 @@ export interface Career {
 export interface Application {
   _id: string;
   career: string;
-  firstName: string;
-  lastName: string;
+  fullName: string;
+  dateOfBirth: string;
+  applicationDate: string;
+  gender: 'Male' | 'Female' | 'Other' | 'Prefer not to say';
   email: string;
   phone: string;
-  coverLetter: string;
-  cvLink: string;
+  alternatePhone?: string;
+  positionAppliedFor: string;
+  resumeUrl: string;
+  resumeDownloadUrl?: string;
+  address: string;
+  country: string;
+  city: string;
+  educationalQualifications: { universityName: string; degree: string; graduationDate: string }[];
+  courses: { courseName: string }[];
+  workExperience: { jobTitle: string; placeOfWork: string; startDate: string; endDate?: string; currentlyWorking?: boolean; salary: string }[];
+  expectedSalary: string;
   agreedToDataStorage: boolean;
   status: 'Waiting' | 'Accepted' | 'Rejected';
   createdAt: string;

@@ -33,6 +33,7 @@ import { DashboardContactMessagesComponent } from './dashboard/contact-messages/
 import { DashboardCareersListComponent } from './dashboard/careers/careers-list.component';
 import { DashboardCareerFormComponent } from './dashboard/careers/career-form.component';
 import { DashboardCareerApplicationsComponent } from './dashboard/careers/applications.component';
+import { DashboardCareerApplicationDetailComponent } from './dashboard/careers/application-detail.component';
 import { DashboardUsersListComponent } from './dashboard/users/users-list.component';
 import {
   adminGuard,
@@ -95,6 +96,7 @@ export const routes: Routes = [
           { path: 'careers/new', component: DashboardCareerFormComponent, title: 'New Career' },
           { path: 'careers/:id/edit', component: DashboardCareerFormComponent, title: 'Edit Career' },
           { path: 'careers/:id/applications', component: DashboardCareerApplicationsComponent, title: 'Career Applications' },
+          { path: 'careers/:id/applications/:applicationId', component: DashboardCareerApplicationDetailComponent, title: 'Application Details' },
         ],
       },
     ],
