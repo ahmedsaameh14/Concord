@@ -13,7 +13,7 @@ export interface Application {
   fullName: string;
   dateOfBirth: string;
   applicationDate: string;
-  gender: 'Male' | 'Female' | 'Other' | 'Prefer not to say';
+  gender: 'Male' | 'Female';
   email: string;
   phone: string;
   alternatePhone?: string;

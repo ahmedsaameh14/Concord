@@ -525,6 +525,7 @@
 	color: rgba(255, 255, 255, .76);
 	font-size: .92rem;
 	line-height: 1.85;
+	white-space: pre-line;
 }
 
 .strengths-section {

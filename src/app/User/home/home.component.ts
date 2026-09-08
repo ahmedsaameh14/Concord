@@ -27,16 +27,16 @@ export class HomeComponent implements OnInit, AfterViewInit, OnDestroy {
   readonly heroVideo = '/video/hero-vid.mp4';
   readonly sustainabilityColumns = [
     {
-      title: 'Corporate Responsibility is Good Business',
-      text: 'Concord Engineering & Contracting Company stands as one of only five Egyptian construction firms participating in the United Nations Global Compact, aligning its operations with the 17 Sustainable Development Goals (SDGs). This global compliance is not just a badge of honor—it’s a strategic pillar that integrates economic performance with positive environmental and social impact. Concord’s commitment to human rights, anti-corruption, and public transparency (UNGC Principles 1, 2, and 10) proves that ethical practices and sustainable development are integral to long-term business success.'
+      title: 'Responsible Business, Sustainable Growth',
+      text: 'At Concord, responsible business practices are an important part of our approach to sustainable growth. The company has engaged with the United Nations Global Compact (UNGC) and its framework for responsible business, including principles related to human rights, labor, environmental responsibility, and anti-corruption.\n\nConcord also recognizes the importance of the United Nations Sustainable Development Goals (SDGs) in supporting sustainable economic, environmental, and social development. Through responsible construction practices and long-term community development, Concord continues to work toward creating lasting value for its stakeholders and the communities it serves.'
     },
     {
-      title: 'A Legacy of Building Better Lives',
-      text: 'At Concord, “Building for the best” means more than erecting structures—it means uplifting communities. With a legacy rooted in community giving, Concord channels its efforts into enhancing lives, ensuring safety, and increasing accessibility through its projects. The company believes every decision shapes the lives of people and future generations. From creating safe environments to advancing sustainable construction practices, Concord continues to prioritize humanity, well-being, and shared progress in everything it builds.'
+      title: 'Building Better Lives',
+      text: 'At Concord, “Building for the best” means more than delivering structures and infrastructure. It means creating projects that contribute to communities, improve everyday life, and support long-term development.\n\nThrough its projects and community-focused initiatives, Concord strives to enhance safety, accessibility, well-being, and quality of life. From developing essential infrastructure to delivering sustainable construction solutions, the company recognizes the impact its work can have on people and future generations.'
     },
     {
-      title: 'Shaping The Future Through Sustainable Innovation',
-      text: 'With more than 40 years of expertise and a global team of over 30,000 professionals, Concord combines knowledge and foresight to shape modern living. The company is driven by its purpose: to never be bystanders in the face of global challenges like climate change and inequality. Through collaboration, innovation, and responsible construction, Concord actively pursues sustainable solutions—turning vision into reality for a healthier, more connected, and more inclusive world.'
+      title: 'Innovating for a Sustainable Future',
+      text: 'With more than 35 years of experience and a team of over 30,000 professionals, Concord combines technical expertise with innovation to deliver projects that support sustainable development.\n\nThe company continues to explore responsible construction solutions that address evolving challenges, including environmental sustainability, resource efficiency, and inclusive urban development. Through collaboration, innovation, and responsible execution, Concord aims to contribute to a more sustainable, connected, and resilient future.'
     }
   ];
 
