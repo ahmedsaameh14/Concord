@@ -14,17 +14,23 @@ export class InfrastructureComponent implements AfterViewInit, OnDestroy {
   readonly capabilities = [
     {
       image: '/images/InfraP1.jpg',
-      title: 'Micro-Tunneling Projects',
+      title: 'Micro-Tunneling',
       paragraphs: [
-        'We specialize in trenchless technology solutions that minimize surface disruption and environmental impact while ensuring efficient underground utility installations.',
-        'Our micro-tunneling services support the development of reliable underground infrastructure in urban and high-density areas.'
+        'Advanced trenchless technology for the installation and rehabilitation of underground utility networks, enabling efficient execution with minimal disruption to surrounding areas.'
       ]
     },
     {
       image: '/images/InfraP2.jpeg',
-      title: 'Water Systems Projects',
+      title: 'Water & Wastewater Systems',
       paragraphs: [
-        'From water treatment facilities to large-scale transmission pipelines, Concord designs and executes water systems that meet the highest standards of efficiency, safety, and sustainability. These systems are tailored to support communities, industries, and government entities across the region.'
+        'End-to-end infrastructure solutions for water supply, wastewater collection, and treatment systems, designed to support reliable and sustainable utility networks.'
+      ]
+    },
+    {
+      image: '/images/InfraP1.png',
+      title: 'Civil & MEP Works',
+      paragraphs: [
+        'Integrated civil, mechanical, and electrical solutions delivered across complex projects, including light current systems, electrical systems, and mechanical systems, ensuring seamless coordination from construction through commissioning.'
       ]
     }
   ];

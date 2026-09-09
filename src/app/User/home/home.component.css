@@ -396,6 +396,9 @@
 }
 
 .service-body {
+	display: flex;
+	flex: 1;
+	flex-direction: column;
 	max-width: 360px;
 }
 
@@ -416,6 +419,7 @@
 
 .read-more {
 	display: inline-flex;
+	margin-top: auto;
 	align-items: center;
 	gap: .55rem;
 	color: #2b76ad;
@@ -525,6 +529,7 @@
 	color: rgba(255, 255, 255, .76);
 	font-size: .92rem;
 	line-height: 1.85;
+	white-space: pre-line;
 }
 
 .strengths-section {

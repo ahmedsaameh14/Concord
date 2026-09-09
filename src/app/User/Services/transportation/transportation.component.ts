@@ -15,17 +15,22 @@ export class TransportationComponent implements AfterViewInit, OnDestroy {
     {
       image: '/images/TransportationP1.jpg',
       title: 'Tunneling',
-      description: 'Advanced tunnel construction for transit, utilities, and infrastructure projects, with precision engineering and safety-first execution.'
+      description: 'Specialized expertise in the construction of underground transportation and infrastructure networks, with a focus on precision, safety, and efficient project delivery.'
     },
     {
       image: '/images/TransportationP2.jpg',
       title: 'Railways',
-      description: 'Development of high-speed and urban rail systems that enhance mass transit capacity and regional integration, from track design to signaling and stations.'
+      description: 'Comprehensive railway infrastructure solutions supporting the development of modern, reliable, and efficient rail transportation networks.'
     },
     {
       image: '/images/TransportationP3.jpg',
-      title: 'Roads, Bridges, and Airports',
-      description: 'Comprehensive transport infrastructure solutions that include highway systems, overpasses, interchanges, and airport facilities—designed to accommodate growing transportation demands while improving safety and traffic efficiency.'
+      title: 'Roads & Bridges',
+      description: 'Construction of major road networks, bridges, and associated infrastructure designed to enhance connectivity and support long-term mobility.'
+    },
+    {
+      image: '/images/TransportationP3.jpg',
+      title: 'Airports',
+      description: 'Delivery of airport infrastructure and associated civil works, contributing to the development of safe, efficient, and modern aviation facilities.'
     }
   ];
 

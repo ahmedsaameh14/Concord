@@ -14,23 +14,23 @@ export class ConstructionComponent implements AfterViewInit, OnDestroy {
   readonly capabilities = [
     {
       image: '/images/ConstructionP1.jpeg',
-      title: 'Residential Community',
-      description: 'Master-planned developments that provide sustainable living solutions, modern amenities, and smart infrastructure for growing populations.'
+      title: 'Residential Communities',
+      description: 'Development and construction of residential communities designed around functionality, quality, and the evolving needs of modern communities.'
     },
     {
       image: '/images/ConstructionP2.jpg',
-      title: 'Sports Complex',
-      description: 'High-performance facilities designed to host local and international events, built with advanced materials and compliance with global sporting standards.'
+      title: 'Sports Complexes',
+      description: 'Construction of purpose-built sports facilities that combine functionality, durability, and high-performance infrastructure.'
     },
     {
       image: '/images/ConstructionP3.jpg',
-      title: 'Government Buildings',
-      description: 'Secure, functional, and future-ready facilities that serve public sector needs and promote operational excellence in governance and civic service delivery.'
+      title: 'Governmental Buildings',
+      description: 'Delivery of complex governmental and public-sector facilities, meeting stringent standards for quality, functionality, security, and performance.'
     },
     {
       image: '/images/ConstructionP4.jpg',
       title: 'Commercial & Administrative Buildings',
-      description: 'Innovative and efficient business spaces that reflect the evolving needs of today’s corporate and commercial environments, built for flexibility, comfort, and productivity.'
+      description: 'Construction of modern commercial and administrative developments, integrating efficient design, quality execution, and the requirements of contemporary business environments.'
     }
   ];
 

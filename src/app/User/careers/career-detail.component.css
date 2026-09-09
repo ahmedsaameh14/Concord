@@ -162,6 +162,7 @@
 
 .data-check {
   display: flex;
+  flex-direction: row !important;
   align-items: flex-start;
   gap: 0.7rem;
   color: #475467;
