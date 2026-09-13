@@ -86,6 +86,17 @@
   line-height: 1.8;
 }
 
+.detail-list a {
+  color: #172033;
+  font-weight: 600;
+  text-decoration: none;
+  transition: color 180ms ease;
+}
+
+.detail-list a:hover {
+  color: #c9a227;
+}
+
 .detail-list strong {
   color: #172033;
 }
