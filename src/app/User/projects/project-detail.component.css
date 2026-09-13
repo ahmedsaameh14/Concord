@@ -63,17 +63,27 @@
 }
 
 .project-back-link {
-  display: inline-block;
+  display: inline-flex;
+  align-items: center;
+  gap: 0.55rem;
   margin-bottom: 3.4rem;
+  padding: 0.65rem 0.9rem;
+  border: 1px solid rgba(255, 255, 255, 0.28);
+  border-radius: 999px;
+  background: rgba(255, 255, 255, 0.08);
+  color: #fff;
   font-size: .78rem;
   letter-spacing: .12em;
+  text-decoration: none;
   text-transform: uppercase;
-  transition: color .25s ease, transform .25s ease;
+  backdrop-filter: blur(8px);
+  transition: all 0.3s ease;
 }
 
 .project-back-link:hover {
-  color: #8ac6ed;
-  transform: translateX(4px);
+  background: rgba(255, 255, 255, 0.16);
+  border-color: rgba(255, 255, 255, 0.42);
+  transform: translateX(-4px);
 }
 
 .project-type {

@@ -98,6 +98,7 @@
 
 .career-card:hover {
   transform: translateY(-3px);
+  background: #eef3f7;
   box-shadow: 0 20px 42px rgba(22, 40, 61, 0.08);
 }
 

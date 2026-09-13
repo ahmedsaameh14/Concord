@@ -16,7 +16,10 @@
       >
         <div class="project-detail-hero-content">
           <div class="project-detail-hero-inner">
-            <a routerLink="/projects" class="project-back-link">← All projects</a>
+            <a routerLink="/projects" class="project-back-link">
+              <i class="fa-solid fa-angle-left"></i>
+              All projects
+            </a>
             <!-- <span class="project-type">{{ item.type }}</span> -->
             <h1>{{ item.name }}</h1>
             <div class="project-meta-band">
@@ -85,8 +88,8 @@
           </div>
           <div class="gallery-slider">
             <img [src]="activeImage()" [alt]="item.name + ' project view ' + (activeSlide() + 1)" />
-            <button type="button" class="gallery-control previous" (click)="previousSlide()" aria-label="Previous image">&#8592;</button>
-            <button type="button" class="gallery-control next" (click)="nextSlide()" aria-label="Next image">&#8594;</button>
+            <button type="button" class="gallery-control previous" (click)="previousSlide()" aria-label="Previous image"><i class="fa-solid fa-chevron-left"></i></button>
+            <button type="button" class="gallery-control next" (click)="nextSlide()" aria-label="Next image"><i class="fa-solid fa-chevron-right"></i></button>
           </div>
           <div class="gallery-thumbnails" aria-label="Choose gallery image">
             @for (image of galleryImages(); track image; let index = $index) {

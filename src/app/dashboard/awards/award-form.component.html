@@ -6,10 +6,10 @@
     </div>
     <a
       routerLink="/dashboard/awards"
-      class="inline-flex h-11 w-11 items-center justify-center rounded-[10px] bg-[#eef2f7] no-underline"
+      class="inline-flex h-11 w-11 items-center justify-center rounded-[10px] border border-[#d7dde7] bg-[#f5f7fa] text-concord-navy no-underline shadow-sm hover:-translate-y-0.5 hover:border-concord-navy hover:bg-concord-navy hover:text-white"
       title="Back"
     >
-      <i class="fa-solid fa-arrow-left"></i>
+      <i class="fa-solid fa-angle-left"></i>
     </a>
   </div>
 
@@ -62,7 +62,7 @@
           </label>
           <label class="flex flex-col gap-1 text-sm text-[#475467] md:col-span-2">
             <span>Certificate image {{ isEdit ? '' : '*' }}</span>
-            <input type="file" accept="image/*" (change)="onImageSelected($event)" />
+            <input class="file-upload-input" type="file" accept="image/*" (change)="onImageSelected($event)" />
           </label>
           @if (imagePreview || existingImage) {
             <img

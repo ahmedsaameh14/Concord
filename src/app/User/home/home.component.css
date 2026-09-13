@@ -314,6 +314,9 @@
 }
 
 .latest-article-card {
+	display: flex;
+	flex-direction: column;
+	height: 100%;
 	border-bottom: 1px solid #cad3dc;
 }
 
@@ -342,6 +345,9 @@
 }
 
 .latest-article-card-body {
+	display: flex;
+	flex: 1;
+	flex-direction: column;
 	padding: 1.25rem 0 1.5rem;
 }
 
@@ -354,11 +360,16 @@
 }
 
 .latest-article-card-body h3 {
+	flex: 1;
 	margin: .65rem 0 0;
 	color: #16283d;
 	font-size: 1.35rem;
 	font-weight: 600;
 	line-height: 1.25;
+}
+
+.latest-article-card .read-more {
+	margin-top: 1.25rem;
 }
 
 .services-section > .section-intro {

@@ -33,6 +33,20 @@
     font-family: var(--font-cairo);
   }
 
+  a,
+  button,
+  input,
+  select,
+  textarea {
+    transition: color 0.35s ease, background-color 0.35s ease, border-color 0.35s ease,
+      box-shadow 0.35s ease, transform 0.35s ease;
+  }
+
+  a:hover,
+  button:hover {
+    transform: translateY(-1px);
+  }
+
   .sr-only {
     position: absolute;
     width: 1px;
@@ -44,6 +58,42 @@
     white-space: nowrap;
     border-width: 0;
   }
+}
+
+.file-upload-input {
+  display: block;
+  width: 100%;
+  padding: 0.8rem 0.9rem;
+  border: 1.5px dashed #c8d2df;
+  border-radius: 12px;
+  background: linear-gradient(180deg, #f9fafb 0%, #f3f6fb 100%);
+  color: #16283d;
+  font: inherit;
+  font-weight: 600;
+  cursor: pointer;
+  transition: border-color 180ms ease, background-color 180ms ease, box-shadow 180ms ease;
+}
+
+.file-upload-input:hover {
+  border-color: #8ea7cf;
+  background: #f6f9ff;
+}
+
+.file-upload-input:focus {
+  outline: 3px solid rgba(37, 99, 235, 0.12);
+  border-color: #87aef9;
+}
+
+.file-upload-input::file-selector-button {
+  margin-right: 0.8rem;
+  border: 0;
+  border-radius: 9px;
+  padding: 0.7rem 0.9rem;
+  background: #16283d;
+  color: #fff;
+  font: inherit;
+  font-weight: 700;
+  cursor: pointer;
 }
 
 /* Article rich text (innerHTML is outside Angular encapsulation) */

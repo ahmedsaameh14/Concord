@@ -34,7 +34,7 @@
               <p class="career-description">{{ career.description }}</p>
             </div>
             <a [routerLink]="['/careers', career._id]">
-              View position <span aria-hidden="true">&#8594;</span>
+              View position <i class="fa-solid fa-chevron-right" aria-hidden="true"></i>
             </a>
           </article>
         }
@@ -43,9 +43,9 @@
 
     @if (totalPages > 1) {
       <nav class="careers-pagination" aria-label="Career pagination">
-        <button type="button" (click)="go(page - 1)" [disabled]="page === 1" aria-label="Previous page">&#8592;</button>
+        <button type="button" (click)="go(page - 1)" [disabled]="page === 1" aria-label="Previous page"><i class="fa-solid fa-chevron-left"></i></button>
         <span>Page {{ page }} of {{ totalPages }}</span>
-        <button type="button" (click)="go(page + 1)" [disabled]="page === totalPages" aria-label="Next page">&#8594;</button>
+        <button type="button" (click)="go(page + 1)" [disabled]="page === totalPages" aria-label="Next page"><i class="fa-solid fa-chevron-right"></i></button>
       </nav>
     }
   </section>

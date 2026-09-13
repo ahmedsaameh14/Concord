@@ -31,11 +31,26 @@
 }
 
 .back-link {
-  display: inline-block;
+  display: inline-flex;
+  align-items: center;
+  gap: 0.55rem;
   margin-bottom: 1.5rem;
+  padding: 0.65rem 1rem;
+  border: 1px solid #d7dde7;
+  border-radius: 999px;
+  background: #fff;
   color: #175cd3;
   font-weight: 700;
   text-decoration: none;
+  box-shadow: 0 10px 24px rgba(22, 40, 61, 0.04);
+  transition: all 0.3s ease;
+}
+
+.back-link:hover {
+  background: #175cd3;
+  border-color: #175cd3;
+  color: #fff;
+  transform: translateX(-4px);
 }
 
 .career-detail-kicker {

@@ -11,7 +11,10 @@
   } @else {
     @if (article(); as item) {
       <div class="mx-auto max-w-[900px] px-6 pb-16 pt-24">
-        <a routerLink="/news/articles" class="text-concord-navy no-underline">← All articles</a>
+        <a routerLink="/news/articles" class="inline-flex items-center gap-2 rounded-full border border-[#d7dde7] bg-white px-3 py-2 text-sm font-semibold text-concord-navy no-underline shadow-sm hover:-translate-x-1 hover:border-concord-navy hover:bg-concord-navy hover:text-white">
+          <i class="fa-solid fa-angle-left"></i>
+          All articles
+        </a>
 
         <div class="mt-6 flex flex-wrap items-center gap-4 text-sm text-concord-muted">
           <time [attr.datetime]="item.publishedAt || item.createdAt">
