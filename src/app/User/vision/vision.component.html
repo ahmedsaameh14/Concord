@@ -41,7 +41,7 @@
 				<p class="commitment-number">0{{ index + 1 }}</p>
 				<h3>{{ commitment.title }}</h3>
 				<p>{{ commitment.description }}</p>
-				<a [routerLink]="commitment.route" class="text-link">{{ commitment.linkLabel }} <span aria-hidden="true">&#8594;</span></a>
+				<a [routerLink]="commitment.route" class="text-link">{{ commitment.linkLabel }} <i class="fa-solid fa-chevron-right" aria-hidden="true"></i></a>
 			</article>
 		</div>
 	</section>

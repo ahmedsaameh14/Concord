@@ -54,7 +54,7 @@
 				<div class="service-body">
 					<h3>Infrastructure</h3>
 					<p>Concord delivers critical infrastructure solutions that support sustainable, resilient communities. Our multidisciplinary capabilities span water and wastewater infrastructure, micro-tunneling, civil works, and integrated MEP systems combining engineering expertise with efficient project execution.</p>
-					<a routerLink="/services/infrastructure" class="read-more">Read more <span aria-hidden="true">&#8594;</span></a>
+					<a routerLink="/services/infrastructure" class="read-more">Read more <i class="fa-solid fa-chevron-right" aria-hidden="true"></i></a>
 				</div>
 			</article>
 			<article class="service-item reveal" #reveal>
@@ -62,7 +62,7 @@
 				<div class="service-body">
 					<h3>Transportation</h3>
 					<p>With extensive experience in large-scale and complex transportation infrastructure, Concord delivers integrated solutions across the full spectrum of transport development. Our expertise spans underground and surface transportation systems, supporting the movement of people and goods.</p>
-					<a routerLink="/services/transportation" class="read-more">Read more <span aria-hidden="true">&#8594;</span></a>
+					<a routerLink="/services/transportation" class="read-more">Read more <i class="fa-solid fa-chevron-right" aria-hidden="true"></i></a>
 				</div>
 			</article>
 			<article class="service-item reveal" #reveal>
@@ -70,7 +70,7 @@
 				<div class="service-body">
 					<h3>Construction</h3>
 					<p>Concord delivers high-quality construction projects across sectors, combining engineering expertise, rigorous quality standards, and a strong commitment to safety. From residential communities to large-scale public and commercial developments, we create built environments designed for lasting value.</p>
-					<a routerLink="/services/construction" class="read-more">Read more <span aria-hidden="true">&#8594;</span></a>
+					<a routerLink="/services/construction" class="read-more">Read more <i class="fa-solid fa-chevron-right" aria-hidden="true"></i></a>
 				</div>
 			</article>
 		</div>
@@ -115,7 +115,7 @@
 						<!-- <p class="section-kicker">Currently underway</p> -->
 						<h2 id="ongoing-projects-title">Ongoing projects</h2>
 					</div>
-					<a routerLink="/projects" class="read-more">View all projects <span aria-hidden="true">&#8594;</span></a>
+					<a routerLink="/projects" class="read-more">View all projects <i class="fa-solid fa-chevron-right" aria-hidden="true"></i></a>
 				</div>
 				<div class="ongoing-projects-grid">
 					@for (project of ongoingProjects(); track project._id; let index = $index) {
@@ -143,7 +143,7 @@
 						<!-- <p class="section-kicker">News and updates</p> -->
 						<h2 id="latest-articles-title">Latest Articles</h2>
 					</div>
-					<a routerLink="/news/articles" class="read-more">View all articles <span aria-hidden="true">&#8594;</span></a>
+					<a routerLink="/news/articles" class="read-more">View all articles <i class="fa-solid fa-chevron-right" aria-hidden="true"></i></a>
 				</div>
 				<div class="latest-articles-grid">
 					@for (article of latestArticles(); track article._id; let index = $index) {
@@ -156,7 +156,7 @@
 									<time [attr.datetime]="article.publishedAt">{{ article.publishedAt | date: 'MMM d, y' }}</time>
 								}
 								<h3>{{ article.title }}</h3>
-								<a [routerLink]="['/news/articles', article.slug || article._id]" class="read-more">Read article <span aria-hidden="true">&#8594;</span></a>
+								<a [routerLink]="['/news/articles', article.slug || article._id]" class="read-more">Read article <i class="fa-solid fa-chevron-right" aria-hidden="true"></i></a>
 							</div>
 						</article>
 					}
@@ -182,8 +182,8 @@
 				<h3>More about We Care</h3>
 				<p>We want every employee and trade partner to feel that they are part of a common good and cohesive team. We help our teams form stronger relationships with trade partners by emphasizing people and teamwork over processes and checklists.</p>
 				<div class="care-links">
-					<a routerLink="/safety" class="read-more">Learn more <span aria-hidden="true">&#8594;</span></a>
-					<a routerLink="/careers" class="read-more">Careers at Concord <span aria-hidden="true">&#8594;</span></a>
+					<a routerLink="/safety" class="read-more">Learn more <i class="fa-solid fa-chevron-right" aria-hidden="true"></i></a>
+					<a routerLink="/careers" class="read-more">Careers at Concord <i class="fa-solid fa-chevron-right" aria-hidden="true"></i></a>
 				</div>
 			</div>
 		</div>

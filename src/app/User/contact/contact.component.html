@@ -62,7 +62,7 @@
 
       <button type="submit" [disabled]="contactForm.invalid || submitting()">
         {{ submitting() ? 'Sending...' : 'Send message' }}
-        <span aria-hidden="true">&#8594;</span>
+        <i class="fa-solid fa-chevron-right" aria-hidden="true"></i>
       </button>
     </form>
   </section>

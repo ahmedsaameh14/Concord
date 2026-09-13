@@ -8,11 +8,11 @@
     </div>
     <a
       routerLink="/dashboard/projects"
-      class="inline-flex h-11 w-11 items-center justify-center rounded-[10px] bg-[#eef2f7] text-concord-ink no-underline"
+      class="inline-flex h-11 w-11 items-center justify-center rounded-[10px] border border-[#d7dde7] bg-[#f5f7fa] text-concord-navy no-underline shadow-sm hover:-translate-y-0.5 hover:border-concord-navy hover:bg-concord-navy hover:text-white"
       title="Back to list"
       aria-label="Back to list"
     >
-      <i class="fa-solid fa-arrow-left"></i>
+      <i class="fa-solid fa-angle-left"></i>
     </a>
   </div>
 
@@ -102,7 +102,7 @@
       <div class="rounded-2xl border border-[#e6ebf2] bg-white p-[1.15rem] shadow-[0_8px_24px_rgba(22,40,61,0.04)]">
         <h3 class="mb-4 mt-0 text-[1.05rem]">Main Image *</h3>
         <p class="m-0 text-[0.9rem] text-concord-muted">Choose an image from your computer. It will be uploaded to Cloudinary.</p>
-        <input type="file" accept="image/*" class="mt-3" (change)="onMainImageSelected($event)" />
+        <input class="file-upload-input mt-3" type="file" accept="image/*" (change)="onMainImageSelected($event)" />
         @if (mainImagePreview || existingMainImage) {
           <img
             class="mt-[0.85rem] h-[180px] w-min max-w-full min-w-[200px] rounded-xl border border-[#e6ebf2] object-cover"
@@ -115,7 +115,7 @@
       <div class="rounded-2xl border border-[#e6ebf2] bg-white p-[1.15rem] shadow-[0_8px_24px_rgba(22,40,61,0.04)]">
         <h3 class="mb-4 mt-0 text-[1.05rem]">Gallery Images</h3>
         <p class="m-0 text-[0.9rem] text-concord-muted">Select multiple images. Remove only deletes the image you choose.</p>
-        <input type="file" accept="image/*" multiple class="mt-3" (change)="onGallerySelected($event)" />
+        <input class="file-upload-input mt-3" type="file" accept="image/*" multiple (change)="onGallerySelected($event)" />
 
         @if (existingGallery.length || pendingGallery.length) {
           <div class="mt-[0.9rem] grid grid-cols-1 gap-[0.85rem] sm:grid-cols-2">

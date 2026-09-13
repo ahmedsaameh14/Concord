@@ -4,7 +4,10 @@
   } @else if (career()) {
     <div class="career-detail-shell">
       <section class="career-detail-copy">
-        <a routerLink="/careers" class="back-link">&#8592; All careers</a>
+        <a routerLink="/careers" class="back-link">
+          <i class="fa-solid fa-angle-left"></i>
+          All careers
+        </a>
         <div class="career-info">
           <span>{{ career().experience }} years experience</span>
           <h1>{{ career().title }}</h1>
