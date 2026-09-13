@@ -83,7 +83,7 @@ export class DashboardArticleFormComponent implements OnInit, OnDestroy {
     socialLinks: {
       facebook: '',
       instagram: '',
-      twitter: '',
+      linkedin: '',
     },
   };
 
@@ -207,7 +207,7 @@ export class DashboardArticleFormComponent implements OnInit, OnDestroy {
       JSON.stringify({
         facebook: this.form.socialLinks.facebook?.trim() || '',
         instagram: this.form.socialLinks.instagram?.trim() || '',
-        twitter: this.form.socialLinks.twitter?.trim() || '',
+        linkedin: this.form.socialLinks.linkedin?.trim() || '',
       })
     );
     formData.append('publishedAt', this.form.publishedAt);
@@ -235,7 +235,7 @@ export class DashboardArticleFormComponent implements OnInit, OnDestroy {
           this.form.socialLinks = {
             facebook: res.data.socialLinks?.facebook || '',
             instagram: res.data.socialLinks?.instagram || '',
-            twitter: res.data.socialLinks?.twitter || '',
+            linkedin: res.data.socialLinks?.linkedin || '',
           };
           this.syncEditorFromForm(true);
           this.imageFile = null;
@@ -265,7 +265,7 @@ export class DashboardArticleFormComponent implements OnInit, OnDestroy {
           socialLinks: {
             facebook: article.socialLinks?.facebook || '',
             instagram: article.socialLinks?.instagram || '',
-            twitter: article.socialLinks?.twitter || '',
+            linkedin: article.socialLinks?.linkedin || '',
           },
         };
         this.existingImage = article.image || '';
@@ -298,7 +298,7 @@ export class DashboardArticleFormComponent implements OnInit, OnDestroy {
       socialLinks: {
         facebook: draft.socialLinks?.facebook || this.form.socialLinks.facebook || '',
         instagram: draft.socialLinks?.instagram || this.form.socialLinks.instagram || '',
-        twitter: draft.socialLinks?.twitter || this.form.socialLinks.twitter || '',
+        linkedin: draft.socialLinks?.linkedin || this.form.socialLinks.linkedin || '',
       },
     };
 

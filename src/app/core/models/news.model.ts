@@ -1,7 +1,7 @@
 export interface ArticleSocialLinks {
   facebook?: string;
   instagram?: string;
-  twitter?: string;
+  linkedin?: string;
 }
 
 export interface Article {
