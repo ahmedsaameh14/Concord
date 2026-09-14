@@ -35,7 +35,9 @@ export class DashboardCareerApplicationDetailComponent implements OnInit {
     if (!this.application || this.downloading) return;
     this.downloading = true;
     try {
-      const response = await fetch(this.application.resumeDownloadUrl || this.application.resumeUrl);
+      const response = await fetch(this.application.resumeDownloadUrl || this.application.resumeUrl, {
+        credentials: 'include',
+      });
       if (!response.ok) throw new Error('Resume download failed');
       const blob = await response.blob();
       const blobUrl = window.URL.createObjectURL(blob);

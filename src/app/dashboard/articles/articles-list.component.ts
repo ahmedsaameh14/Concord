@@ -7,11 +7,12 @@ import { NotificationService } from '../../core/services/notification.service';
 import { ARTICLE_TAGS } from '../../core/config/api.config';
 import { Article } from '../../core/models/news.model';
 import { LoadingSpinnerComponent } from '../../shared/loading-spinner/loading-spinner.component';
+import { ConfirmDialogComponent } from '../../shared/confirm-dialog/confirm-dialog.component';
 
 @Component({
   selector: 'app-dashboard-articles-list',
   standalone: true,
-  imports: [CommonModule, FormsModule, RouterLink, LoadingSpinnerComponent],
+  imports: [CommonModule, FormsModule, RouterLink, LoadingSpinnerComponent, ConfirmDialogComponent],
   templateUrl: './articles-list.component.html',
 })
 export class DashboardArticlesListComponent implements OnInit {
@@ -23,6 +24,10 @@ export class DashboardArticlesListComponent implements OnInit {
   articles = signal<Article[]>([]);
   loading = signal(false);
   error = signal('');
+  deleteDialogOpen = signal(false);
+  deleteDialogTitle = '';
+  deleteDialogMessage = '';
+  pendingArticle = signal<Article | null>(null);
 
   search = '';
   tag = '';
@@ -105,8 +110,17 @@ export class DashboardArticlesListComponent implements OnInit {
   }
 
   deleteArticle(article: Article): void {
-    const confirmed = confirm(`Delete article "${article.title}"?`);
-    if (!confirmed) return;
+    this.pendingArticle.set(article);
+    this.deleteDialogTitle = 'Delete article?';
+    this.deleteDialogMessage = `Delete article "${article.title}"?`;
+    this.deleteDialogOpen.set(true);
+  }
+
+  confirmDelete(): void {
+    const article = this.pendingArticle();
+    if (!article) return;
+    this.deleteDialogOpen.set(false);
+    this.pendingArticle.set(null);
 
     this.articlesApi.delete(article._id).subscribe({
       next: () => {
@@ -115,6 +129,11 @@ export class DashboardArticlesListComponent implements OnInit {
       },
       error: (err) => this.notify.error(err?.error?.message || 'Failed to delete article.'),
     });
+  }
+
+  cancelDelete(): void {
+    this.deleteDialogOpen.set(false);
+    this.pendingArticle.set(null);
   }
 
   get hasActiveFilters(): boolean {

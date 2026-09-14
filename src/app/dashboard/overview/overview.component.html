@@ -72,14 +72,17 @@
       <div class="rounded-2xl border border-[#e6ebf2] bg-white p-5 shadow-[0_8px_24px_rgba(22,40,61,0.04)]">
         <div class="mb-4 flex items-center justify-between gap-3">
           <h3 class="m-0 text-[1.05rem]">Recent Projects</h3>
-          <a routerLink="/dashboard/projects" class="text-sm font-semibold text-concord-navy no-underline">View all</a>
+          <a
+            routerLink="/dashboard/projects"
+            class="inline-flex items-center rounded-lg bg-[#eef4ff] px-3 py-1.5 text-sm font-semibold text-concord-navy no-underline transition hover:bg-concord-navy hover:text-white focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#93c5fd]"
+          >View all</a>
         </div>
 
         @if (!recent().length) {
           <p class="m-0 text-concord-muted">No projects yet.</p>
         } @else {
           <div class="flex flex-col gap-3">
-            @for (project of recent(); track project._id) {
+            @for (project of recent().slice(0, 5); track project._id) {
               <a
                 [routerLink]="['/dashboard/projects', project._id, 'edit']"
                 class="flex items-center gap-3 rounded-xl border border-[#eef1f5] p-3 text-inherit no-underline transition hover:bg-[#f8fafc]"
@@ -110,12 +113,18 @@
 
     <div class="grid grid-cols-1 gap-4 xl:grid-cols-3">
       <div class="rounded-2xl border border-[#e6ebf2] bg-white p-5 shadow-[0_8px_24px_rgba(22,40,61,0.04)]">
-        <h3 class="mt-0 mb-4 text-[1.05rem]">Latest Articles</h3>
+        <div class="mb-4 flex items-center justify-between gap-3">
+          <h3 class="m-0 text-[1.05rem]">Latest Articles</h3>
+          <a
+            routerLink="/dashboard/articles"
+            class="inline-flex items-center rounded-lg bg-[#eef4ff] px-3 py-1.5 text-sm font-semibold text-concord-navy no-underline transition hover:bg-concord-navy hover:text-white focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#93c5fd]"
+          >View all</a>
+        </div>
         @if (!recentArticles().length) {
           <p class="m-0 text-concord-muted">No articles yet.</p>
         } @else {
           <div class="flex flex-col gap-3">
-            @for (article of recentArticles(); track article._id) {
+            @for (article of recentArticles().slice(0, 5); track article._id) {
               <div class="rounded-xl bg-[#f8fafc] px-3 py-2">
                 <strong class="block truncate">{{ article.title }}</strong>
                 <small class="text-concord-muted">{{ article.isActive ? 'Published' : 'Draft' }} · {{ article.isTopArticle ? 'Featured' : 'Standard' }}</small>
@@ -126,12 +135,18 @@
       </div>
 
       <div class="rounded-2xl border border-[#e6ebf2] bg-white p-5 shadow-[0_8px_24px_rgba(22,40,61,0.04)]">
-        <h3 class="mt-0 mb-4 text-[1.05rem]">Latest Awards</h3>
+        <div class="mb-4 flex items-center justify-between gap-3">
+          <h3 class="m-0 text-[1.05rem]">Latest Awards</h3>
+          <a
+            routerLink="/dashboard/awards"
+            class="inline-flex items-center rounded-lg bg-[#eef4ff] px-3 py-1.5 text-sm font-semibold text-concord-navy no-underline transition hover:bg-concord-navy hover:text-white focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#93c5fd]"
+          >View all</a>
+        </div>
         @if (!recentAwards().length) {
           <p class="m-0 text-concord-muted">No awards yet.</p>
         } @else {
           <div class="flex flex-col gap-3">
-            @for (award of recentAwards(); track award._id) {
+            @for (award of recentAwards().slice(0, 5); track award._id) {
               <div class="rounded-xl bg-[#f8fafc] px-3 py-2">
                 <strong class="block truncate">{{ award.title }}</strong>
                 <small class="text-concord-muted">{{ award.subtitle || 'Award' }}</small>
@@ -142,12 +157,18 @@
       </div>
 
       <div class="rounded-2xl border border-[#e6ebf2] bg-white p-5 shadow-[0_8px_24px_rgba(22,40,61,0.04)]">
-        <h3 class="mt-0 mb-4 text-[1.05rem]">Recent Messages</h3>
+        <div class="mb-4 flex items-center justify-between gap-3">
+          <h3 class="m-0 text-[1.05rem]">Recent Messages</h3>
+          <a
+            routerLink="/dashboard/contact-messages"
+            class="inline-flex items-center rounded-lg bg-[#eef4ff] px-3 py-1.5 text-sm font-semibold text-concord-navy no-underline transition hover:bg-concord-navy hover:text-white focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#93c5fd]"
+          >View all</a>
+        </div>
         @if (!recentMessages().length) {
           <p class="m-0 text-concord-muted">No new messages.</p>
         } @else {
           <div class="flex flex-col gap-3">
-            @for (message of recentMessages(); track message._id) {
+            @for (message of recentMessages().slice(0, 5); track message._id) {
               <div class="rounded-xl bg-[#f8fafc] px-3 py-2">
                 <strong class="block truncate">{{ message.firstName }} {{ message.lastName }}</strong>
                 <small class="text-concord-muted">{{ message.email }}</small>

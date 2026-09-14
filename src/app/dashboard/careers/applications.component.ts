@@ -6,6 +6,7 @@ import { CareerService } from '../../core/services/career.service';
 import { Application } from '../../core/models/career.model';
 import { NotificationService } from '../../core/services/notification.service';
 import { LoadingSpinnerComponent } from '../../shared/loading-spinner/loading-spinner.component';
+import { ConfirmDialogComponent } from '../../shared/confirm-dialog/confirm-dialog.component';
 
 type ApplicationStatus = Application['status'];
 
@@ -17,7 +18,7 @@ interface MenuPosition {
 @Component({
   selector: 'app-dashboard-career-applications',
   standalone: true,
-  imports: [CommonModule, FormsModule, RouterLink, LoadingSpinnerComponent],
+  imports: [CommonModule, FormsModule, RouterLink, LoadingSpinnerComponent, ConfirmDialogComponent],
   templateUrl: './applications.component.html',
 })
 export class DashboardCareerApplicationsComponent implements OnInit {
@@ -33,6 +34,10 @@ export class DashboardCareerApplicationsComponent implements OnInit {
   status = '';
   page = 1;
   totalPages = 0;
+  deleteDialogOpen = signal(false);
+  deleteDialogTitle = '';
+  deleteDialogMessage = '';
+  pendingApplication = signal<Application | null>(null);
   total = 0;
   openStatusMenuId: string | null = null;
   menuPosition = signal<MenuPosition | null>(null);
@@ -134,13 +139,28 @@ export class DashboardCareerApplicationsComponent implements OnInit {
   }
 
   remove(a: Application): void {
-    if (!confirm(`Delete application from ${a.fullName}?`)) return;
-    this.api.deleteApplication(this.id, a._id).subscribe({
+    this.pendingApplication.set(a);
+    this.deleteDialogTitle = 'Delete application?';
+    this.deleteDialogMessage = `Delete application from ${a.fullName}?`;
+    this.deleteDialogOpen.set(true);
+  }
+
+  confirmDelete(): void {
+    const application = this.pendingApplication();
+    if (!application) return;
+    this.deleteDialogOpen.set(false);
+    this.pendingApplication.set(null);
+    this.api.deleteApplication(this.id, application._id).subscribe({
       next: () => {
         this.notify.success('Application deleted.');
         this.load();
       },
       error: (e) => this.notify.error(e?.error?.message || 'Failed to delete application.'),
     });
+  }
+
+  cancelDelete(): void {
+    this.deleteDialogOpen.set(false);
+    this.pendingApplication.set(null);
   }
 }
