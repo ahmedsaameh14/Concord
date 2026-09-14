@@ -8,11 +8,12 @@ import { NotificationService } from '../../core/services/notification.service';
 import { PROJECT_TYPES } from '../../core/config/api.config';
 import { Project } from '../../core/models/project.model';
 import { LoadingSpinnerComponent } from '../../shared/loading-spinner/loading-spinner.component';
+import { ConfirmDialogComponent } from '../../shared/confirm-dialog/confirm-dialog.component';
 
 @Component({
   selector: 'app-dashboard-projects-list',
   standalone: true,
-  imports: [CommonModule, FormsModule, RouterLink, LoadingSpinnerComponent],
+  imports: [CommonModule, FormsModule, RouterLink, LoadingSpinnerComponent, ConfirmDialogComponent],
   templateUrl: './projects-list.component.html',
 })
 export class DashboardProjectsListComponent implements OnInit {
@@ -26,6 +27,10 @@ export class DashboardProjectsListComponent implements OnInit {
   locations = signal<string[]>([]);
   loading = signal(false);
   error = signal('');
+  deleteDialogOpen = signal(false);
+  deleteDialogTitle = '';
+  deleteDialogMessage = '';
+  pendingProject = signal<Project | null>(null);
 
   search = '';
   location = '';
@@ -114,8 +119,17 @@ export class DashboardProjectsListComponent implements OnInit {
       return;
     }
 
-    const confirmed = confirm(`Delete project "${project.name}"? This cannot be undone.`);
-    if (!confirmed) return;
+    this.pendingProject.set(project);
+    this.deleteDialogTitle = 'Delete project?';
+    this.deleteDialogMessage = `Delete project "${project.name}"? This cannot be undone.`;
+    this.deleteDialogOpen.set(true);
+  }
+
+  confirmDelete(): void {
+    const project = this.pendingProject();
+    if (!project) return;
+    this.deleteDialogOpen.set(false);
+    this.pendingProject.set(null);
 
     this.projectsApi.delete(project._id).subscribe({
       next: () => {
@@ -126,5 +140,10 @@ export class DashboardProjectsListComponent implements OnInit {
         this.notify.error(err?.error?.message || 'Failed to delete project.');
       },
     });
+  }
+
+  cancelDelete(): void {
+    this.deleteDialogOpen.set(false);
+    this.pendingProject.set(null);
   }
 }

@@ -5,11 +5,12 @@ import { ContactService } from '../../core/services/contact.service';
 import { ContactMessage } from '../../core/models/contact-message.model';
 import { NotificationService } from '../../core/services/notification.service';
 import { LoadingSpinnerComponent } from '../../shared/loading-spinner/loading-spinner.component';
+import { ConfirmDialogComponent } from '../../shared/confirm-dialog/confirm-dialog.component';
 
 @Component({
   selector: 'app-dashboard-contact-messages',
   standalone: true,
-  imports: [CommonModule, FormsModule, DatePipe, LoadingSpinnerComponent],
+  imports: [CommonModule, FormsModule, DatePipe, LoadingSpinnerComponent, ConfirmDialogComponent],
   templateUrl: './contact-messages.component.html',
 })
 export class DashboardContactMessagesComponent implements OnInit {
@@ -20,6 +21,10 @@ export class DashboardContactMessagesComponent implements OnInit {
   loading = signal(false);
   error = signal('');
   selectedMessage = signal<ContactMessage | null>(null);
+  deleteDialogOpen = signal(false);
+  deleteDialogTitle = '';
+  deleteDialogMessage = '';
+  pendingMessage = signal<ContactMessage | null>(null);
   search = '';
 
   ngOnInit(): void {
@@ -68,7 +73,17 @@ export class DashboardContactMessagesComponent implements OnInit {
   }
 
   deleteMessage(message: ContactMessage): void {
-    if (!confirm(`Delete the message from ${message.firstName} ${message.lastName}?`)) return;
+    this.pendingMessage.set(message);
+    this.deleteDialogTitle = 'Delete message?';
+    this.deleteDialogMessage = `Delete the message from ${message.firstName} ${message.lastName}?`;
+    this.deleteDialogOpen.set(true);
+  }
+
+  confirmDelete(): void {
+    const message = this.pendingMessage();
+    if (!message) return;
+    this.deleteDialogOpen.set(false);
+    this.pendingMessage.set(null);
 
     this.contactApi.delete(message._id).subscribe({
       next: () => {
@@ -77,5 +92,10 @@ export class DashboardContactMessagesComponent implements OnInit {
       },
       error: (err) => this.notify.error(err?.error?.message || 'Failed to delete contact message.'),
     });
+  }
+
+  cancelDelete(): void {
+    this.deleteDialogOpen.set(false);
+    this.pendingMessage.set(null);
   }
 }

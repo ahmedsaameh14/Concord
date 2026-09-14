@@ -6,11 +6,12 @@ import { AwardService } from '../../core/services/award.service';
 import { NotificationService } from '../../core/services/notification.service';
 import { Award } from '../../core/models/news.model';
 import { LoadingSpinnerComponent } from '../../shared/loading-spinner/loading-spinner.component';
+import { ConfirmDialogComponent } from '../../shared/confirm-dialog/confirm-dialog.component';
 
 @Component({
   selector: 'app-dashboard-awards-list',
   standalone: true,
-  imports: [CommonModule, FormsModule, RouterLink, LoadingSpinnerComponent],
+  imports: [CommonModule, FormsModule, RouterLink, LoadingSpinnerComponent, ConfirmDialogComponent],
   templateUrl: './awards-list.component.html',
 })
 export class DashboardAwardsListComponent implements OnInit {
@@ -20,6 +21,10 @@ export class DashboardAwardsListComponent implements OnInit {
   awards = signal<Award[]>([]);
   loading = signal(false);
   error = signal('');
+  deleteDialogOpen = signal(false);
+  deleteDialogTitle = '';
+  deleteDialogMessage = '';
+  pendingAward = signal<Award | null>(null);
   search = '';
   isActive: '' | 'true' | 'false' = '';
 
@@ -72,8 +77,18 @@ export class DashboardAwardsListComponent implements OnInit {
   }
 
   deleteAward(award: Award): void {
-    const confirmed = confirm(`Delete award "${award.title}"?`);
-    if (!confirmed) return;
+    this.pendingAward.set(award);
+    this.deleteDialogTitle = 'Delete award?';
+    this.deleteDialogMessage = `Delete award "${award.title}"?`;
+    this.deleteDialogOpen.set(true);
+  }
+
+  confirmDelete(): void {
+    const award = this.pendingAward();
+    if (!award) return;
+    this.deleteDialogOpen.set(false);
+    this.pendingAward.set(null);
+
     this.awardsApi.delete(award._id).subscribe({
       next: () => {
         this.notify.success('Award deleted successfully.');
@@ -81,6 +96,11 @@ export class DashboardAwardsListComponent implements OnInit {
       },
       error: (err) => this.notify.error(err?.error?.message || 'Failed to delete award.'),
     });
+  }
+
+  cancelDelete(): void {
+    this.deleteDialogOpen.set(false);
+    this.pendingAward.set(null);
   }
 
   get hasActiveFilters(): boolean {

@@ -123,4 +123,12 @@
       </div>
     </div>
   }
+
+  <app-confirm-dialog
+    [open]="deleteDialogOpen()"
+    [title]="deleteDialogTitle"
+    [message]="deleteDialogMessage"
+    (confirmed)="confirmDelete()"
+    (cancelled)="cancelDelete()"
+  />
 </section>

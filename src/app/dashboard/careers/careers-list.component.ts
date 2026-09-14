@@ -1,7 +1,7 @@
 import { Component, OnInit, inject, signal } from '@angular/core';
 import { CommonModule } from '@angular/common'; import { FormsModule } from '@angular/forms'; import { RouterLink } from '@angular/router';
-import { CareerService } from '../../core/services/career.service'; import { Career } from '../../core/models/career.model'; import { NotificationService } from '../../core/services/notification.service'; import { LoadingSpinnerComponent } from '../../shared/loading-spinner/loading-spinner.component';
-@Component({ selector: 'app-dashboard-careers-list', standalone: true, imports: [CommonModule, FormsModule, RouterLink, LoadingSpinnerComponent], templateUrl: './careers-list.component.html' })
+import { CareerService } from '../../core/services/career.service'; import { Career } from '../../core/models/career.model'; import { NotificationService } from '../../core/services/notification.service'; import { LoadingSpinnerComponent } from '../../shared/loading-spinner/loading-spinner.component'; import { ConfirmDialogComponent } from '../../shared/confirm-dialog/confirm-dialog.component';
+@Component({ selector: 'app-dashboard-careers-list', standalone: true, imports: [CommonModule, FormsModule, RouterLink, LoadingSpinnerComponent, ConfirmDialogComponent], templateUrl: './careers-list.component.html' })
 export class DashboardCareersListComponent implements OnInit {
 	private readonly api = inject(CareerService);
 	private readonly notify = inject(NotificationService);
@@ -9,6 +9,10 @@ export class DashboardCareersListComponent implements OnInit {
 	careers = signal<Career[]>([]);
 	loading = signal(false);
 	error = signal('');
+	deleteDialogOpen = signal(false);
+	deleteDialogTitle = '';
+	deleteDialogMessage = '';
+	pendingCareer = signal<Career | null>(null);
 	search = '';
 	page = 1;
 	totalPages = 0;
@@ -53,11 +57,26 @@ export class DashboardCareersListComponent implements OnInit {
 	}
 
 	remove(career: Career): void {
-		if (!confirm(`Delete career "${career.title}" and its applications?`)) return;
+		this.pendingCareer.set(career);
+		this.deleteDialogTitle = 'Delete career?';
+		this.deleteDialogMessage = `Delete career "${career.title}" and its applications?`;
+		this.deleteDialogOpen.set(true);
+	}
+
+	confirmDelete(): void {
+		const career = this.pendingCareer();
+		if (!career) return;
+		this.deleteDialogOpen.set(false);
+		this.pendingCareer.set(null);
 		this.api.delete(career._id).subscribe({
 			next: () => { this.notify.success('Career deleted successfully.'); this.load(); },
 			error: (error) => this.notify.error(error?.error?.message || 'Failed to delete career.'),
 		});
+	}
+
+	cancelDelete(): void {
+		this.deleteDialogOpen.set(false);
+		this.pendingCareer.set(null);
 	}
 
 	downloadApplications(career: Career): void {

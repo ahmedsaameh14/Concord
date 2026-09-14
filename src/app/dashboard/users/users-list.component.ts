@@ -6,6 +6,7 @@ import { AuthService } from '../../core/services/auth.service';
 import { AdminUser, UserRole } from '../../core/models/auth.model';
 import { NotificationService } from '../../core/services/notification.service';
 import { LoadingSpinnerComponent } from '../../shared/loading-spinner/loading-spinner.component';
+import { ConfirmDialogComponent } from '../../shared/confirm-dialog/confirm-dialog.component';
 
 type UserFormMode = 'create' | 'edit';
 
@@ -20,7 +21,7 @@ interface UserFormState {
 @Component({
   selector: 'app-dashboard-users',
   standalone: true,
-  imports: [CommonModule, FormsModule, LoadingSpinnerComponent],
+  imports: [CommonModule, FormsModule, LoadingSpinnerComponent, ConfirmDialogComponent],
   templateUrl: './users-list.component.html',
 })
 export class DashboardUsersListComponent implements OnInit, OnDestroy {
@@ -35,6 +36,10 @@ export class DashboardUsersListComponent implements OnInit, OnDestroy {
   formMode = signal<UserFormMode | null>(null);
   editingUserId = signal<string | null>(null);
   searchQuery = signal('');
+  deleteDialogOpen = signal(false);
+  deleteDialogTitle = '';
+  deleteDialogMessage = '';
+  pendingUser = signal<AdminUser | null>(null);
 
   readonly isAdmin = () => this.auth.isAdmin();
   readonly currentUserId = () => this.auth.user()?._id || '';
@@ -177,7 +182,17 @@ export class DashboardUsersListComponent implements OnInit, OnDestroy {
 
   removeUser(user: AdminUser): void {
     if (!this.canEditUser(user) || user._id === this.currentUserId()) return;
-    if (!confirm(`Delete user "${user.name || user.email}"?`)) return;
+    this.pendingUser.set(user);
+    this.deleteDialogTitle = 'Delete user?';
+    this.deleteDialogMessage = `Delete user "${user.name || user.email}"?`;
+    this.deleteDialogOpen.set(true);
+  }
+
+  confirmDelete(): void {
+    const user = this.pendingUser();
+    if (!user) return;
+    this.deleteDialogOpen.set(false);
+    this.pendingUser.set(null);
 
     this.auth.deleteUser(user._id).subscribe({
       next: (res) => {
@@ -186,6 +201,11 @@ export class DashboardUsersListComponent implements OnInit, OnDestroy {
       },
       error: (err) => this.notify.error(err?.error?.message || 'Failed to delete user.'),
     });
+  }
+
+  cancelDelete(): void {
+    this.deleteDialogOpen.set(false);
+    this.pendingUser.set(null);
   }
 
   canEditUser(user: AdminUser): boolean {
