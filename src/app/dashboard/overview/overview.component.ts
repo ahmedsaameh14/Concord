@@ -101,15 +101,15 @@ export class DashboardOverviewComponent implements OnInit {
         this.articlesTotal.set(articles.meta?.total ?? articleList.length);
         this.activeArticles.set(articleList.filter((article) => article.isActive).length);
         this.topArticles.set(articleList.filter((article) => article.isTopArticle).length);
-        this.recentArticles.set(articleList.slice(0, 4));
+        this.recentArticles.set(articleList.slice(0, 5));
 
         const awardList = awards.data || [];
         this.awardsTotal.set(awards.meta?.total ?? awardList.length);
-        this.recentAwards.set(awardList.slice(0, 4));
+        this.recentAwards.set(awardList.slice(0, 5));
 
         const messageList = messages.data || [];
         this.messagesTotal.set(messageList.length);
-        this.recentMessages.set(messageList.slice(0, 4));
+        this.recentMessages.set(messageList.slice(0, 5));
 
         const careerList = careers.data || [];
         this.careersTotal.set(careers.meta?.total ?? careerList.length);

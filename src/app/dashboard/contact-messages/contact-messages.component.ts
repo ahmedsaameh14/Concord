@@ -1,4 +1,4 @@
-import { Component, OnInit, inject, signal } from '@angular/core';
+import { Component, HostListener, OnInit, inject, signal } from '@angular/core';
 import { CommonModule, DatePipe } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { ContactService } from '../../core/services/contact.service';
@@ -19,6 +19,7 @@ export class DashboardContactMessagesComponent implements OnInit {
   messages = signal<ContactMessage[]>([]);
   loading = signal(false);
   error = signal('');
+  selectedMessage = signal<ContactMessage | null>(null);
   search = '';
 
   ngOnInit(): void {
@@ -44,6 +45,26 @@ export class DashboardContactMessagesComponent implements OnInit {
 
   onSearchChange(): void {
     this.loadMessages();
+  }
+
+  previewMessage(message: ContactMessage): string {
+    const previewLength = 120;
+    return message.message.length > previewLength
+      ? `${message.message.slice(0, previewLength)}...`
+      : message.message;
+  }
+
+  openMessage(message: ContactMessage): void {
+    this.selectedMessage.set(message);
+  }
+
+  closeMessage(): void {
+    this.selectedMessage.set(null);
+  }
+
+  @HostListener('document:keydown.escape')
+  closeMessageWithEscape(): void {
+    this.closeMessage();
   }
 
   deleteMessage(message: ContactMessage): void {
