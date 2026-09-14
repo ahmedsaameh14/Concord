@@ -32,7 +32,7 @@
             <label>Address *<input name="address" [(ngModel)]="form.address" required /></label>
             <label>Country *<input name="country" [(ngModel)]="form.country" required /></label>
             <label>City *<input name="city" [(ngModel)]="form.city" required /></label>
-            <label class="file-field">Resume / CV *<input name="resume" required type="file" accept=".pdf,application/pdf" (change)="onResumeChange($event)" /><small>{{ resume?.name || 'PDF only, max 1 MB' }}</small></label>
+            <label class="file-field">Resume / CV *<input class="file-upload-input" name="resume" required type="file" accept=".pdf,application/pdf" (change)="onResumeChange($event)" /><small>{{ resume?.name || 'PDF only, max 1 MB' }}</small></label>
           </div>
         </fieldset>
 
