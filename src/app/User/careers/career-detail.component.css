@@ -176,12 +176,47 @@
 }
 .file-field small { color: #667085; font-weight: 400; }
 .repeat-row { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)) auto; gap: .75rem; align-items: end; }
-.experience-row { grid-template-columns: repeat(6, minmax(0, 1fr)) auto; }
-.current-work { align-items: center; justify-content: center; min-height: 2.6rem; white-space: nowrap; }
-.current-work input { width: 1.1rem; height: 1.1rem; }
-.add-row, .remove-row { width: fit-content; border: 0; background: transparent; font: inherit; cursor: pointer; }
-.add-row { color: #175cd3; font-weight: 700; }
-.remove-row { min-width: 2rem; min-height: 2.6rem; color: #b42318; font-size: 1.4rem; }
+.experience-row { grid-template-columns: repeat(4, minmax(0, 1fr)) minmax(10rem, 1.35fr) minmax(0, 1fr) auto; }
+.current-work {
+  flex-direction: row !important;
+  align-items: center;
+  justify-content: flex-start;
+  align-self: end;
+  min-height: 2.6rem;
+  padding: .72rem .8rem;
+  border: 1px solid #cbd5df;
+  border-radius: 12px;
+  background: #f8fafc;
+  cursor: pointer;
+  line-height: 1.25;
+}
+.current-work input { flex: 0 0 auto; width: 1.1rem; height: 1.1rem; margin: 0; accent-color: #175cd3; }
+.current-work span { color: #475467; font-size: .8rem; }
+.add-row,
+.remove-row {
+  width: fit-content !important;
+  min-height: 2.6rem;
+  border: 1px solid transparent !important;
+  border-radius: 10px !important;
+  background: transparent !important;
+  font: inherit;
+  cursor: pointer;
+}
+.add-row { display: inline-flex; align-items: center; gap: .5rem; padding: .55rem .8rem !important; color: #175cd3 !important; font-weight: 700; }
+.add-row:hover { background: #eef4ff !important; }
+.remove-row {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 2.6rem !important;
+  height: 2.6rem;
+  padding: 0 !important;
+  color: #b42318 !important;
+  background: #fff5f4 !important;
+  border-color: #f3c7c3 !important;
+  font-size: 1rem;
+}
+.remove-row:hover { background: #fee4e2 !important; border-color: #e7a39c !important; }
 
 .career-form textarea {
   min-height: 140px;
@@ -271,5 +306,5 @@
   .career-form { padding: 1rem; }
   .career-form fieldset { padding: 1rem; }
   .repeat-row, .experience-row { grid-template-columns: 1fr; }
-  .remove-row { justify-self: start; min-height: 1.8rem; }
+  .remove-row { justify-self: start; }
 }
