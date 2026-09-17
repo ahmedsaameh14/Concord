@@ -54,12 +54,36 @@
 	gap: clamp(3rem, 10vw, 10rem);
 }
 
+.founders-grid .section-heading {
+	position: relative;
+	width: fit-content;
+	transition: opacity .8s ease, transform .8s cubic-bezier(.22, 1, .36, 1);
+}
+
+.founders-grid .section-heading::after {
+	position: absolute;
+	bottom: -.9rem;
+	left: 0;
+	width: 4rem;
+	height: 3px;
+	content: '';
+	background: #2b76ad;
+	transform: scaleX(0);
+	transform-origin: left;
+	transition: transform .7s .25s cubic-bezier(.22, 1, .36, 1);
+}
+
+.founders-grid .section-heading.is-visible::after {
+	transform: scaleX(1);
+}
+
 .founders-copy {
 	max-width: 760px;
 	margin: 0;
 	color: #5d6875;
 	font-size: clamp(1rem, 1.45vw, 1.18rem);
 	line-height: 1.9;
+	transition: opacity .8s .18s ease, transform .8s .18s cubic-bezier(.22, 1, .36, 1);
 }
 
 .chairman-section {
