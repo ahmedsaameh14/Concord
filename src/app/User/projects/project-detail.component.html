@@ -82,21 +82,44 @@
 
       @if (galleryImages().length) {
         <section class="project-gallery" aria-labelledby="gallery-title">
-          <div class="gallery-heading">
-            <!-- <span>Project gallery</span> -->
-            <!-- <h2 id="gallery-title">Built to be seen.</h2> -->
-          </div>
-          <div class="gallery-slider">
-            <img [src]="activeImage()" [alt]="item.name + ' project view ' + (activeSlide() + 1)" />
-            <button type="button" class="gallery-control previous" (click)="previousSlide()" aria-label="Previous image"><i class="fa-solid fa-chevron-left"></i></button>
-            <button type="button" class="gallery-control next" (click)="nextSlide()" aria-label="Next image"><i class="fa-solid fa-chevron-right"></i></button>
-          </div>
-          <div class="gallery-thumbnails" aria-label="Choose gallery image">
-            @for (image of galleryImages(); track image; let index = $index) {
-              <button type="button" [class.active]="activeSlide() === index" (click)="selectSlide(index)" [attr.aria-label]="'Show image ' + (index + 1)">
-                <img [src]="image" [alt]="''" />
-              </button>
-            }
+          <div class="gallery-shell">
+            <div class="gallery-heading">
+              <div>
+                <span class="gallery-kicker">Project gallery</span>
+                <h2 id="gallery-title">A closer look at the work.</h2>
+              </div>
+              <span class="gallery-counter" aria-live="polite">
+                {{ (activeSlide() + 1).toString().padStart(2, '0') }}
+                <span>/</span>
+                {{ galleryImages().length.toString().padStart(2, '0') }}
+              </span>
+            </div>
+
+            <div class="gallery-layout">
+              <div class="gallery-slider">
+                <img [src]="activeImage()" [alt]="item.name + ' project view ' + (activeSlide() + 1)" />
+                <div class="gallery-slider-tools">
+                  <button type="button" class="gallery-control" (click)="previousSlide()" aria-label="Previous image">
+                    <i class="fa-solid fa-arrow-left" aria-hidden="true"></i>
+                  </button>
+                  <button type="button" class="gallery-control" (click)="nextSlide()" aria-label="Next image">
+                    <i class="fa-solid fa-arrow-right" aria-hidden="true"></i>
+                  </button>
+                </div>
+                <!-- <button type="button" class="gallery-expand" (click)="openActiveImage()" aria-label="Open full image">
+                  <i class="fa-solid fa-up-right-and-down-left-from-center" aria-hidden="true"></i>
+                </button> -->
+              </div>
+
+              <div class="gallery-thumbnails" aria-label="Choose gallery image">
+                @for (image of galleryImages(); track image; let index = $index) {
+                  <button type="button" [class.active]="activeSlide() === index" (click)="selectSlide(index)" [attr.aria-label]="'Show image ' + (index + 1)">
+                    <img [src]="image" [alt]="''" />
+                    <span>{{ (index + 1).toString().padStart(2, '0') }}</span>
+                  </button>
+                }
+              </div>
+            </div>
           </div>
         </section>
       }

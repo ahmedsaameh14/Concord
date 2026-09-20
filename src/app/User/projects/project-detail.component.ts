@@ -66,4 +66,9 @@ export class ProjectDetailComponent implements OnInit {
   selectSlide(index: number): void {
     this.activeSlide.set(index);
   }
+
+  // openActiveImage(): void {
+  //   const image = this.activeImage();
+  //   if (image) window.open(image, '_blank', 'noopener,noreferrer');
+  // }
 }
