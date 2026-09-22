@@ -24,7 +24,6 @@ export class DashboardProjectsListComponent implements OnInit {
   readonly projectTypes = PROJECT_TYPES;
 
   projects = signal<Project[]>([]);
-  locations = signal<string[]>([]);
   loading = signal(false);
   error = signal('');
   deleteDialogOpen = signal(false);
@@ -33,7 +32,6 @@ export class DashboardProjectsListComponent implements OnInit {
   pendingProject = signal<Project | null>(null);
 
   search = '';
-  location = '';
   type = '';
   isActive: '' | 'true' | 'false' = '';
   page = 1;
@@ -52,7 +50,6 @@ export class DashboardProjectsListComponent implements OnInit {
     this.projectsApi
       .getProjects({
         search: this.search || undefined,
-        locations: this.location || undefined,
         types: this.type || undefined,
         isActive: this.isActive || undefined,
         page: this.page,
@@ -64,7 +61,6 @@ export class DashboardProjectsListComponent implements OnInit {
           this.projects.set(res.data || []);
           this.total = res.meta?.total || 0;
           this.totalPages = res.meta?.totalPages || 0;
-          this.locations.set(res.meta?.filters?.locations || []);
           this.loading.set(false);
         },
         error: (err) => {
@@ -83,7 +79,6 @@ export class DashboardProjectsListComponent implements OnInit {
 
   clearFilters(): void {
     this.search = '';
-    this.location = '';
     this.type = '';
     this.isActive = '';
     this.page = 1;

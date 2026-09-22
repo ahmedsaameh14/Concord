@@ -81,28 +81,9 @@
                 [src]="article.image"
                 [alt]="article.title"
               />
-              @if (article.isTopArticle) {
-                <span
-                  class="article-feature-label absolute left-3 top-3 !mb-0 bg-concord-gold px-2.5 py-1 text-white"
-                >
-                  Top
-                </span>
-              }
             </div>
             <div class="article-card-body">
-              @if (article.tags.length) {
-                <div class="article-tags">
-                  @for (tag of article.tags; track tag) {
-                    <span class="no-underline">
-                      {{ tag }}
-                    </span>
-                  }
-                </div>
-              }
               <h2>{{ article.title }}</h2>
-              <span class="article-link">
-                Read More <i class="fa-solid fa-chevron-right"></i>
-              </span>
             </div>
           </a>
         }
