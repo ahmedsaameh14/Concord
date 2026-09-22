@@ -19,12 +19,6 @@
             aria-label="Search projects"
             (ngModelChange)="onSearchChange()"
           />
-          <select class="project-select" [(ngModel)]="location" aria-label="Filter by location" (ngModelChange)="onLocationChange()">
-            <option value="">All locations</option>
-            @for (city of locations(); track city.name) {
-              <option [value]="city.name">{{ city.name }} ({{ city.count }})</option>
-            }
-          </select>
           <select class="project-select" [(ngModel)]="type" aria-label="Filter by service" (ngModelChange)="onTypeChange()">
             <option value="">All services</option>
             @for (item of typeOptions(); track item.name) {
@@ -55,15 +49,12 @@
                   <img class="project-image" [src]="project.mainImage" [alt]="project.name" />
                 </a>
                 <div class="project-card-body">
-                  <span class="project-type">{{ project.type }}</span>
-                  <h2>{{ project.name }}</h2>
-                  <p class="project-location">
-                    <i class="fa-solid fa-location-dot" aria-hidden="true"></i>
-                    {{ project.location }} · {{ project.client }}
-                  </p>
-                  <a [routerLink]="['/projects', project.slug || project._id]" class="project-read-more">
-                    View project <i class="fa-solid fa-chevron-right" aria-hidden="true"></i>
+                  <a [routerLink]="['/projects', project.slug || project._id]" class="project-title-link">
+                    <h2>{{ project.name }}</h2>
                   </a>
+                  @if (project.startYear || project.duration) {
+                    <span class="project-year">{{ projectDuration(project) }}</span>
+                  }
                 </div>
               </article>
             }

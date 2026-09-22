@@ -95,26 +95,26 @@ export class DashboardOverviewComponent implements OnInit {
           typeMap[key] = (typeMap[key] || 0) + 1;
         });
         this.byType.set(typeMap);
-        this.recent.set(projectList.slice(0, 5));
+        this.recent.set(projectList.slice(0, 3));
 
         const articleList = articles.data || [];
         this.articlesTotal.set(articles.meta?.total ?? articleList.length);
         this.activeArticles.set(articleList.filter((article) => article.isActive).length);
         this.topArticles.set(articleList.filter((article) => article.isTopArticle).length);
-        this.recentArticles.set(articleList.slice(0, 5));
+        this.recentArticles.set(articleList.slice(0, 3));
 
         const awardList = awards.data || [];
         this.awardsTotal.set(awards.meta?.total ?? awardList.length);
-        this.recentAwards.set(awardList.slice(0, 5));
+        this.recentAwards.set(awardList.slice(0, 3));
 
         const messageList = messages.data || [];
         this.messagesTotal.set(messageList.length);
-        this.recentMessages.set(messageList.slice(0, 5));
+        this.recentMessages.set(messageList.slice(0, 3));
 
         const careerList = careers.data || [];
         this.careersTotal.set(careers.meta?.total ?? careerList.length);
         this.activeCareers.set(careerList.filter((career) => career.isActive).length);
-        this.recentCareers.set(careerList.slice(0, 4));
+        this.recentCareers.set(careerList.slice(0, 3));
 
         this.usersTotal.set(users ? (users.data?.length ?? 0) : 0);
         this.loading.set(false);

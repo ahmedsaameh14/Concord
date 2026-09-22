@@ -4,7 +4,7 @@ import { FormsModule } from '@angular/forms';
 import { ActivatedRoute, Router, RouterLink } from '@angular/router';
 import { ProjectService } from '../../core/services/project.service';
 import { PROJECT_TYPES } from '../../core/config/api.config';
-import { Project, ProjectFilterOption } from '../../core/models/project.model';
+import { Project, ProjectFilterOption, projectDuration } from '../../core/models/project.model';
 import { LoadingSpinnerComponent } from '../../shared/loading-spinner/loading-spinner.component';
 
 @Component({
@@ -20,14 +20,13 @@ export class ProjectsComponent implements OnInit, OnDestroy {
   private readonly router = inject(Router);
 
   readonly projectTypes = PROJECT_TYPES;
+  readonly projectDuration = projectDuration;
 
   projects = signal<Project[]>([]);
-  locations = signal<ProjectFilterOption[]>([]);
   typeOptions = signal<ProjectFilterOption[]>([]);
   loading = signal(true);
   error = signal('');
 
-  location = '';
   type = '';
   search = '';
 
@@ -38,7 +37,6 @@ export class ProjectsComponent implements OnInit, OnDestroy {
     this.loadFilterOptions();
 
     this.route.queryParamMap.subscribe((params) => {
-      this.location = (params.get('locations') || '').toLowerCase();
       this.type = (params.get('types') || params.get('services') || '').toLowerCase();
       this.search = params.get('search') || '';
       this.loadProjects();
@@ -52,13 +50,12 @@ export class ProjectsComponent implements OnInit, OnDestroy {
   }
 
   get hasActiveFilters(): boolean {
-    return Boolean(this.location || this.type || this.search.trim());
+    return Boolean(this.type || this.search.trim());
   }
 
   loadFilterOptions(): void {
     this.projectsApi.getFilters().subscribe({
       next: (res) => {
-        this.locations.set(res.data?.locations || []);
         this.typeOptions.set(res.data?.types || []);
         this.filtersLoaded = true;
       },
@@ -75,7 +72,6 @@ export class ProjectsComponent implements OnInit, OnDestroy {
 
     this.projectsApi
       .getProjects({
-        locations: this.location || undefined,
         types: this.type || undefined,
         search: this.search || undefined,
         limit: 24,
@@ -86,21 +82,12 @@ export class ProjectsComponent implements OnInit, OnDestroy {
           this.projects.set(activeProjects);
           this.loading.set(false);
 
-          if (!this.filtersLoaded && res.meta?.filters?.locations?.length) {
-            this.locations.set(
-              res.meta.filters.locations.map((name) => ({ name, count: 0 }))
-            );
-          }
         },
         error: (err) => {
           this.loading.set(false);
           this.error.set(err?.error?.message || 'Unable to load projects.');
         },
       });
-  }
-
-  onLocationChange(): void {
-    this.applyFilters();
   }
 
   onTypeChange(): void {
@@ -115,7 +102,6 @@ export class ProjectsComponent implements OnInit, OnDestroy {
   }
 
   clearFilters(): void {
-    this.location = '';
     this.type = '';
     this.search = '';
     this.applyFilters();
@@ -124,7 +110,6 @@ export class ProjectsComponent implements OnInit, OnDestroy {
   applyFilters(): void {
     this.router.navigate(['/projects'], {
       queryParams: {
-        locations: this.location || null,
         types: this.type || null,
         search: this.search.trim() || null,
       },
