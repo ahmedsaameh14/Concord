@@ -1,4 +1,7 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
+import { provideRouter } from '@angular/router';
+import { of } from 'rxjs';
+import { ProjectService } from '../../../core/services/project.service';
 
 import { InfrastructureComponent } from './infrastructure.component';
 
@@ -8,7 +11,11 @@ describe('InfrastructureComponent', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      imports: [InfrastructureComponent]
+      imports: [InfrastructureComponent],
+      providers: [
+        provideRouter([]),
+        { provide: ProjectService, useValue: { getProjects: () => of({ data: [] }) } },
+      ],
     })
     .compileComponents();
 

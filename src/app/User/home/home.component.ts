@@ -19,6 +19,8 @@ export class HomeComponent implements OnInit, AfterViewInit, OnDestroy {
 
   @ViewChildren('reveal') revealElements!: QueryList<ElementRef<HTMLElement>>;
   @ViewChild('strengthsSection') strengthsSection!: ElementRef<HTMLElement>;
+  @ViewChild('ongoingProjectsTrack') ongoingProjectsTrack?: ElementRef<HTMLElement>;
+  @ViewChild('latestArticlesTrack') latestArticlesTrack?: ElementRef<HTMLElement>;
 
   ongoingProjects = signal<Project[]>([]);
   projectDuration = projectDuration;
@@ -56,15 +58,20 @@ export class HomeComponent implements OnInit, AfterViewInit, OnDestroy {
 
   private observer?: IntersectionObserver;
   private revealChangesSubscription?: Subscription;
+  private projectsCarouselTimer?: ReturnType<typeof setInterval>;
+  private articlesCarouselTimer?: ReturnType<typeof setInterval>;
   private countersStarted = false;
 
   ngOnInit(): void {
-    this.projectsApi.getProjects({ isOngoing: true, limit: 6 }).subscribe({
+    this.projectsApi.getProjects({ isOngoing: true, limit: 9 }).subscribe({
       next: (response) => this.ongoingProjects.set(response.data || []),
     });
-    this.articlesApi.getArticles({ limit: 3 }).subscribe({
+    this.articlesApi.getArticles({ limit: 9 }).subscribe({
       next: (response) => this.latestArticles.set(response.data || []),
     });
+
+    this.projectsCarouselTimer = setInterval(() => this.advanceCarousel(this.ongoingProjectsTrack), 3000);
+    this.articlesCarouselTimer = setInterval(() => this.advanceCarousel(this.latestArticlesTrack), 3000);
   }
 
   ngAfterViewInit(): void {
@@ -127,9 +134,47 @@ export class HomeComponent implements OnInit, AfterViewInit, OnDestroy {
     requestAnimationFrame(animate);
   }
 
+  moveCarousel(track: HTMLElement | undefined, direction: -1 | 1): void {
+    const element = track;
+    if (!element) return;
+
+    const maxScroll = element.scrollWidth - element.clientWidth;
+    if (direction < 0 && element.scrollLeft <= 1) {
+      element.scrollTo({ left: maxScroll, behavior: 'smooth' });
+      return;
+    }
+
+    if (direction > 0 && element.scrollLeft >= maxScroll - 1) {
+      element.scrollTo({ left: 0, behavior: 'smooth' });
+      return;
+    }
+
+    element.scrollBy({ left: direction * this.carouselStep(element), behavior: 'smooth' });
+  }
+
+  private advanceCarousel(track: ElementRef<HTMLElement> | undefined): void {
+    const element = track?.nativeElement;
+    if (!element || element.matches(':hover, :focus-within')) return;
+    if (element.scrollWidth <= element.clientWidth + 1) return;
+
+    if (element.scrollLeft >= element.scrollWidth - element.clientWidth - 1) {
+      element.scrollTo({ left: 0, behavior: 'smooth' });
+    } else {
+      element.scrollBy({ left: this.carouselStep(element), behavior: 'smooth' });
+    }
+  }
+
+  private carouselStep(element: HTMLElement): number {
+    const firstCard = element.firstElementChild as HTMLElement | null;
+    if (!firstCard) return element.clientWidth;
+    return firstCard.getBoundingClientRect().width + parseFloat(getComputedStyle(element).columnGap || '0');
+  }
+
   ngOnDestroy(): void {
     this.observer?.disconnect();
     this.revealChangesSubscription?.unsubscribe();
+    if (this.projectsCarouselTimer) clearInterval(this.projectsCarouselTimer);
+    if (this.articlesCarouselTimer) clearInterval(this.articlesCarouselTimer);
   }
 
 }

@@ -45,11 +45,11 @@
           <div class="projects-grid">
             @for (project of projects(); track project._id) {
               <article class="project-card">
-                <a [routerLink]="['/projects', project.slug || project._id]" class="project-image-link">
+                <a [routerLink]="['/projects', project.slug || project._id]" queryParamsHandling="preserve" class="project-image-link">
                   <img class="project-image" [src]="project.mainImage" [alt]="project.name" />
                 </a>
                 <div class="project-card-body">
-                  <a [routerLink]="['/projects', project.slug || project._id]" class="project-title-link">
+                  <a [routerLink]="['/projects', project.slug || project._id]" queryParamsHandling="preserve" class="project-title-link">
                     <h2>{{ project.name }}</h2>
                   </a>
                   @if (project.startYear || project.duration) {
@@ -59,6 +59,19 @@
               </article>
             }
           </div>
+          @if (totalPages() > 1) {
+            <nav class="projects-pagination" aria-label="Project pages">
+              <button type="button" class="pagination-button" [disabled]="page() === 1" (click)="goToPage(page() - 1)" aria-label="Previous page">
+                <i class="fa-solid fa-arrow-left" aria-hidden="true"></i>
+                Previous
+              </button>
+              <span aria-live="polite">Page {{ page() }} of {{ totalPages() }} <span class="pagination-total">({{ totalProjects() }} projects)</span></span>
+              <button type="button" class="pagination-button" [disabled]="page() === totalPages()" (click)="goToPage(page() + 1)" aria-label="Next page">
+                Next
+                <i class="fa-solid fa-arrow-right" aria-hidden="true"></i>
+              </button>
+            </nav>
+          }
         }
       </section>
     </main>

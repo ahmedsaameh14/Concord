@@ -1,10 +1,11 @@
 import { AfterViewInit, Component, ElementRef, OnDestroy, QueryList, ViewChildren } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { RouterModule } from '@angular/router';
+import { ServiceProjectsComponent } from '../../../shared/service-projects/service-projects.component';
 
 @Component({
   selector: 'app-infrastructure',
-  imports: [CommonModule, RouterModule],
+  imports: [CommonModule, RouterModule, ServiceProjectsComponent],
   templateUrl: './infrastructure.component.html',
   styleUrl: './infrastructure.component.css'
 })
@@ -27,7 +28,7 @@ export class InfrastructureComponent implements AfterViewInit, OnDestroy {
       ]
     },
     {
-      image: '/images/InfraP1.png',
+      image: '/images/civil&mep.jpg',
       title: 'Civil & MEP Works',
       paragraphs: [
         'Integrated civil, mechanical, and electrical solutions delivered across complex projects, including light current systems, electrical systems, and mechanical systems, ensuring seamless coordination from construction through commissioning.'

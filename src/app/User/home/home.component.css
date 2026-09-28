@@ -223,6 +223,43 @@
 	margin-bottom: clamp(2.5rem, 6vw, 5rem);
 }
 
+.carousel-heading-actions {
+	display: flex;
+	justify-content: flex-end;
+}
+
+.carousel-action-stack {
+	display: flex;
+	flex-direction: column;
+	align-items: flex-end;
+	gap: .7rem;
+}
+
+.carousel-controls {
+	display: flex;
+	gap: .5rem;
+}
+
+.carousel-controls button {
+	display: grid;
+	width: 44px;
+	aspect-ratio: 1;
+	place-items: center;
+	border: 1px solid #c9a227;
+	border-radius: 50%;
+	background: #16283d;
+	color: #fff;
+	cursor: pointer;
+	transition: background-color .2s ease, color .2s ease, border-color .2s ease, transform .2s ease;
+}
+
+.carousel-controls button:hover,
+.carousel-controls button:focus-visible {
+	border-color: #2b76ad;
+	background: #2b76ad;
+	transform: translateY(-2px);
+}
+
 .ongoing-projects-heading h2 {
 	margin: 0;
 	color: #16283d;
@@ -232,13 +269,24 @@
 }
 
 .ongoing-projects-grid {
-	display: grid;
-	grid-template-columns: repeat(3, minmax(0, 1fr));
+	display: flex;
 	gap: 1.5rem;
+	overflow-x: auto;
+	scrollbar-width: none;
+	scroll-snap-type: x mandatory;
+	scroll-behavior: smooth;
+}
+
+.ongoing-projects-grid::-webkit-scrollbar,
+.latest-articles-grid::-webkit-scrollbar {
+	display: none;
 }
 
 .ongoing-project-card {
+	flex: 0 0 calc((100% - 3rem) / 3);
+	min-width: 0;
 	background: #fff;
+	scroll-snap-align: start;
 	transition: transform .3s ease;
 }
 
@@ -319,16 +367,24 @@
 }
 
 .latest-articles-grid {
-	display: grid;
-	grid-template-columns: repeat(3, minmax(0, 1fr));
+	display: flex;
+	align-items: stretch;
 	gap: 1.5rem;
+	overflow-x: auto;
+	scrollbar-width: none;
+	scroll-snap-type: x mandatory;
+	scroll-behavior: smooth;
 }
 
 .latest-article-card {
+	flex: 0 0 calc((100% - 3rem) / 3);
+	min-width: 0;
 	display: flex;
 	flex-direction: column;
-	height: 100%;
+	min-height: 430px;
+	height: auto;
 	border-bottom: 1px solid #cad3dc;
+	scroll-snap-align: start;
 }
 
 .latest-article-image-link {
@@ -372,11 +428,16 @@
 
 .latest-article-card-body h3 {
 	flex: 1;
+	display: -webkit-box;
+	min-height: 3.75em;
+	overflow: hidden;
 	margin: .65rem 0 0;
 	color: #16283d;
 	font-size: 1.35rem;
 	font-weight: 600;
 	line-height: 1.25;
+	-webkit-box-orient: vertical;
+	-webkit-line-clamp: 3;
 }
 
 .latest-article-card .read-more {
@@ -786,13 +847,39 @@
 	}
 
 	.latest-articles-grid {
-		grid-template-columns: 1fr;
+		gap: 1rem;
 	}
 
 	.ongoing-projects-grid {
-		grid-template-columns: 1fr;
+		gap: 1rem;
 	}
 
+	.ongoing-project-card,
+	.latest-article-card {
+		flex-basis: 100%;
+	}
+
+	.latest-article-card { min-height: 400px; }
+
+	.carousel-heading-actions {
+		width: 100%;
+		justify-content: space-between;
+	}
+
+
+@media (min-width: 561px) and (max-width: 900px) {
+	.ongoing-project-card,
+	.latest-article-card {
+		flex-basis: calc((100% - 1.5rem) / 2);
+	}
+}
+
+@media (prefers-reduced-motion: reduce) {
+	.ongoing-projects-grid,
+	.latest-articles-grid {
+		scroll-behavior: auto;
+	}
+}
 	.sustainability-grid,
 	.strengths-grid,
 	.services-list {
