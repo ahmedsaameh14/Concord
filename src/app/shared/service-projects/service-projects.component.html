@@ -1,0 +1,41 @@
+@if (projects().length) {
+  <section class="service-projects-section" aria-labelledby="service-projects-title">
+    <div class="service-projects-heading">
+      <div>
+        <p class="service-projects-kicker">Our work</p>
+        <h2 id="service-projects-title">{{ service | titlecase }} Projects</h2>
+      </div>
+      <div class="service-projects-actions">
+        @if (projects().length > 3) {
+          <div class="service-projects-controls" aria-label="Related project controls">
+            <button type="button" (click)="move(-1)" aria-label="Previous projects">
+              <i class="fa-solid fa-arrow-left" aria-hidden="true"></i>
+            </button>
+            <button type="button" (click)="move(1)" aria-label="Next projects">
+              <i class="fa-solid fa-arrow-right" aria-hidden="true"></i>
+            </button>
+          </div>
+        }
+        <a routerLink="/projects" [queryParams]="{ types: service }" class="service-projects-all">
+          See All {{ service | titlecase }} Projects
+          <i class="fa-solid fa-chevron-right" aria-hidden="true"></i>
+        </a>
+      </div>
+    </div>
+
+    <div #projectTrack class="service-projects-track" aria-label="Projects for this service">
+      @for (project of projects(); track project._id) {
+        <article class="service-project-card">
+          <a [routerLink]="['/projects', project.slug || project._id]" class="service-project-image">
+            <img [src]="project.mainImage" [alt]="project.name" />
+          </a>
+          <div class="service-project-copy">
+            <span>{{ projectDuration(project) }}</span>
+            <h3>{{ project.name }}</h3>
+            <p>{{ project.location }}</p>
+          </div>
+        </article>
+      }
+    </div>
+  </section>
+}

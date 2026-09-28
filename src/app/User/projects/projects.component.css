@@ -103,6 +103,29 @@
 .project-year { display: block; margin-top: 1rem; color: #92939a; font-size: .9rem; line-height: 1; }
 .projects-state { padding: 5rem 1rem; color: #66717c; text-align: center; }
 .projects-error { color: #b42318; }
+.projects-pagination {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1rem;
+  margin-top: 2.5rem;
+  color: #66717c;
+}
+.pagination-button {
+  display: inline-flex;
+  min-height: 44px;
+  align-items: center;
+  gap: .65rem;
+  padding: .65rem .9rem;
+  border: 1px solid #cad3dc;
+  background: transparent;
+  color: #172033;
+  font: inherit;
+  cursor: pointer;
+}
+.pagination-button:disabled { opacity: .45; cursor: not-allowed; }
+.pagination-button:not(:disabled):hover { border-color: #2b76ad; color: #2b76ad; }
+.pagination-total { color: #92939a; }
 .projects-loading-state {
   min-height: calc(100svh - 220px);
   display: grid;
@@ -118,6 +141,8 @@
   .projects-intro, .projects-content { padding-left: 1rem; padding-right: 1rem; }
   .projects-toolbar, .projects-grid { grid-template-columns: 1fr; }
   .project-search { grid-column: auto; }
+  .projects-pagination { flex-wrap: wrap; justify-content: center; }
+  .pagination-total { display: block; text-align: center; }
 }
 :host {
   display: block;

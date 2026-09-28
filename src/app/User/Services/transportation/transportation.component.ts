@@ -1,10 +1,11 @@
 import { AfterViewInit, Component, ElementRef, OnDestroy, QueryList, ViewChildren } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { RouterModule } from '@angular/router';
+import { ServiceProjectsComponent } from '../../../shared/service-projects/service-projects.component';
 
 @Component({
   selector: 'app-transportation',
-  imports: [CommonModule, RouterModule],
+  imports: [CommonModule, RouterModule, ServiceProjectsComponent],
   templateUrl: './transportation.component.html',
   styleUrl: './transportation.component.css'
 })
@@ -28,7 +29,7 @@ export class TransportationComponent implements AfterViewInit, OnDestroy {
       description: 'Construction of major road networks, bridges, and associated infrastructure designed to enhance connectivity and support long-term mobility.'
     },
     {
-      image: '/images/TransportationP3.jpg',
+      image: '/images/Airport.jpeg',
       title: 'Airports',
       description: 'Delivery of airport infrastructure and associated civil works, contributing to the development of safe, efficient, and modern aviation facilities.'
     }

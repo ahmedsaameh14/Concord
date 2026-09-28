@@ -4,7 +4,7 @@ import { FormsModule } from '@angular/forms';
 import { ActivatedRoute, Router, RouterLink } from '@angular/router';
 import { ProjectService } from '../../core/services/project.service';
 import { PROJECT_TYPES } from '../../core/config/api.config';
-import { Project, ProjectFilterOption, projectDuration } from '../../core/models/project.model';
+import { Project, ProjectFilterOption, ProjectListMeta, projectDuration } from '../../core/models/project.model';
 import { LoadingSpinnerComponent } from '../../shared/loading-spinner/loading-spinner.component';
 
 @Component({
@@ -24,6 +24,9 @@ export class ProjectsComponent implements OnInit, OnDestroy {
 
   projects = signal<Project[]>([]);
   typeOptions = signal<ProjectFilterOption[]>([]);
+  page = signal(1);
+  totalPages = signal(0);
+  totalProjects = signal(0);
   loading = signal(true);
   error = signal('');
 
@@ -39,6 +42,7 @@ export class ProjectsComponent implements OnInit, OnDestroy {
     this.route.queryParamMap.subscribe((params) => {
       this.type = (params.get('types') || params.get('services') || '').toLowerCase();
       this.search = params.get('search') || '';
+      this.page.set(Math.max(1, Number(params.get('page')) || 1));
       this.loadProjects();
     });
   }
@@ -74,17 +78,23 @@ export class ProjectsComponent implements OnInit, OnDestroy {
       .getProjects({
         types: this.type || undefined,
         search: this.search || undefined,
-        limit: 24,
+        page: this.page(),
+        limit: 6,
       })
       .subscribe({
         next: (res) => {
           const activeProjects = (res.data || []).filter((project) => project.isActive !== false);
           this.projects.set(activeProjects);
+          const meta: ProjectListMeta | undefined = res.meta;
+          this.totalPages.set(meta?.totalPages || 0);
+          this.totalProjects.set(meta?.total || 0);
           this.loading.set(false);
 
         },
         error: (err) => {
           this.loading.set(false);
+          this.totalPages.set(0);
+          this.totalProjects.set(0);
           this.error.set(err?.error?.message || 'Unable to load projects.');
         },
       });
@@ -112,7 +122,16 @@ export class ProjectsComponent implements OnInit, OnDestroy {
       queryParams: {
         types: this.type || null,
         search: this.search.trim() || null,
+        page: null,
       },
+    });
+  }
+
+  goToPage(page: number): void {
+    if (page < 1 || page > this.totalPages() || page === this.page()) return;
+    this.router.navigate(['/projects'], {
+      queryParams: { page: page === 1 ? null : page },
+      queryParamsHandling: 'merge',
     });
   }
 }

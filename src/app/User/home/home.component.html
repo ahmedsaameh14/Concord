@@ -115,9 +115,19 @@
 						<!-- <p class="section-kicker">Currently underway</p> -->
 						<h2 id="ongoing-projects-title">Projects in Progress</h2>
 					</div>
-					<a routerLink="/projects" class="read-more">View all projects <i class="fa-solid fa-chevron-right" aria-hidden="true"></i></a>
+					<div class="carousel-heading-actions">
+						<div class="carousel-action-stack">
+							@if (ongoingProjects().length > 3) {
+								<div class="carousel-controls" aria-label="Projects in progress controls">
+									<button type="button" (click)="moveCarousel(ongoingProjectsTrack, -1)" aria-label="Previous projects"><i class="fa-solid fa-arrow-left" aria-hidden="true"></i></button>
+									<button type="button" (click)="moveCarousel(ongoingProjectsTrack, 1)" aria-label="Next projects"><i class="fa-solid fa-arrow-right" aria-hidden="true"></i></button>
+								</div>
+							}
+							<a routerLink="/projects" class="read-more">View all projects <i class="fa-solid fa-chevron-right" aria-hidden="true"></i></a>
+						</div>
+					</div>
 				</div>
-				<div class="ongoing-projects-grid">
+				<div #ongoingProjectsTrack class="ongoing-projects-grid" aria-label="Projects in progress">
 					@for (project of ongoingProjects(); track project._id; let index = $index) {
 						<article class="ongoing-project-card reveal" #reveal [style.transition-delay.ms]="index * 120">
 							<a [routerLink]="['/projects', project.slug || project._id]" class="ongoing-project-image-link">
@@ -143,9 +153,19 @@
 						<!-- <p class="section-kicker">News and updates</p> -->
 						<h2 id="latest-articles-title">Latest Articles</h2>
 					</div>
-					<a routerLink="/news/articles" class="read-more">View all articles <i class="fa-solid fa-chevron-right" aria-hidden="true"></i></a>
+					<div class="carousel-heading-actions">
+						<div class="carousel-action-stack">
+							@if (latestArticles().length > 3) {
+								<div class="carousel-controls" aria-label="Latest articles controls">
+									<button type="button" (click)="moveCarousel(latestArticlesTrack, -1)" aria-label="Previous articles"><i class="fa-solid fa-arrow-left" aria-hidden="true"></i></button>
+									<button type="button" (click)="moveCarousel(latestArticlesTrack, 1)" aria-label="Next articles"><i class="fa-solid fa-arrow-right" aria-hidden="true"></i></button>
+								</div>
+							}
+							<a routerLink="/news/articles" class="read-more">View all articles <i class="fa-solid fa-chevron-right" aria-hidden="true"></i></a>
+						</div>
+					</div>
 				</div>
-				<div class="latest-articles-grid">
+				<div #latestArticlesTrack class="latest-articles-grid" aria-label="Latest articles">
 					@for (article of latestArticles(); track article._id; let index = $index) {
 						<article class="latest-article-card reveal" #reveal [style.transition-delay.ms]="index * 120">
 							<a [routerLink]="['/news/articles', article.slug || article._id]" class="latest-article-image-link">
