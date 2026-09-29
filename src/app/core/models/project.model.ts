@@ -76,11 +76,15 @@ export interface ProjectListQuery {
   search?: string;
   page?: number;
   limit?: number;
+  sort?: ProjectSort;
+  seed?: string;
   isOngoing?: boolean;
   isActive?: 'true' | 'false' | '';
   /** Dashboard only: include inactive projects when admin token is present */
   admin?: 'true';
 }
+
+export type ProjectSort = 'random' | 'name' | 'newest' | 'oldest' | 'longest' | 'shortest';
 
 export const projectDuration = (project: Pick<Project, 'startYear' | 'endYear' | 'duration'>): string => {
   if (project.duration) return project.duration;

@@ -22,6 +22,9 @@ export class ArticlesComponent implements OnInit {
 
   articles = signal<Article[]>([]);
   topArticle = signal<Article | null>(null);
+  page = signal(1);
+  totalPages = signal(0);
+  totalArticles = signal(0);
   loading = signal(true);
   error = signal('');
   tag = '';
@@ -41,33 +44,43 @@ export class ArticlesComponent implements OnInit {
       .getArticles({
         tags: this.tag || undefined,
         search: this.search.trim() || undefined,
-        limit: 24,
+        page: this.page(),
+        limit: 4,
       })
       .subscribe({
         next: (res) => {
           this.articles.set(res.data || []);
           this.topArticle.set(res.meta?.topArticle || null);
+          this.totalPages.set(res.meta?.totalPages || 0);
+          this.totalArticles.set(res.meta?.total || 0);
           this.loading.set(false);
         },
         error: (err) => {
           this.loading.set(false);
+          this.totalPages.set(0);
+          this.totalArticles.set(0);
           this.error.set(err?.error?.message || 'Unable to load articles.');
         },
       });
   }
 
   onTagChange(): void {
+    this.page.set(1);
     this.loadArticles();
   }
 
   onSearchChange(): void {
     if (this.searchTimer) clearTimeout(this.searchTimer);
-    this.searchTimer = setTimeout(() => this.loadArticles(), 350);
+    this.searchTimer = setTimeout(() => {
+      this.page.set(1);
+      this.loadArticles();
+    }, 350);
   }
 
   clearFilters(): void {
     this.tag = '';
     this.search = '';
+    this.page.set(1);
     this.loadArticles();
   }
 
@@ -77,5 +90,11 @@ export class ArticlesComponent implements OnInit {
 
   serviceRoute(tag: string): string {
     return this.serviceRoutes[tag as keyof typeof SERVICE_ROUTES] || '/services/construction';
+  }
+
+  goToPage(page: number): void {
+    if (page < 1 || page > this.totalPages() || page === this.page()) return;
+    this.page.set(page);
+    this.loadArticles();
   }
 }

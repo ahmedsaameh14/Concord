@@ -4,7 +4,7 @@ import { FormsModule } from '@angular/forms';
 import { ActivatedRoute, Router, RouterLink } from '@angular/router';
 import { ProjectService } from '../../core/services/project.service';
 import { PROJECT_TYPES } from '../../core/config/api.config';
-import { Project, ProjectFilterOption, ProjectListMeta, projectDuration } from '../../core/models/project.model';
+import { Project, ProjectFilterOption, ProjectListMeta, ProjectSort, projectDuration } from '../../core/models/project.model';
 import { LoadingSpinnerComponent } from '../../shared/loading-spinner/loading-spinner.component';
 
 @Component({
@@ -32,6 +32,8 @@ export class ProjectsComponent implements OnInit, OnDestroy {
 
   type = '';
   search = '';
+  sort: ProjectSort = 'random';
+  private seed = '';
 
   private searchTimer: ReturnType<typeof setTimeout> | null = null;
   private filtersLoaded = false;
@@ -42,7 +44,22 @@ export class ProjectsComponent implements OnInit, OnDestroy {
     this.route.queryParamMap.subscribe((params) => {
       this.type = (params.get('types') || params.get('services') || '').toLowerCase();
       this.search = params.get('search') || '';
+      const requestedSort = params.get('sort') as ProjectSort | null;
+      this.sort = ['random', 'name', 'newest', 'oldest', 'longest', 'shortest'].includes(requestedSort || '')
+        ? requestedSort as ProjectSort
+        : 'random';
+      this.seed = params.get('seed') || '';
       this.page.set(Math.max(1, Number(params.get('page')) || 1));
+      if (this.sort === 'random' && !this.seed) {
+        this.seed = this.createRandomSeed();
+        this.router.navigate([], {
+          relativeTo: this.route,
+          queryParams: { sort: this.sort, seed: this.seed },
+          queryParamsHandling: 'merge',
+          replaceUrl: true,
+        });
+        return;
+      }
       this.loadProjects();
     });
   }
@@ -80,6 +97,8 @@ export class ProjectsComponent implements OnInit, OnDestroy {
         search: this.search || undefined,
         page: this.page(),
         limit: 6,
+        sort: this.sort,
+        seed: this.sort === 'random' ? this.seed : undefined,
       })
       .subscribe({
         next: (res) => {
@@ -104,6 +123,11 @@ export class ProjectsComponent implements OnInit, OnDestroy {
     this.applyFilters();
   }
 
+  onSortChange(): void {
+    this.seed = this.sort === 'random' ? this.createRandomSeed() : '';
+    this.applyFilters();
+  }
+
   onSearchChange(): void {
     if (this.searchTimer) {
       clearTimeout(this.searchTimer);
@@ -123,6 +147,8 @@ export class ProjectsComponent implements OnInit, OnDestroy {
         types: this.type || null,
         search: this.search.trim() || null,
         page: null,
+        sort: this.sort,
+        seed: this.sort === 'random' ? this.seed : null,
       },
     });
   }
@@ -133,5 +159,9 @@ export class ProjectsComponent implements OnInit, OnDestroy {
       queryParams: { page: page === 1 ? null : page },
       queryParamsHandling: 'merge',
     });
+  }
+
+  private createRandomSeed(): string {
+    return `${Math.random().toString(36).slice(2)}${Date.now().toString(36)}`;
   }
 }
