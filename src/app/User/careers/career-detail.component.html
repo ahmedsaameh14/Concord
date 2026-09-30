@@ -49,36 +49,39 @@
           <button type="button" class="add-row" (click)="addEducation()"><i class="fa-solid fa-plus" aria-hidden="true"></i> Add qualification</button>
         </fieldset>
 
-        <fieldset>
-          <legend>3. Courses</legend>
-          @for (course of form.courses; track $index; let index = $index) {
-            <div class="repeat-row">
-              <label>Course name<input [name]="'courseName' + index" [(ngModel)]="course.courseName" /></label>
-              @if (form.courses.length > 1) { <button type="button" class="remove-row" (click)="removeCourse(index)" aria-label="Remove course" title="Remove course"><i class="fa-solid fa-xmark" aria-hidden="true"></i></button> }
+        <div class="courses-salary-layout">
+          <fieldset>
+            <legend>3. Courses</legend>
+            <div class="course-list">
+              @for (course of form.courses; track $index; let index = $index) {
+                <div class="repeat-row course-row">
+                  <label>Course name<input [name]="'courseName' + index" [(ngModel)]="course.courseName" /></label>
+                  @if (form.courses.length > 1) { <button type="button" class="remove-row" (click)="removeCourse(index)" aria-label="Remove course" title="Remove course"><i class="fa-solid fa-xmark" aria-hidden="true"></i></button> }
+                </div>
+              }
+              <button type="button" class="add-row" (click)="addCourse()"><i class="fa-solid fa-plus" aria-hidden="true"></i> Add course</button>
             </div>
-          }
-          <button type="button" class="add-row" (click)="addCourse()"><i class="fa-solid fa-plus" aria-hidden="true"></i> Add course</button>
-        </fieldset>
+          </fieldset>
+          <fieldset>
+            <legend>4. Salary</legend>
+            <label class="expected-salary-field">Expected salary *<input name="expectedSalary" [(ngModel)]="form.expectedSalary" required /></label>
+          </fieldset>
+        </div>
 
         <fieldset>
-          <legend>4. Work experience</legend>
+          <legend>5. Work experience</legend>
           @for (experience of form.workExperience; track $index; let index = $index) {
             <div class="repeat-row experience-row">
-              <label>Job title<input [name]="'jobTitle' + index" [(ngModel)]="experience.jobTitle" /></label>
-              <label>Place of work<input [name]="'placeOfWork' + index" [(ngModel)]="experience.placeOfWork" /></label>
-              <label>Start date<input [name]="'startDate' + index" [(ngModel)]="experience.startDate" type="date" /></label>
-              <label>End date<input [name]="'endDate' + index" [(ngModel)]="experience.endDate" [disabled]="experience.currentlyWorking" type="date" /></label>
-              <label class="current-work"><input [name]="'currentlyWorking' + index" [(ngModel)]="experience.currentlyWorking" type="checkbox" /><span>I currently work here</span></label>
-              <label>Salary<input [name]="'salary' + index" [(ngModel)]="experience.salary" /></label>
+              <label class="experience-position">Job title<input [name]="'jobTitle' + index" [(ngModel)]="experience.jobTitle" /></label>
+              <label class="experience-place">Place of work<input [name]="'placeOfWork' + index" [(ngModel)]="experience.placeOfWork" /></label>
+              <label class="experience-start">Start date<input [name]="'startDate' + index" [(ngModel)]="experience.startDate" type="date" /></label>
+              <label class="experience-end">End date<input [name]="'endDate' + index" [(ngModel)]="experience.endDate" [disabled]="experience.currentlyWorking" type="date" /></label>
+              <label class="current-work experience-current"><input [name]="'currentlyWorking' + index" [(ngModel)]="experience.currentlyWorking" type="checkbox" /><span>I currently work here</span></label>
+              <label class="experience-salary">Salary<input [name]="'salary' + index" [(ngModel)]="experience.salary" /></label>
               @if (form.workExperience.length > 1) { <button type="button" class="remove-row" (click)="removeExperience(index)" aria-label="Remove experience" title="Remove experience"><i class="fa-solid fa-xmark" aria-hidden="true"></i></button> }
             </div>
           }
           <button type="button" class="add-row" (click)="addExperience()"><i class="fa-solid fa-plus" aria-hidden="true"></i> Add work experience</button>
-        </fieldset>
-
-        <fieldset>
-          <legend>5. Salary</legend>
-          <label>Expected salary *<input name="expectedSalary" [(ngModel)]="form.expectedSalary" required /></label>
         </fieldset>
 
         <label class="data-check">

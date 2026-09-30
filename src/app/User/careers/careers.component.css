@@ -63,17 +63,23 @@
 .careers-toolbar input {
   width: 100%;
   border: 1px solid #d5dce4;
-  border-radius: 14px;
+  border-radius: 8px;
   background: rgba(255, 255, 255, 0.9);
   padding: 0.95rem 1rem;
   color: #172033;
   font: inherit;
   box-shadow: 0 10px 24px rgba(22, 40, 61, 0.04);
+  transition: border-color 180ms ease, box-shadow 180ms ease;
 }
 
-.careers-toolbar input:focus {
-  outline: 2px solid rgba(37, 99, 235, 0.12);
+.careers-toolbar input:hover {
+  border-color: #9aacc0;
+}
+
+.careers-toolbar input:focus-visible {
+  outline: 3px solid rgba(37, 99, 235, 0.15);
   border-color: #8db6ff;
+  box-shadow: 0 0 0 1px #8db6ff;
 }
 
 .careers-grid {
@@ -92,14 +98,23 @@
   border: 1px solid #dde5ee;
   border-radius: 22px;
   background: rgba(255, 255, 255, 0.82);
+  color: inherit;
+  text-decoration: none;
   box-shadow: 0 16px 38px rgba(22, 40, 61, 0.05);
-  transition: transform 180ms ease, box-shadow 180ms ease;
+  transition: transform 180ms ease, box-shadow 180ms ease, border-color 180ms ease, background 180ms ease;
 }
 
 .career-card:hover {
   transform: translateY(-3px);
-  background: #eef3f7;
+  border-color: #b7c9df;
+  background: #fff;
   box-shadow: 0 20px 42px rgba(22, 40, 61, 0.08);
+}
+
+.career-card:focus-visible {
+  outline: 3px solid rgba(37, 99, 235, 0.35);
+  outline-offset: 4px;
+  border-color: #175cd3;
 }
 
 .career-card-body {
@@ -130,18 +145,19 @@
   line-height: 1.8;
 }
 
-.career-card a {
+.career-card-action {
   display: inline-flex;
   align-items: center;
   gap: 0.55rem;
   margin-top: 1.5rem;
   color: #175cd3;
   font-weight: 700;
-  text-decoration: none;
+  transition: gap 180ms ease, color 180ms ease;
 }
 
-.career-card a span {
-  font-size: 1.2rem;
+.career-card:hover .career-card-action {
+  gap: 0.8rem;
+  color: #1246a0;
 }
 
 .careers-state,
@@ -177,11 +193,24 @@
   width: 2.8rem;
   height: 2.8rem;
   border: 0;
-  border-radius: 12px;
+  border-radius: 8px;
   background: #eef2f7;
   color: #16283d;
   font-size: 1.1rem;
   cursor: pointer;
+  transition: transform 180ms ease, background 180ms ease, color 180ms ease, box-shadow 180ms ease;
+}
+
+.careers-pagination button:not(:disabled):hover {
+  transform: translateY(-2px);
+  background: #175cd3;
+  color: #fff;
+  box-shadow: 0 6px 14px rgba(23, 92, 211, 0.2);
+}
+
+.careers-pagination button:focus-visible {
+  outline: 3px solid rgba(37, 99, 235, 0.35);
+  outline-offset: 3px;
 }
 
 .careers-pagination button:disabled {
@@ -196,5 +225,14 @@
 
   .careers-page {
     padding-top: 5rem;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .career-card,
+  .career-card-action,
+  .careers-toolbar input,
+  .careers-pagination button {
+    transition: none;
   }
 }

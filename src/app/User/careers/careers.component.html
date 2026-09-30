@@ -27,16 +27,16 @@
     } @else {
       <div class="careers-grid">
         @for (career of careers(); track career._id) {
-          <article class="career-card">
+          <a class="career-card" [routerLink]="['/careers', career._id]">
             <div class="career-card-body">
               <p class="career-meta">{{ career.experience }} years experience</p>
               <h2>{{ career.title }}</h2>
               <p class="career-description">{{ career.description }}</p>
             </div>
-            <a [routerLink]="['/careers', career._id]">
+            <span class="career-card-action">
               View position <i class="fa-solid fa-chevron-right" aria-hidden="true"></i>
-            </a>
-          </article>
+            </span>
+          </a>
         }
       </div>
     }

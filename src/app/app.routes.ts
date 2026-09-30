@@ -15,6 +15,7 @@ import { SustainabilityComponent } from './User/sustainability/sustainability.co
 import { ContactComponent } from './User/contact/contact.component';
 import { CareersComponent } from './User/careers/careers.component';
 import { CareerDetailComponent } from './User/careers/career-detail.component';
+import { NotFoundComponent } from './User/not-found/not-found.component';
 import { ProjectsComponent } from './User/projects/projects.component';
 import { ProjectDetailComponent } from './User/projects/project-detail.component';
 import { ArticlesComponent } from './User/news/articles/articles.component';
@@ -68,6 +69,7 @@ export const routes: Routes = [
       { path: 'contact', component: ContactComponent, title: 'Contact Us' },
       { path: 'careers', component: CareersComponent, title: 'Careers' },
       { path: 'careers/:id', component: CareerDetailComponent, title: 'Career Details' },
+      { path: 'not-found', component: NotFoundComponent, title: 'Page Not Found' },
     ],
   },
   {
@@ -101,5 +103,5 @@ export const routes: Routes = [
       },
     ],
   },
-  { path: '**', redirectTo: '' },
+  { path: '**', redirectTo: '/not-found' },
 ];
