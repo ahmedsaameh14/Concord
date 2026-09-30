@@ -114,8 +114,9 @@
   gap: 1rem;
   margin: 0;
   padding: 1.25rem;
-  border: 1px solid #d9e1ea;
-  border-radius: 16px;
+  border: 1px solid #d5dee8;
+  border-radius: 12px;
+  background: rgba(255, 255, 255, 0.72);
 }
 
 .career-form legend {
@@ -145,7 +146,7 @@
 .career-form select {
   width: 100%;
   border: 1px solid #cbd5df;
-  border-radius: 12px;
+  border-radius: 8px;
   padding: 0.8rem 0.95rem;
   color: #172033;
   background: #fff;
@@ -166,7 +167,7 @@
 .career-form .file-upload-input::file-selector-button {
   margin-right: 0.8rem;
   border: 0;
-  border-radius: 9px;
+  border-radius: 6px;
   padding: 0.7rem 0.9rem;
   background: #16283d;
   color: #fff;
@@ -176,7 +177,19 @@
 }
 .file-field small { color: #667085; font-weight: 400; }
 .repeat-row { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)) auto; gap: .75rem; align-items: end; }
-.experience-row { grid-template-columns: repeat(4, minmax(0, 1fr)) minmax(10rem, 1.35fr) minmax(0, 1fr) auto; }
+.courses-salary-layout { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 1.25rem; align-items: stretch; }
+.courses-salary-layout > fieldset { min-width: 0; }
+.course-list { display: flex; flex-direction: column; gap: .75rem; }
+.course-row { grid-template-columns: minmax(0, 1fr) auto; }
+.expected-salary-field { width: 100%; }
+.experience-row { grid-template-columns: repeat(4, minmax(0, 1fr)) auto; row-gap: 1rem; }
+.experience-position { grid-column: 1 / 3; grid-row: 1; }
+.experience-place { grid-column: 3 / 5; grid-row: 1; }
+.experience-start { grid-column: 1; grid-row: 2; }
+.experience-end { grid-column: 2; grid-row: 2; }
+.experience-current { grid-column: 3; grid-row: 2; }
+.experience-salary { grid-column: 4; grid-row: 2; }
+.experience-row > .remove-row { grid-column: 5; grid-row: 1; }
 .current-work {
   flex-direction: row !important;
   align-items: center;
@@ -185,7 +198,7 @@
   min-height: 2.6rem;
   padding: .72rem .8rem;
   border: 1px solid #cbd5df;
-  border-radius: 12px;
+  border-radius: 8px;
   background: #f8fafc;
   cursor: pointer;
   line-height: 1.25;
@@ -197,13 +210,14 @@
   width: fit-content !important;
   min-height: 2.6rem;
   border: 1px solid transparent !important;
-  border-radius: 10px !important;
+  border-radius: 8px !important;
   background: transparent !important;
   font: inherit;
   cursor: pointer;
+  transition: color 180ms ease, background 180ms ease, border-color 180ms ease, transform 180ms ease;
 }
 .add-row { display: inline-flex; align-items: center; gap: .5rem; padding: .55rem .8rem !important; color: #175cd3 !important; font-weight: 700; }
-.add-row:hover { background: #eef4ff !important; }
+.add-row:hover { background: #eef4ff !important; border-color: #d7e5ff !important; transform: translateY(-1px); }
 .remove-row {
   display: inline-flex;
   align-items: center;
@@ -216,7 +230,7 @@
   border-color: #f3c7c3 !important;
   font-size: 1rem;
 }
-.remove-row:hover { background: #fee4e2 !important; border-color: #e7a39c !important; }
+.remove-row:hover { background: #fee4e2 !important; border-color: #e7a39c !important; transform: translateY(-1px); }
 
 .career-form textarea {
   min-height: 140px;
@@ -227,6 +241,12 @@
 .career-form textarea:focus {
   border-color: #8aaaf5;
   box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.12);
+}
+
+.career-form button:focus-visible,
+.back-link:focus-visible {
+  outline: 3px solid rgba(37, 99, 235, 0.35);
+  outline-offset: 3px;
 }
 
 .data-check {
@@ -262,11 +282,11 @@
   background: #fef3f2;
 }
 
-.career-form button {
+.career-form > button[type="submit"] {
   width: 100%;
   min-height: 3.2rem;
   border: 0;
-  border-radius: 14px;
+  border-radius: 8px;
   padding: 0.85rem 1rem;
   background: #16283d;
   color: #fff;
@@ -276,12 +296,12 @@
   transition: background 180ms ease, transform 180ms ease;
 }
 
-.career-form button:hover:not(:disabled) {
+.career-form > button[type="submit"]:hover:not(:disabled) {
   background: #1c3659;
   transform: translateY(-2px);
 }
 
-.career-form button:disabled {
+.career-form > button[type="submit"]:disabled {
   cursor: not-allowed;
   opacity: 0.6;
 }
@@ -305,6 +325,7 @@
 
   .career-form { padding: 1rem; }
   .career-form fieldset { padding: 1rem; }
-  .repeat-row, .experience-row { grid-template-columns: 1fr; }
+  .repeat-row, .experience-row, .courses-salary-layout { grid-template-columns: 1fr; }
+  .experience-position, .experience-place, .experience-start, .experience-end, .experience-current, .experience-salary, .experience-row > .remove-row { grid-column: auto; grid-row: auto; }
   .remove-row { justify-self: start; }
 }
