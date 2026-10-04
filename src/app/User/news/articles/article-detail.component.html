@@ -70,11 +70,24 @@
           </div>
         }
 
-        <img
-          class="mt-8 w-full rounded-2xl object-cover shadow-[0_16px_40px_rgba(22,40,61,0.12)]"
-          [src]="item.image"
-          [alt]="item.title"
-        />
+        <div
+          class="article-detail-slider mt-8"
+          (mouseenter)="stopAutoAdvance()"
+          (mouseleave)="startAutoAdvance()"
+          (focusin)="stopAutoAdvance()"
+          (focusout)="startAutoAdvance()"
+        >
+          <img [src]="activeImage" [alt]="item.title + ' image ' + (activeSlide() + 1)" />
+          @if (galleryImages.length > 1) {
+            <button type="button" class="article-slider-control previous" (click)="previousImage()" aria-label="Previous image">
+              <i class="fa-solid fa-chevron-left" aria-hidden="true"></i>
+            </button>
+            <button type="button" class="article-slider-control next" (click)="nextImage()" aria-label="Next image">
+              <i class="fa-solid fa-chevron-right" aria-hidden="true"></i>
+            </button>
+            <span class="article-slider-count" aria-live="polite">{{ activeSlide() + 1 }} / {{ galleryImages.length }}</span>
+          }
+        </div>
 
         @if (item.tags.length) {
           <div class="mt-6 flex flex-wrap gap-2">

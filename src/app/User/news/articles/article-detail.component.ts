@@ -1,4 +1,4 @@
-import { Component, OnInit, inject, signal } from '@angular/core';
+import { Component, OnDestroy, OnInit, inject, signal } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { Title } from '@angular/platform-browser';
 import { ActivatedRoute, RouterLink } from '@angular/router';
@@ -12,8 +12,9 @@ import { LoadingSpinnerComponent } from '../../../shared/loading-spinner/loading
   standalone: true,
   imports: [CommonModule, RouterLink, LoadingSpinnerComponent],
   templateUrl: './article-detail.component.html',
+  styleUrl: './article-detail.component.css',
 })
-export class ArticleDetailComponent implements OnInit {
+export class ArticleDetailComponent implements OnInit, OnDestroy {
   private readonly route = inject(ActivatedRoute);
   private readonly titleService = inject(Title);
   private readonly articlesApi = inject(ArticleService);
@@ -23,6 +24,18 @@ export class ArticleDetailComponent implements OnInit {
   article = signal<Article | null>(null);
   loading = signal(true);
   error = signal('');
+  activeSlide = signal(0);
+
+  private autoAdvanceTimer: ReturnType<typeof setInterval> | null = null;
+
+  get galleryImages(): string[] {
+    const item = this.article();
+    return item?.images?.length ? item.images : item?.image ? [item.image] : [];
+  }
+
+  get activeImage(): string {
+    return this.galleryImages[this.activeSlide()] || '';
+  }
 
   ngOnInit(): void {
     this.route.paramMap.subscribe((params) => {
@@ -33,12 +46,15 @@ export class ArticleDetailComponent implements OnInit {
         return;
       }
 
+      this.stopAutoAdvance();
+      this.activeSlide.set(0);
       this.loading.set(true);
       this.error.set('');
       this.articlesApi.getBySlugOrId(slug).subscribe({
         next: (res) => {
           this.article.set(res.data);
           this.titleService.setTitle(`${res.data.title} | Concord`);
+          this.startAutoAdvance();
           this.loading.set(false);
         },
         error: (err) => {
@@ -47,6 +63,39 @@ export class ArticleDetailComponent implements OnInit {
         },
       });
     });
+  }
+
+  nextImage(): void {
+    if (this.galleryImages.length < 2) return;
+    this.activeSlide.update((index) => (index + 1) % this.galleryImages.length);
+  }
+
+  previousImage(): void {
+    if (this.galleryImages.length < 2) return;
+    this.activeSlide.update((index) => (index - 1 + this.galleryImages.length) % this.galleryImages.length);
+  }
+
+  selectImage(index: number): void {
+    if (index >= 0 && index < this.galleryImages.length) this.activeSlide.set(index);
+  }
+
+  startAutoAdvance(): void {
+    this.stopAutoAdvance();
+    if (
+      this.galleryImages.length < 2 ||
+      (typeof window !== 'undefined' && window.matchMedia('(prefers-reduced-motion: reduce)').matches)
+    ) return;
+
+    this.autoAdvanceTimer = setInterval(() => this.nextImage(), 2500);
+  }
+
+  stopAutoAdvance(): void {
+    if (this.autoAdvanceTimer) clearInterval(this.autoAdvanceTimer);
+    this.autoAdvanceTimer = null;
+  }
+
+  ngOnDestroy(): void {
+    this.stopAutoAdvance();
   }
 
   serviceRoute(tag: string): string {

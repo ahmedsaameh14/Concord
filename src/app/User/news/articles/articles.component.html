@@ -26,6 +26,17 @@
           <option [value]="item">{{ item }}</option>
         }
       </select>
+      <select
+        class="article-select"
+        [(ngModel)]="year"
+        (ngModelChange)="onYearChange()"
+        aria-label="Filter articles by year"
+      >
+        <option value="">All years</option>
+        @for (item of years(); track item) {
+          <option [value]="item">{{ item }}</option>
+        }
+      </select>
       @if (hasActiveFilters) {
         <button
           type="button"
