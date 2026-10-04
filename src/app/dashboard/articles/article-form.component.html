@@ -144,17 +144,41 @@
               Select text first, then use the toolbar for heading, bold, lists, and links.
             </p>
           </div>
-          <label class="flex flex-col gap-1 text-sm text-[#475467] md:col-span-2">
-            <span>Image {{ isEdit ? '' : '*' }}</span>
-            <input class="file-upload-input" type="file" accept="image/*" (change)="onImageSelected($event)" />
-          </label>
-          @if (imagePreview || existingImage) {
-            <img
-              [src]="imagePreview || existingImage"
-              alt="Article preview"
-              class="max-h-56 rounded-xl object-cover md:col-span-2"
-            />
-          }
+          <div class="md:col-span-2">
+            <label class="flex flex-col gap-1 text-sm text-[#475467]">
+              <span>Article images *</span>
+              <input class="file-upload-input" type="file" accept="image/*" multiple (change)="onImagesSelected($event)" />
+            </label>
+            <p class="mt-2 text-xs text-concord-muted">The first image is used on the article card. Additional images appear in the article slider.</p>
+            @if (existingImages.length || pendingImages.length) {
+              <div class="mt-3 grid grid-cols-2 gap-3 sm:grid-cols-3">
+                @for (image of existingImages; track image; let index = $index) {
+                  <div class="overflow-hidden rounded-xl border border-[#e6ebf2] bg-[#f8fafc]">
+                    <img class="block h-32 w-full object-cover" [src]="image" [alt]="'Article image ' + (index + 1)" />
+                    @if (index === 0) {
+                      <span class="block px-2 py-1 text-xs text-concord-muted">Card image</span>
+                    }
+                    <button type="button" class="inline-flex w-full items-center justify-center gap-2 border-0 bg-[#fef3f2] px-2 py-2 text-concord-danger" (click)="removeExistingImage(index)" [attr.aria-label]="'Remove article image ' + (index + 1)">
+                      <i class="fa-solid fa-trash" aria-hidden="true"></i>
+                      Remove
+                    </button>
+                  </div>
+                }
+                @for (item of pendingImages; track item.preview; let index = $index) {
+                  <div class="overflow-hidden rounded-xl border border-[#e6ebf2] bg-[#f8fafc]">
+                    <img class="block h-32 w-full object-cover" [src]="item.preview" [alt]="item.file.name" />
+                    @if (!existingImages.length && index === 0) {
+                      <span class="block px-2 py-1 text-xs text-concord-muted">Card image</span>
+                    }
+                    <button type="button" class="inline-flex w-full items-center justify-center gap-2 border-0 bg-[#fef3f2] px-2 py-2 text-concord-danger" (click)="removePendingImage(index)" [attr.aria-label]="'Remove selected image ' + (index + 1)">
+                      <i class="fa-solid fa-trash" aria-hidden="true"></i>
+                      Remove
+                    </button>
+                  </div>
+                }
+              </div>
+            }
+          </div>
         </div>
       </div>
 

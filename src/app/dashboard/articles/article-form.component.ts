@@ -27,6 +27,11 @@ interface ArticleFormDraft {
   socialLinks: ArticleSocialLinks;
 }
 
+interface PendingArticleImage {
+  file: File;
+  preview: string;
+}
+
 @Component({
   selector: 'app-dashboard-article-form',
   standalone: true,
@@ -87,9 +92,8 @@ export class DashboardArticleFormComponent implements OnInit, OnDestroy {
     },
   };
 
-  existingImage = '';
-  imageFile: File | null = null;
-  imagePreview = '';
+  existingImages: string[] = [];
+  pendingImages: PendingArticleImage[] = [];
 
   private draftTimer: ReturnType<typeof setTimeout> | null = null;
   private editorEl: HTMLDivElement | null = null;
@@ -117,6 +121,7 @@ export class DashboardArticleFormComponent implements OnInit, OnDestroy {
 
   ngOnDestroy(): void {
     if (this.draftTimer) clearTimeout(this.draftTimer);
+    this.clearPendingImages();
   }
 
   onFormChange(): void {
@@ -169,12 +174,24 @@ export class DashboardArticleFormComponent implements OnInit, OnDestroy {
     this.onFormChange();
   }
 
-  onImageSelected(event: Event): void {
+  onImagesSelected(event: Event): void {
     const input = event.target as HTMLInputElement;
-    const file = input.files?.[0] || null;
-    if (this.imagePreview) URL.revokeObjectURL(this.imagePreview);
-    this.imageFile = file;
-    this.imagePreview = file ? URL.createObjectURL(file) : '';
+    const files = input.files ? Array.from(input.files) : [];
+    files.forEach((file) => {
+      this.pendingImages.push({ file, preview: URL.createObjectURL(file) });
+    });
+    input.value = '';
+    this.onFormChange();
+  }
+
+  removeExistingImage(index: number): void {
+    this.existingImages = this.existingImages.filter((_, imageIndex) => imageIndex !== index);
+    this.onFormChange();
+  }
+
+  removePendingImage(index: number): void {
+    const [removed] = this.pendingImages.splice(index, 1);
+    if (removed) URL.revokeObjectURL(removed.preview);
     this.onFormChange();
   }
 
@@ -193,7 +210,7 @@ export class DashboardArticleFormComponent implements OnInit, OnDestroy {
       this.notify.warning('Title and description are required.');
       return;
     }
-    if (!this.isEdit && !this.imageFile) {
+    if (!this.existingImages.length && !this.pendingImages.length) {
       this.notify.warning('Article image is required.');
       return;
     }
@@ -213,7 +230,8 @@ export class DashboardArticleFormComponent implements OnInit, OnDestroy {
     formData.append('publishedAt', this.form.publishedAt);
     formData.append('isTopArticle', String(this.form.isTopArticle));
     formData.append('isActive', String(this.form.isActive));
-    if (this.imageFile) formData.append('image', this.imageFile);
+    formData.append('existingImages', JSON.stringify(this.existingImages));
+    this.pendingImages.forEach(({ file }) => formData.append('images', file));
 
     this.saving.set(true);
     const request$ = this.isEdit
@@ -230,7 +248,7 @@ export class DashboardArticleFormComponent implements OnInit, OnDestroy {
         if (!this.isEdit && id) {
           this.router.navigate(['/dashboard/articles', id, 'edit']);
         } else if (res.data) {
-          this.existingImage = res.data.image;
+          this.existingImages = res.data.images?.length ? [...res.data.images] : [res.data.image];
           this.form.description = res.data.description || this.form.description;
           this.form.socialLinks = {
             facebook: res.data.socialLinks?.facebook || '',
@@ -238,9 +256,7 @@ export class DashboardArticleFormComponent implements OnInit, OnDestroy {
             linkedin: res.data.socialLinks?.linkedin || '',
           };
           this.syncEditorFromForm(true);
-          this.imageFile = null;
-          if (this.imagePreview) URL.revokeObjectURL(this.imagePreview);
-          this.imagePreview = '';
+          this.clearPendingImages();
         }
       },
       error: (err) => {
@@ -268,7 +284,7 @@ export class DashboardArticleFormComponent implements OnInit, OnDestroy {
             linkedin: article.socialLinks?.linkedin || '',
           },
         };
-        this.existingImage = article.image || '';
+        this.existingImages = article.images?.length ? [...article.images] : article.image ? [article.image] : [];
         this.restoreDraft(true);
         this.loading.set(false);
       },
@@ -313,6 +329,11 @@ export class DashboardArticleFormComponent implements OnInit, OnDestroy {
       tags: [...this.form.tags],
       socialLinks: { ...this.form.socialLinks },
     });
+  }
+
+  private clearPendingImages(): void {
+    this.pendingImages.forEach(({ preview }) => URL.revokeObjectURL(preview));
+    this.pendingImages = [];
   }
 
   private syncEditorFromForm(force = false): void {

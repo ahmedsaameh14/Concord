@@ -9,6 +9,7 @@ export interface Article {
   title: string;
   slug: string;
   image: string;
+  images?: string[];
   description: string;
   socialLinks?: ArticleSocialLinks;
   tags: string[];
@@ -29,6 +30,7 @@ export interface ArticleListResponse {
     totalPages: number;
     topArticle?: Article | null;
     tags?: string[];
+    years?: number[];
   };
 }
 
@@ -40,6 +42,7 @@ export interface ArticleResponse {
 export interface ArticleListQuery {
   search?: string;
   tags?: string;
+  year?: number;
   page?: number;
   limit?: number;
   isActive?: 'true' | 'false' | '';

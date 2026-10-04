@@ -25,9 +25,11 @@ export class ArticlesComponent implements OnInit {
   page = signal(1);
   totalPages = signal(0);
   totalArticles = signal(0);
+  years = signal<number[]>([]);
   loading = signal(true);
   error = signal('');
   tag = '';
+  year = '';
   search = '';
 
   private searchTimer: ReturnType<typeof setTimeout> | null = null;
@@ -43,9 +45,10 @@ export class ArticlesComponent implements OnInit {
     this.articlesApi
       .getArticles({
         tags: this.tag || undefined,
+        year: this.year ? Number(this.year) : undefined,
         search: this.search.trim() || undefined,
         page: this.page(),
-        limit: 4,
+        limit: 9,
       })
       .subscribe({
         next: (res) => {
@@ -53,6 +56,7 @@ export class ArticlesComponent implements OnInit {
           this.topArticle.set(res.meta?.topArticle || null);
           this.totalPages.set(res.meta?.totalPages || 0);
           this.totalArticles.set(res.meta?.total || 0);
+          this.years.set(res.meta?.years || []);
           this.loading.set(false);
         },
         error: (err) => {
@@ -69,6 +73,11 @@ export class ArticlesComponent implements OnInit {
     this.loadArticles();
   }
 
+  onYearChange(): void {
+    this.page.set(1);
+    this.loadArticles();
+  }
+
   onSearchChange(): void {
     if (this.searchTimer) clearTimeout(this.searchTimer);
     this.searchTimer = setTimeout(() => {
@@ -79,13 +88,14 @@ export class ArticlesComponent implements OnInit {
 
   clearFilters(): void {
     this.tag = '';
+    this.year = '';
     this.search = '';
     this.page.set(1);
     this.loadArticles();
   }
 
   get hasActiveFilters(): boolean {
-    return Boolean(this.tag || this.search.trim());
+    return Boolean(this.tag || this.year || this.search.trim());
   }
 
   serviceRoute(tag: string): string {

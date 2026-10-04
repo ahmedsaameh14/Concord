@@ -241,6 +241,14 @@
   transition: all 0.3s ease;
 }
 
+.header:not(.scrolled) .mobile-menu-btn {
+  color: #ffffff;
+}
+
+.header:not(.scrolled) .line {
+  background: #ffffff;
+}
+
 .hamburger.open .line-1 {
   transform: rotate(45deg) translate(8px, 8px);
 }
