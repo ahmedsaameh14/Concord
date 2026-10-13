@@ -228,36 +228,58 @@
 	justify-content: flex-end;
 }
 
-.carousel-action-stack {
-	display: flex;
-	flex-direction: column;
-	align-items: flex-end;
-	gap: .7rem;
-}
-
-.carousel-controls {
-	display: flex;
-	gap: .5rem;
-}
-
-.carousel-controls button {
+.carousel-slider-row {
 	display: grid;
-	width: 44px;
-	aspect-ratio: 1;
-	place-items: center;
-	border: 1px solid #c9a227;
-	border-radius: 50%;
-	background: #16283d;
-	color: #fff;
-	cursor: pointer;
-	transition: background-color .2s ease, color .2s ease, border-color .2s ease, transform .2s ease;
+	grid-template-columns: minmax(0, 1fr);
+	align-items: center;
+	gap: 0;
 }
 
-.carousel-controls button:hover,
-.carousel-controls button:focus-visible {
-	border-color: #2b76ad;
-	background: #2b76ad;
-	transform: translateY(-2px);
+.carousel-control-slot {
+	display: none;
+}
+
+.carousel-slider-row.has-controls {
+	grid-template-columns: 36px minmax(0, 1fr) 36px;
+	gap: .75rem;
+}
+
+.carousel-slider-row.has-controls .carousel-control-slot {
+	display: grid;
+	place-items: center;
+}
+
+.carousel-control {
+	display: grid;
+	width: 36px;
+	height: 48px;
+	place-items: center;
+	padding: 0;
+	border: 0;
+	background: transparent;
+	color: #16283d;
+	cursor: pointer;
+	font-size: 1.35rem;
+	transition: color .2s ease, transform .2s ease;
+}
+
+.carousel-control:hover,
+.carousel-control:focus-visible {
+	color: #2b76ad;
+	transform: scale(1.16);
+}
+
+.carousel-control:focus-visible {
+	outline: 2px solid #c9a227;
+	outline-offset: 3px;
+}
+
+.carousel-control-slot:first-child .carousel-control:hover {
+	transform: translateX(-2px) scale(1.16);
+}
+
+.carousel-control-slot:last-child .carousel-control:hover {
+	transform: translateX(2px) scale(1.16);
 }
 
 .ongoing-projects-heading h2 {
@@ -863,7 +885,21 @@
 
 	.carousel-heading-actions {
 		width: 100%;
-		justify-content: space-between;
+		justify-content: flex-start;
+	}
+
+	.carousel-slider-row {
+		margin: 0;
+	}
+
+	.carousel-slider-row.has-controls {
+		grid-template-columns: 28px minmax(0, 1fr) 28px;
+		gap: .25rem;
+	}
+
+	.carousel-control {
+		width: 28px;
+		font-size: 1.2rem;
 	}
 
 
