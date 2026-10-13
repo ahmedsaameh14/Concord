@@ -24,8 +24,8 @@
   max-width: 1400px;
   margin: 0 auto;
   padding: 1rem 2rem;
-  display: flex;
-  justify-content: space-between;
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) auto minmax(0, 1fr);
   align-items: center;
   gap: 2rem;
   transition: padding 0.3s ease;
@@ -33,6 +33,8 @@
 
 /* Logo Section */
 .logo-section {
+  grid-column: 1;
+  justify-self: start;
   flex-shrink: 0;
 }
 
@@ -60,7 +62,7 @@
 
 /* Desktop Navigation */
 .desktop-nav {
-  flex: 1;
+  grid-column: 2;
   display: flex;
   justify-content: center;
 }
@@ -212,6 +214,8 @@
 /* Mobile Menu Button */
 .mobile-menu-btn {
   display: none;
+  grid-column: 3;
+  justify-self: end;
   flex-direction: column;
   background: none;
   border: none;
@@ -418,6 +422,7 @@
 /* Responsive */
 @media (max-width: 768px) {
   .header-content {
+    grid-template-columns: minmax(0, 1fr) auto;
     padding: 0.75rem 1rem;
   }
 
@@ -430,6 +435,7 @@
   }
 
   .mobile-menu-btn {
+    grid-column: 2;
     display: flex;
   }
 
