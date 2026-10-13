@@ -4,7 +4,8 @@
 
 .article-detail-slider {
   position: relative;
-  aspect-ratio: 16 / 9;
+  display: grid;
+  place-items: center;
   overflow: hidden;
   border-radius: 1rem;
   background: #e8edf3;
@@ -13,10 +14,12 @@
 
 .article-detail-slider > img {
   display: block;
-  width: 100%;
-  height: 100%;
-  object-fit: cover;
-  animation: article-slide-in 0.35s ease-out both;
+  width: auto;
+  height: auto;
+  max-width: 100%;
+  max-height: 70vh;
+  object-fit: contain;
+  animation: article-slide-in 0.45s ease-out;
 }
 
 .article-slider-control {
@@ -69,8 +72,8 @@
 }
 
 @keyframes article-slide-in {
-  from { opacity: 0.65; }
-  to { opacity: 1; }
+  from { opacity: 0.35; transform: scale(1.02); }
+  to { opacity: 1; transform: scale(1); }
 }
 
 @media (max-width: 600px) {
