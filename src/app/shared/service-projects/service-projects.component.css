@@ -35,33 +35,61 @@
 
 .service-projects-actions {
   display: flex;
-  flex-direction: column;
   align-items: flex-end;
-  gap: .7rem;
 }
 
-.service-projects-controls {
-  display: flex;
-  gap: .5rem;
-}
-
-.service-projects-controls button {
+.service-projects-slider-row {
   display: grid;
-  width: 44px;
-  aspect-ratio: 1;
-  place-items: center;
-  border: 1px solid #c9a227;
-  border-radius: 50%;
-  background: #16283d;
-  color: #fff;
-  cursor: pointer;
-  transition: background-color .2s ease, transform .2s ease;
+  grid-template-columns: minmax(0, 1fr);
+  align-items: center;
+  gap: 0;
 }
 
-.service-projects-controls button:hover,
-.service-projects-controls button:focus-visible {
-  background: #2b76ad;
-  transform: translateY(-2px);
+.service-projects-control-slot {
+  display: none;
+}
+
+.service-projects-slider-row.has-controls {
+  grid-template-columns: 36px minmax(0, 1fr) 36px;
+  gap: .75rem;
+}
+
+.service-projects-slider-row.has-controls .service-projects-control-slot {
+  display: grid;
+  place-items: center;
+}
+
+.service-projects-control {
+  display: grid;
+  width: 36px;
+  height: 48px;
+  place-items: center;
+  padding: 0;
+  border: 0;
+  background: transparent;
+  color: #16283d;
+  cursor: pointer;
+  font-size: 1.35rem;
+  transition: color .2s ease, transform .2s ease;
+}
+
+.service-projects-control:hover,
+.service-projects-control:focus-visible {
+  color: #2b76ad;
+  transform: scale(1.16);
+}
+
+.service-projects-control:focus-visible {
+  outline: 2px solid #c9a227;
+  outline-offset: 3px;
+}
+
+.service-projects-control-slot:first-child .service-projects-control:hover {
+  transform: translateX(-2px) scale(1.16);
+}
+
+.service-projects-control-slot:last-child .service-projects-control:hover {
+  transform: translateX(2px) scale(1.16);
 }
 
 .service-projects-all {
@@ -152,6 +180,20 @@
 @media (max-width: 560px) {
   .service-projects-heading {
     align-items: start;
+  }
+
+  .service-projects-slider-row {
+    margin: 0;
+  }
+
+  .service-projects-slider-row.has-controls {
+    grid-template-columns: 28px minmax(0, 1fr) 28px;
+    gap: .25rem;
+  }
+
+  .service-projects-control {
+    width: 28px;
+    font-size: 1.2rem;
   }
 
   .service-projects-track {
