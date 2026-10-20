@@ -4,7 +4,6 @@ import { FormsModule } from '@angular/forms';
 import { RouterLink } from '@angular/router';
 import { ArticleService } from '../../../core/services/article.service';
 import { Article } from '../../../core/models/news.model';
-import { ARTICLE_TAGS, SERVICE_ROUTES } from '../../../core/config/api.config';
 import { LoadingSpinnerComponent } from '../../../shared/loading-spinner/loading-spinner.component';
 
 @Component({
@@ -17,9 +16,6 @@ import { LoadingSpinnerComponent } from '../../../shared/loading-spinner/loading
 export class ArticlesComponent implements OnInit {
   private readonly articlesApi = inject(ArticleService);
 
-  readonly tags = ARTICLE_TAGS;
-  readonly serviceRoutes = SERVICE_ROUTES;
-
   articles = signal<Article[]>([]);
   topArticle = signal<Article | null>(null);
   page = signal(1);
@@ -28,7 +24,6 @@ export class ArticlesComponent implements OnInit {
   years = signal<number[]>([]);
   loading = signal(true);
   error = signal('');
-  tag = '';
   year = '';
   search = '';
 
@@ -44,7 +39,6 @@ export class ArticlesComponent implements OnInit {
 
     this.articlesApi
       .getArticles({
-        tags: this.tag || undefined,
         year: this.year ? Number(this.year) : undefined,
         search: this.search.trim() || undefined,
         page: this.page(),
@@ -68,11 +62,6 @@ export class ArticlesComponent implements OnInit {
       });
   }
 
-  onTagChange(): void {
-    this.page.set(1);
-    this.loadArticles();
-  }
-
   onYearChange(): void {
     this.page.set(1);
     this.loadArticles();
@@ -87,7 +76,6 @@ export class ArticlesComponent implements OnInit {
   }
 
   clearFilters(): void {
-    this.tag = '';
     this.year = '';
     this.search = '';
     this.page.set(1);
@@ -95,11 +83,7 @@ export class ArticlesComponent implements OnInit {
   }
 
   get hasActiveFilters(): boolean {
-    return Boolean(this.tag || this.year || this.search.trim());
-  }
-
-  serviceRoute(tag: string): string {
-    return this.serviceRoutes[tag as keyof typeof SERVICE_ROUTES] || '/services/construction';
+    return Boolean(this.year || this.search.trim());
   }
 
   goToPage(page: number): void {
