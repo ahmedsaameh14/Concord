@@ -26,7 +26,7 @@ export class HomeComponent implements OnInit, AfterViewInit, OnDestroy {
   projectDuration = projectDuration;
   latestArticles = signal<Article[]>([]);
 
-  readonly heroVideo = '/video/hero-vid.mp4';
+  readonly heroVideo = '/video/New-Vid.mp4';
   readonly sustainabilityColumns = [
     {
       title: 'Responsible Business, Sustainable Growth',
