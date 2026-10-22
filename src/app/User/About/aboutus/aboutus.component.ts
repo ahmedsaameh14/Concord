@@ -24,24 +24,20 @@ export class AboutusComponent implements AfterViewInit, OnDestroy {
     { year: '2024', description: 'Opened a new branch in Oman. Launched a major project in Saudi Arabia to replace the primary transmission line in Mecca.' }
   ];
 
-  readonly groupCompanies = [
+  readonly branches = [
     {
       image: '/images/Picture1.png',
-      name: 'CONCORD FOR ENGINEERING AND CONTRACTING'
-    },
-    {
-      image: '/images/Picture2.png',
-      name: 'CONCORD FOR CONTRACTING AND PAVING',
-      description: 'A grade one company specialized in the construction of roads, highways, bridges and railways.'
+      name: 'CONCORD FOR ENGINEERING AND CONTRACTING (Headquarters)',
+      description: 'Cairo, Egypt'
     },
     {
       image: '/images/Picture1.png',
       name: 'Branch of Concord (KSA)',
-      description: 'Multidisciplinary construction company based in Jeddah'
+      description: 'Multidisciplinary construction company based in Jeddah.'
     },
     {
       image: '/images/Picture1.png',
-      name: 'CONCORD- OMAN',
+      name: 'CONCORD- (OMAN)',
       description: 'Multidisciplinary construction company based in Muscat.'
     },
     {
@@ -50,39 +46,58 @@ export class AboutusComponent implements AfterViewInit, OnDestroy {
       description: 'Multidisciplinary construction company based in Dubai.'
     },
     {
-      image: '/images/Picture4.png',
-      name: 'JOZOOR LANDSCAPE',
-      description: 'JOZOOR Landscapes has proven high quality and capability in providing complete Design & Build packages for Hard & Soft-scape Projects.'
-    },
+      image: '/images/Picture1.png',
+      name: 'Branch of Concord (Iraq)',
+      description: 'Multidisciplinary construction company based in Iraq.'
+    }
+  ];
+
+  readonly subsidiary = {
+    image: '/images/Picture7.png',
+    name: 'Building Materials Industrial Co. (BMIC)',
+    description: 'An industrial company specialized in the production of cement. BMIC currently serves the market with high-quality Ordinary Portland Cement (OPC) but has growth and expansion plans to futuristically produce various types of grey Portland cement, clinker and related products such as cement bricks and ready-mix concrete.'
+  };
+
+  readonly sisterCompanies = [
     {
       image: '/images/Picture5.png',
-      name: 'CONCORD FOR REAL ESTATE DEVELOPMENT',
-      description: 'A Real Estate Developer with 2 of the iconic commercial and high-end projects in New Cairo.'
+      name: 'Concord for Real Estate Development',
+      description: 'A real estate developer with 2 of the iconic commercial and high-end projects in New Cairo.'
     },
     {
-      image: '/images/Picture6.png',
-      name: 'CONCORD MYTHICAL SANDS LTD (CYPRUS)',
-      description: 'A Real Estate and Hospitality company based and operating in Cyprus.'
+      image: '/images/Picture2.png',
+      name: 'Concord for Construction and Paving',
+      description: 'A grade one company specialized in the construction of roads, highways, bridges, and railways.'
     },
     {
-      image: '/images/Picture7.png',
-      name: 'BUILDING MATERIALS INDUSTRIAL CO. (BMIC)',
-      description: 'An Industrial company specialized in the production of cement. BMIC currently serves the market with high-quality Ordinary Portland Cement (OPC) but has growth and expansion plans to futuristically produce various types of grey Portland cement, clinker and related products such as cement bricks and ready-mix concrete.'
+      image: '/images/Picture1.png',
+      name: 'Concord Industrial Development (El Falankat)',
+      description: 'Manufacture of railway ties, management, and operation of subway and railway lines.'
+    },
+    {
+      image: '/images/Picture1.png',
+      name: 'Concord Building Materials Company',
+      description: 'A factory for producing various types of cement, cement bricks, and ready-mixed concrete.'
     },
     {
       image: '/images/Picture8.png',
-      name: 'CONCORD FOR PIPES EL MASRYA CONCORD',
-      description: 'An industrial company specialized in the production of steel spiral welding pipes'
+      name: 'Concord for Pipes El Masrya Concord',
+      description: 'An industrial company specialized in the production of steel spiral wielding pipes.'
     },
     {
-      image: '/images/Picture9.jpg',
-      name: 'CAPITAL DEVELOPMENTS',
-      description: 'An investment company that invests in hospitality & real estate. The company is developing Laguna Bay one of Al Ain El Sokhna’s largest touristic destinations on the red sea. Laguna Bay offers around 2,000 units with different types and sizes.'
+      image: '/images/Picture11.jpg',
+      name: 'Avant Modern Construction Company',
+      description: 'Engineering design works and general and specialized contracts.'
     },
     {
-      image: '/images/Picture10.png',
-      name: 'THE FRONT DEVELOPMENTS',
-      description: 'A Real Estate development company. The newest project is located on the west end of Cairo, one of the most thriving destinations on the Cairo Alex Desert Road. It caters to commercial, residential and entertainment outlets.'
+      image: '/images/Picture12.jpg',
+      name: 'Innovate Electromechanical Contracting Company',
+      description: 'Electromechanical and electronic contracting works.'
+    },
+    {
+      image: '/images/Picture13.jpg',
+      name: 'Pioneer Steel Construction Company',
+      description: 'Manufacturer of metal structures.'
     }
   ];
 
@@ -91,18 +106,18 @@ export class AboutusComponent implements AfterViewInit, OnDestroy {
   ngAfterViewInit(): void {
     if (typeof IntersectionObserver === 'undefined') {
       this.revealElements.forEach(element => element.nativeElement.classList.add('is-visible'));
-      return;
+    } else {
+      this.observer = new IntersectionObserver(entries => {
+        entries.forEach(entry => {
+          if (!entry.isIntersecting) return;
+          entry.target.classList.add('is-visible');
+          this.observer?.unobserve(entry.target);
+        });
+      }, { threshold: 0.14 });
+
+      this.revealElements.forEach(element => this.observer?.observe(element.nativeElement));
     }
 
-    this.observer = new IntersectionObserver(entries => {
-      entries.forEach(entry => {
-        if (!entry.isIntersecting) return;
-        entry.target.classList.add('is-visible');
-        this.observer?.unobserve(entry.target);
-      });
-    }, { threshold: 0.14 });
-
-    this.revealElements.forEach(element => this.observer?.observe(element.nativeElement));
   }
 
   ngOnDestroy(): void {

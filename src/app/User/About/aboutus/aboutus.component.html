@@ -62,16 +62,59 @@
 			<!-- <p class="section-kicker">05 / Our network</p> -->
 			<h2 id="group-title">Concord Group</h2>
 		</div>
-		<div class="group-grid">
-			<article *ngFor="let company of groupCompanies; let index = index" class="company-card reveal" #reveal [style.transition-delay.ms]="(index % 3) * 100">
-				<div class="company-image-wrap">
-					<img [src]="company.image" [alt]="company.name" class="company-image" />
+		<section class="group-category" aria-labelledby="branches-title">
+			<div class="group-subheading reveal" #reveal>
+				<h3 id="branches-title">Concord Branches</h3>
+				<!--<p>Our regional branches across the Middle East.</p>-->
+			</div>
+			<div class="company-grid branch-grid">
+				<article *ngFor="let branch of branches" class="company-card company-card-detailed reveal" #reveal>
+					<div class="company-image-wrap">
+						<img [src]="branch.image" [alt]="branch.name" class="company-image" />
+					</div>
+					<div class="company-copy">
+						<h5>{{ branch.name }}</h5>
+						<p>{{ branch.description }}</p>
+					</div>
+				</article>
+			</div>
+		</section>
+
+		<section class="group-category affiliated-category" aria-labelledby="affiliated-title">
+			<div class="group-subheading reveal" #reveal>
+				<h3 id="affiliated-title">Affiliated Companies</h3>
+				<!--<p>Companies that broaden our expertise and support our growth.</p>-->
+			</div>
+
+			<div class="investment-section" aria-labelledby="subsidiaries-title">
+				<h4 id="subsidiaries-title" class="investment-title">Investment in Subsidies</h4>
+				<div class="company-grid subsidiary-grid">
+					<article class="company-card company-card-detailed reveal" #reveal>
+						<div class="company-image-wrap">
+							<img [src]="subsidiary.image" [alt]="subsidiary.name" class="company-image" />
+						</div>
+						<div class="company-copy">
+							<h5>{{ subsidiary.name }}</h5>
+							<p>{{ subsidiary.description }}</p>
+						</div>
+					</article>
 				</div>
-				<div class="company-copy">
-					<h3>{{ company.name }}</h3>
-					<p *ngIf="company.description">{{ company.description }}</p>
+			</div>
+
+			<div class="investment-section sister-section" aria-labelledby="sister-companies-title">
+				<h4 id="sister-companies-title" class="investment-title">Investment in Sister Companies</h4>
+				<div class="company-grid sister-grid">
+					<article *ngFor="let company of sisterCompanies" class="company-card company-card-detailed reveal" #reveal>
+						<div class="company-image-wrap">
+							<img [src]="company.image" [alt]="company.name" class="company-image" />
+						</div>
+						<div class="company-copy">
+							<h5>{{ company.name }}</h5>
+							<p>{{ company.description }}</p>
+						</div>
+					</article>
 				</div>
-			</article>
-		</div>
+			</div>
+		</section>
 	</section>
 </main>
