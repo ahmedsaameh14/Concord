@@ -4,11 +4,12 @@ import { FormsModule } from '@angular/forms';
 import { Title } from '@angular/platform-browser';
 import { ActivatedRoute, RouterLink } from '@angular/router';
 import { CareerService } from '../../core/services/career.service';
+import { Career } from '../../core/models/career.model';
 
 @Component({ selector: 'app-career-detail', standalone: true, imports: [CommonModule, FormsModule, RouterLink], templateUrl: './career-detail.component.html', styleUrls: ['./career-detail.component.css'] })
 export class CareerDetailComponent implements OnInit {
   private readonly api = inject(CareerService); private readonly route = inject(ActivatedRoute); private readonly titleService = inject(Title);
-  career = signal<any>(null); loading = signal(true); success = signal(''); error = signal(''); submitting = signal(false); agreed = false;
+  career = signal<Career | null>(null); loading = signal(true); success = signal(''); error = signal(''); submitting = signal(false); agreed = false;
   form = this.createForm();
   resume: File | null = null;
 
@@ -50,7 +51,8 @@ export class CareerDetailComponent implements OnInit {
   }
 
   submit(): void {
-    if (!this.agreed || !this.resume || !this.career()) return;
+    const career = this.career();
+    if (!this.agreed || !this.resume || !career) return;
     this.submitting.set(true); this.error.set('');
     const data = new FormData();
     const payload = {
@@ -59,8 +61,8 @@ export class CareerDetailComponent implements OnInit {
       workExperience: this.form.workExperience.filter((experience) => experience.jobTitle.trim() || experience.placeOfWork.trim() || experience.startDate || experience.endDate || experience.salary.trim()),
     };
     Object.entries(payload).forEach(([key, value]) => data.append(key, typeof value === 'string' ? value : JSON.stringify(value)));
-    data.set('positionAppliedFor', this.career().title);
+    data.set('positionAppliedFor', career.title);
     data.append('agreedToDataStorage', 'true'); data.append('resume', this.resume);
-    this.api.apply(this.career()._id, data).subscribe({ next: r => { this.success.set(r.message); this.submitting.set(false); this.form = this.createForm(); this.form.positionAppliedFor = this.career().title; this.resume = null; this.agreed = false; }, error: e => { this.error.set(e?.error?.message || 'Unable to submit application.'); this.submitting.set(false); } });
+    this.api.apply(career._id, data).subscribe({ next: r => { this.success.set(r.message); this.submitting.set(false); this.form = this.createForm(); this.form.positionAppliedFor = career.title; this.resume = null; this.agreed = false; }, error: e => { this.error.set(e?.error?.message || 'Unable to submit application.'); this.submitting.set(false); } });
   }
 }

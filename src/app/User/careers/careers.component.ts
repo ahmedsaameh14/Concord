@@ -1,4 +1,4 @@
-import { Component, OnInit, inject, signal } from '@angular/core';
+import { Component, HostListener, OnInit, inject, signal } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { RouterLink } from '@angular/router';
@@ -10,9 +10,15 @@ import { LoadingSpinnerComponent } from '../../shared/loading-spinner/loading-sp
 export class CareersComponent implements OnInit {
   private readonly api = inject(CareerService);
   careers = signal<Career[]>([]); loading = signal(true); error = signal('');
+  selectedCareer = signal<Career | null>(null);
   search = ''; page = 1; totalPages = 0; total = 0;
   ngOnInit(): void { this.load(); }
   load(): void { this.loading.set(true); this.api.list(this.search, this.page).subscribe({ next: (r) => { this.careers.set(r.data || []); this.total = r.meta.total; this.totalPages = r.meta.totalPages; this.loading.set(false); }, error: (e) => { this.error.set(e?.error?.message || 'Unable to load careers.'); this.loading.set(false); } }); }
   searchChanged(): void { this.page = 1; this.load(); }
   go(page: number): void { if (page >= 1 && page <= this.totalPages) { this.page = page; this.load(); } }
+  openCareer(career: Career): void { this.selectedCareer.set(career); }
+  closeCareerDialog(): void { this.selectedCareer.set(null); }
+
+  @HostListener('document:keydown.escape')
+  onEscape(): void { this.closeCareerDialog(); }
 }
