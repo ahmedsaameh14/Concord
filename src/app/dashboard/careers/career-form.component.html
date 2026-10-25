@@ -23,6 +23,10 @@
       Description
       <textarea class="mt-1 w-full border border-concord-border p-3" name="description" [(ngModel)]="form.description" required rows="8"></textarea>
     </label>
+    <label>
+      Requirements
+      <textarea class="mt-1 w-full border border-concord-border p-3" name="requirements" [(ngModel)]="form.requirements" rows="8" maxlength="5000" placeholder="Add each requirement on a new line"></textarea>
+    </label>
     <label class="flex cursor-pointer gap-2">
       <input type="checkbox" name="isActive" [(ngModel)]="form.isActive" />
       Active and visible

@@ -25,18 +25,18 @@
     } @else if (!careers().length) {
       <p class="careers-empty">No open positions found.</p>
     } @else {
-      <div class="careers-grid">
+      <div class="careers-list">
         @for (career of careers(); track career._id) {
-          <a class="career-card" [routerLink]="['/careers', career._id]">
-            <div class="career-card-body">
-              <p class="career-meta">{{ career.experience }} years experience</p>
-              <h2>{{ career.title }}</h2>
-              <p class="career-description">{{ career.description }}</p>
-            </div>
-            <span class="career-card-action">
-              View position <i class="fa-solid fa-chevron-right" aria-hidden="true"></i>
-            </span>
-          </a>
+          <button
+            type="button"
+            class="career-title-button"
+            (click)="openCareer(career)"
+            [attr.aria-haspopup]="'dialog'"
+            [attr.aria-label]="'View details for ' + career.title"
+          >
+            <span>{{ career.title }}</span>
+            <i class="fa-solid fa-chevron-right" aria-hidden="true"></i>
+          </button>
         }
       </div>
     }
@@ -49,4 +49,34 @@
       </nav>
     }
   </section>
+
+  @if (selectedCareer(); as career) {
+    <div class="career-dialog-backdrop" (click)="closeCareerDialog()">
+      <section
+        class="career-dialog"
+        role="dialog"
+        aria-modal="true"
+        aria-labelledby="career-dialog-title"
+        (click)="$event.stopPropagation()"
+      >
+        <button type="button" class="career-dialog-close" (click)="closeCareerDialog()" aria-label="Close position details">
+          <i class="fa-solid fa-xmark" aria-hidden="true"></i>
+        </button>
+        <p class="career-meta">{{ career.experience }} years experience</p>
+        <h2 id="career-dialog-title">{{ career.title }}</h2>
+
+        <section class="career-dialog-section" aria-labelledby="career-description-title">
+          <h3 id="career-description-title">Description</h3>
+          <p>{{ career.description }}</p>
+        </section>
+
+        <section class="career-dialog-section" aria-labelledby="career-requirements-title">
+          <h3 id="career-requirements-title">Requirements</h3>
+          <p>{{ career.requirements || 'Requirements are not specified for this position.' }}</p>
+        </section>
+
+        <a class="career-apply-button" [routerLink]="['/careers', career._id]">Apply for this position</a>
+      </section>
+    </div>
+  }
 </main>

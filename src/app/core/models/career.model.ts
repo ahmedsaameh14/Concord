@@ -3,6 +3,7 @@ export interface Career {
   title: string;
   experience: string;
   description: string;
+  requirements?: string;
   isActive: boolean;
   createdAt?: string;
 }

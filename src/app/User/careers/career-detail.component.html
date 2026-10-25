@@ -1,7 +1,8 @@
 <main class="career-detail-page">
   @if (loading()) {
     <div class="career-detail-loading">Loading...</div>
-  } @else if (career()) {
+  } @else {
+    @if (career(); as careerDetails) {
     <div class="career-detail-shell">
       <section class="career-detail-copy">
         <a routerLink="/careers" class="back-link">
@@ -9,9 +10,15 @@
           All careers
         </a>
         <div class="career-info">
-          <span>{{ career().experience }} years experience</span>
-          <h1>{{ career().title }}</h1>
-          <p>{{ career().description }}</p>
+          <span>{{ careerDetails.experience }} years experience</span>
+          <h1>{{ careerDetails.title }}</h1>
+          <p>{{ careerDetails.description }}</p>
+          @if (careerDetails.requirements) {
+            <div class="career-requirements">
+              <h2>Requirements</h2>
+              <p>{{ careerDetails.requirements }}</p>
+            </div>
+          }
         </div>
       </section>
 
@@ -28,7 +35,7 @@
             <label>Phone number *<input name="phone" [(ngModel)]="form.phone" required type="tel" /></label>
             <label>Alternative phone<input name="alternatePhone" [(ngModel)]="form.alternatePhone" type="tel" /></label>
             <label>Email *<input name="email" [(ngModel)]="form.email" required type="email" /></label>
-            <label>Position applied for<input name="positionAppliedFor" [ngModel]="career().title" readonly /></label>
+            <label>Position applied for<input name="positionAppliedFor" [ngModel]="careerDetails.title" readonly /></label>
             <label>Address *<input name="address" [(ngModel)]="form.address" required /></label>
             <label>Country *<input name="country" [(ngModel)]="form.country" required /></label>
             <label>City *<input name="city" [(ngModel)]="form.city" required /></label>
@@ -101,5 +108,6 @@
         </button>
       </form>
     </div>
+    }
   }
 </main>
