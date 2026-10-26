@@ -30,29 +30,6 @@
   text-align: center;
 }
 
-.back-link {
-  display: inline-flex;
-  align-items: center;
-  gap: 0.55rem;
-  margin-bottom: 1.5rem;
-  padding: 0.65rem 1rem;
-  border: 1px solid #d7dde7;
-  border-radius: 999px;
-  background: #fff;
-  color: #175cd3;
-  font-weight: 700;
-  text-decoration: none;
-  box-shadow: 0 10px 24px rgba(22, 40, 61, 0.04);
-  transition: all 0.3s ease;
-}
-
-.back-link:hover {
-  background: #175cd3;
-  border-color: #175cd3;
-  color: #fff;
-  transform: translateX(-4px);
-}
-
 .career-detail-kicker {
   margin: 0 0 0.9rem;
   color: #c9a227;
@@ -262,8 +239,7 @@
   box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.12);
 }
 
-.career-form button:focus-visible,
-.back-link:focus-visible {
+.career-form button:focus-visible {
   outline: 3px solid rgba(37, 99, 235, 0.35);
   outline-offset: 3px;
 }

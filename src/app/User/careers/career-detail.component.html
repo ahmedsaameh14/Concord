@@ -1,13 +1,15 @@
 <main class="career-detail-page">
   @if (loading()) {
-    <div class="career-detail-loading">Loading...</div>
+    <div class="career-detail-loading">
+      <app-loading-spinner message="Loading career..." size="lg" />
+    </div>
   } @else {
     @if (career(); as careerDetails) {
     <div class="career-detail-shell">
       <section class="career-detail-copy">
-        <a routerLink="/careers" class="back-link">
+        <a routerLink="/careers" class="back-navigation-link">
           <i class="fa-solid fa-angle-left"></i>
-          All careers
+          All Careers
         </a>
         <div class="career-info">
           <span>{{ careerDetails.experience }} years experience</span>
