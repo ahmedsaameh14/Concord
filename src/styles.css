@@ -58,6 +58,35 @@
     white-space: nowrap;
     border-width: 0;
   }
+
+  .back-navigation-link {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.55rem;
+    margin-bottom: 1.5rem;
+    padding: 0.65rem 1rem;
+    border: 1px solid #d7dde7;
+    border-radius: 999px;
+    background: #fff;
+    color: #175cd3;
+    font-weight: 700;
+    text-decoration: none;
+    box-shadow: 0 10px 24px rgba(22, 40, 61, 0.04);
+    transition: background-color 180ms ease, border-color 180ms ease, color 180ms ease,
+      transform 180ms ease, box-shadow 180ms ease;
+  }
+
+  .back-navigation-link:hover {
+    transform: translateX(-4px);
+    border-color: #175cd3;
+    background: #175cd3;
+    color: #fff;
+  }
+
+  .back-navigation-link:focus-visible {
+    outline: 3px solid rgba(37, 99, 235, 0.35);
+    outline-offset: 3px;
+  }
 }
 
 .file-upload-input {

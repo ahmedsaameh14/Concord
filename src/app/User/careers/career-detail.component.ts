@@ -5,8 +5,9 @@ import { Title } from '@angular/platform-browser';
 import { ActivatedRoute, RouterLink } from '@angular/router';
 import { CareerService } from '../../core/services/career.service';
 import { Career } from '../../core/models/career.model';
+import { LoadingSpinnerComponent } from '../../shared/loading-spinner/loading-spinner.component';
 
-@Component({ selector: 'app-career-detail', standalone: true, imports: [CommonModule, FormsModule, RouterLink], templateUrl: './career-detail.component.html', styleUrls: ['./career-detail.component.css'] })
+@Component({ selector: 'app-career-detail', standalone: true, imports: [CommonModule, FormsModule, RouterLink, LoadingSpinnerComponent], templateUrl: './career-detail.component.html', styleUrls: ['./career-detail.component.css'] })
 export class CareerDetailComponent implements OnInit {
   private readonly api = inject(CareerService); private readonly route = inject(ActivatedRoute); private readonly titleService = inject(Title);
   career = signal<Career | null>(null); loading = signal(true); success = signal(''); error = signal(''); submitting = signal(false); agreed = false;
