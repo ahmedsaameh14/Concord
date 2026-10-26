@@ -2,6 +2,7 @@ import { Component, inject, signal } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { ContactService } from '../../core/services/contact.service';
+import { SocialLink, socialMediaLinks } from '../../core/config/social-links';
 
 @Component({
   selector: 'app-contact',
@@ -12,6 +13,7 @@ import { ContactService } from '../../core/services/contact.service';
 })
 export class ContactComponent {
   private readonly contactApi = inject(ContactService);
+  readonly socialMedia: SocialLink[] = socialMediaLinks;
 
   form = {
     firstName: '',

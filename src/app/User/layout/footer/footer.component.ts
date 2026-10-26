@@ -1,17 +1,11 @@
 import { Component } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { RouterModule } from '@angular/router';
+import { SocialLink, socialMediaLinks } from '../../../core/config/social-links';
 
 interface Location {
   name: string;
   address: string;
-}
-
-interface SocialLink {
-  name: string;
-  icon: string;
-  url: string;
-  label: string;
 }
 
 @Component({
@@ -48,26 +42,7 @@ export class FooterComponent {
     { label: 'Vision', route: '/vision' },
   ];
 
-  socialMedia: SocialLink[] = [
-    {
-      name: 'Facebook',
-      icon: '/images/facebook.png',
-      url: 'https://www.facebook.com/concord4eng/',
-      label: 'Visit Concord on Facebook',
-    },
-    {
-      name: 'Instagram',
-      icon: '/images/instagram.png',
-      url: 'https://www.instagram.com/concord_ec/',
-      label: 'Visit Concord on Instagram',
-    },
-    {
-      name: 'LinkedIn',
-      icon: '/images/linkedin.png',
-      url: 'https://www.linkedin.com/company/concordec/',
-      label: 'Visit Concord on LinkedIn',
-    },
-  ];
+  socialMedia: SocialLink[] = socialMediaLinks;
 
   legalLinks = [
     { label: 'Terms and Conditions', route: '/legal/terms' },

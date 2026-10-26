@@ -7,9 +7,7 @@
 
   <section class="contact-content" aria-label="Contact form and company information">
     <div class="contact-details">
-      <p class="detail-label">Reach the team</p>
-      <h2>Good projects begin with a clear first step.</h2>
-      <p>Share your details and a little about your request. We will review your message and connect with you directly.</p>
+
 
       <div class="detail-list">
         <p><strong>Head Office</strong><br />Concord 2, Road 307, Maadi, Cairo, Egypt</p>
@@ -21,7 +19,23 @@
           <strong>Phone</strong><br />
           <a href="tel:+20227530485">+202 27530485</a>
         </p>
-        <p><strong>Response</strong><br />Our team will respond using the contact details you provide.</p>
+      </div>
+
+      <div class="contact-social">
+        <h2>Follow us</h2>
+        <div class="contact-social-links">
+          @for (social of socialMedia; track social.name) {
+            <a
+              [href]="social.url"
+              target="_blank"
+              rel="noopener noreferrer"
+              [attr.aria-label]="social.label"
+              [title]="social.name"
+            >
+              <img [src]="social.icon" [alt]="social.name" />
+            </a>
+          }
+        </div>
       </div>
     </div>
 
