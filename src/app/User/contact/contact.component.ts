@@ -1,8 +1,10 @@
 import { Component, inject, signal } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
+import { DomSanitizer, SafeResourceUrl } from '@angular/platform-browser';
 import { ContactService } from '../../core/services/contact.service';
 import { SocialLink, socialMediaLinks } from '../../core/config/social-links';
+import { HEAD_OFFICE_MAP_EMBED_URL } from '../../core/config/map.config';
 
 @Component({
   selector: 'app-contact',
@@ -14,6 +16,8 @@ import { SocialLink, socialMediaLinks } from '../../core/config/social-links';
 export class ContactComponent {
   private readonly contactApi = inject(ContactService);
   readonly socialMedia: SocialLink[] = socialMediaLinks;
+  readonly mapEmbedUrl: SafeResourceUrl = inject(DomSanitizer)
+    .bypassSecurityTrustResourceUrl(HEAD_OFFICE_MAP_EMBED_URL);
 
   form = {
     firstName: '',

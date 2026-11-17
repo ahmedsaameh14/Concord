@@ -1,0 +1,2 @@
+export const HEAD_OFFICE_MAP_EMBED_URL =
+  'https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d533.6328468327896!2d31.284368554885823!3d29.97913435651568!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x1458478b5ac35377%3A0x1f6fa8a916fd94d3!2sConcord%20Engineering%20%26%20Contracting!5e0!3m2!1sen!2seg!4v1794903763343!5m2!1sen!2seg';

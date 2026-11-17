@@ -58,6 +58,26 @@
   padding-top: 1rem;
 }
 
+.contact-location {
+  width: min(100%, 1180px);
+  margin: 3.5rem auto 0;
+}
+
+.contact-location h2 {
+  margin: 0 0 1.25rem;
+  color: #16283d;
+  font-size: clamp(1.5rem, 3vw, 2rem);
+}
+
+.contact-location iframe {
+  display: block;
+  width: 100%;
+  min-height: 260px;
+  border: 0;
+  border-radius: 18px;
+  box-shadow: 0 18px 42px rgba(22, 40, 61, 0.12);
+}
+
 .contact-details h2 {
   max-width: 460px;
   margin: 0;
