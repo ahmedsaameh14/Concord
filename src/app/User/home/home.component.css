@@ -12,6 +12,7 @@
 .hero {
 	min-height: 100vh;
 	min-height: 100svh;
+	min-height: 100dvh;
 	position: relative;
 	isolation: isolate;
 	display: grid;
