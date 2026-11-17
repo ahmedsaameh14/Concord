@@ -1,7 +1,9 @@
-import { Component } from '@angular/core';
+import { Component, inject } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { RouterModule } from '@angular/router';
+import { DomSanitizer, SafeResourceUrl } from '@angular/platform-browser';
 import { SocialLink, socialMediaLinks } from '../../../core/config/social-links';
+import { HEAD_OFFICE_MAP_EMBED_URL } from '../../../core/config/map.config';
 
 interface Location {
   name: string;
@@ -16,6 +18,8 @@ interface Location {
 })
 export class FooterComponent {
   currentYear = new Date().getFullYear();
+  readonly mapEmbedUrl: SafeResourceUrl = inject(DomSanitizer)
+    .bypassSecurityTrustResourceUrl(HEAD_OFFICE_MAP_EMBED_URL);
 
   locations: Location[] = [
     {

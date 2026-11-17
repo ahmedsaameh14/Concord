@@ -8,13 +8,13 @@
     <div class="sm:col-span-2 lg:col-span-1">
       <a
         routerLink="/"
-        class="inline-flex w-fit items-center no-underline transition duration-300 hover:scale-105"
+        class="inline-flex w-fit items-center rounded-xl bg-white p-3 no-underline shadow-lg transition duration-300 hover:scale-105"
         aria-label="Concord Home"
       >
         <img
           src="/images/concord logo-01 png.png"
           alt="Concord Logo"
-          class="h-20 w-auto brightness-110 transition duration-300 hover:brightness-125 sm:h-[100px]"
+          class="h-auto w-[180px] object-contain"
         />
       </a>
     </div>
@@ -33,6 +33,22 @@
           </li>
         }
       </ul>
+      <div class="mt-2 flex flex-col gap-3">
+        <h3 class="m-0 border-b border-concord-gold/30 pb-3 text-[1.05rem] font-semibold text-white">
+          Location
+        </h3>
+        <iframe
+          [src]="mapEmbedUrl"
+          title="Google Maps location of Concord Engineering & Contracting"
+          width="100%"
+          height="240"
+          style="border: 0"
+          allowfullscreen
+          loading="lazy"
+          referrerpolicy="strict-origin-when-cross-origin"
+          class="w-full rounded-xl"
+        ></iframe>
+      </div>
     </div>
 
     <div class="flex flex-col gap-4">
