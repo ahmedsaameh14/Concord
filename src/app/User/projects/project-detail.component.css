@@ -16,12 +16,8 @@
 }
 
 .project-detail-hero {
-  height: 100vh;
   height: 100svh;
-  height: 100dvh;
-  min-height: min(790px, 100vh);
   min-height: min(790px, 100svh);
-  min-height: min(790px, 100dvh);
   background-size: cover;
   background-position: center;
   overflow: hidden;
@@ -40,9 +36,7 @@
 .project-detail-hero-content {
   display: flex;
   height: 100%;
-  min-height: min(790px, 100vh);
   min-height: min(790px, 100svh);
-  min-height: min(790px, 100dvh);
   align-items: flex-end;
   padding: 8rem max(1.5rem, calc((100% - 1240px) / 2)) 3.5rem;
   color: #fff;
@@ -374,10 +368,7 @@
 
 @media (max-width: 640px) {
   .project-detail-hero,
-  .project-detail-hero-content {
-    height: auto;
-    min-height: 100dvh;
-  }
+  .project-detail-hero-content { min-height: 680px; }
   .project-detail-hero-content { padding-bottom: 2rem; }
   .project-back-link { margin-bottom: 2.5rem; }
   .project-detail-hero-content h1 { margin-bottom: 1.6rem; }

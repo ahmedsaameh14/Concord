@@ -13,12 +13,8 @@
 	position: relative;
 	isolation: isolate;
 	display: flex;
-	height: 100vh;
 	height: 100svh;
-	height: 100dvh;
-	min-height: min(790px, 100vh);
 	min-height: min(790px, 100svh);
-	min-height: min(790px, 100dvh);
 	overflow: hidden;
 	color: #fff;
 	background: #16283d;
@@ -256,8 +252,7 @@
 	}
 
 	.infrastructure-hero {
-		height: auto;
-		min-height: 100dvh;
+		min-height: 680px;
 	}
 
 	.infrastructure-hero h1 {
