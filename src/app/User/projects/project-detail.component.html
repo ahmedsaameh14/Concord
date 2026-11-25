@@ -6,7 +6,10 @@
   } @else if (error()) {
     <div class="px-4 py-16 text-center text-concord-danger">
       <p>{{ error() }}</p>
-      <a routerLink="/projects" class="font-semibold text-concord-navy">Back to projects</a>
+      <a routerLink="/projects" class="back-navigation-link">
+        View all projects
+        <i class="fa-solid fa-chevron-left" aria-hidden="true"></i>
+      </a>
     </div>
   } @else {
     @if (project(); as item) {
@@ -45,9 +48,9 @@
       </div>
 
       <div class="project-detail-content">
-        <a routerLink="/projects" queryParamsHandling="preserve" class="mb-8 inline-flex items-center gap-2 font-semibold text-concord-navy">
-          <i class="fa-solid fa-arrow-left" aria-hidden="true"></i>
-          Back to projects
+        <a routerLink="/projects" queryParamsHandling="preserve" class="back-navigation-link">
+          View all projects
+          <i class="fa-solid fa-chevron-left" aria-hidden="true"></i>
         </a>
         <article class="project-copy">
           <h2>Overview</h2>

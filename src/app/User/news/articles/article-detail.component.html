@@ -6,14 +6,17 @@
   } @else if (error()) {
     <div class="px-4 py-16 text-center text-concord-danger">
       <p>{{ error() }}</p>
-      <a routerLink="/news/articles" class="font-semibold text-concord-navy">Back to articles</a>
+      <a routerLink="/news/articles" class="back-navigation-link">
+        View all articles
+        <i class="fa-solid fa-chevron-left" aria-hidden="true"></i>
+      </a>
     </div>
   } @else {
     @if (article(); as item) {
-      <div class="mx-auto max-w-[900px] px-6 pb-16 pt-24">
+      <div class="mx-auto max-w-[900px] px-6 pb-16 pt-32">
         <a routerLink="/news/articles" class="back-navigation-link">
-          <i class="fa-solid fa-angle-left"></i>
-          All Articles
+          View all articles
+          <i class="fa-solid fa-chevron-left" aria-hidden="true"></i>
         </a>
 
         <div class="mt-6 flex flex-wrap items-center gap-4 text-sm text-concord-muted">

@@ -1,6 +1,9 @@
 <section class="flex flex-col gap-4 font-cairo text-concord-ink">
 	<div>
-		<a routerLink="/dashboard/careers">← Careers</a>
+		<a routerLink="/dashboard/careers" class="back-navigation-link text-[#2b76ad]" aria-label="View all careers">
+			<i class="fa-solid fa-chevron-left" aria-hidden="true"></i>
+			View all careers
+		</a>
 		<h2 class="m-0 mt-2">Applications: {{ title }}</h2>
 		<p class="mt-1 text-concord-muted">{{ total }} applications</p>
 	</div>

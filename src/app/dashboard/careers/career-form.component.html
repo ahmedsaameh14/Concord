@@ -1,13 +1,9 @@
 <section class="font-cairo text-concord-ink">
   <div class="mb-6 flex items-center justify-between">
     <h2>{{ id ? 'Edit' : 'Add' }} Career</h2>
-    <a
-      routerLink="/dashboard/careers"
-      title="Back"
-      aria-label="Back to careers"
-      class="inline-flex h-11 w-11 items-center justify-center rounded-[10px] border border-[#d7dde7] bg-[#f5f7fa] text-concord-navy no-underline shadow-sm hover:-translate-y-0.5 hover:border-concord-navy hover:bg-concord-navy hover:text-white"
-    >
-      <i class="fa-solid fa-angle-left"></i>
+    <a routerLink="/dashboard/careers" class="back-navigation-link text-[#2b76ad]" aria-label="View all careers">
+      <i class="fa-solid fa-chevron-left" aria-hidden="true"></i>
+      View all careers
     </a>
   </div>
   <form class="flex max-w-3xl flex-col gap-4 rounded-2xl border border-[#e6ebf2] bg-white p-6" (ngSubmit)="submit()">
