@@ -62,30 +62,46 @@
   .back-navigation-link {
     display: inline-flex;
     align-items: center;
-    gap: 0.55rem;
-    margin-bottom: 1.5rem;
-    padding: 0.65rem 1rem;
-    border: 1px solid #d7dde7;
-    border-radius: 999px;
-    background: #fff;
-    color: #175cd3;
+    gap: 0.65rem;
+    margin-bottom: .5rem;
+    padding: 0.55rem 0.85rem;
+    border: 1px solid #c8ddeb;
+    border-radius: 0.5rem;
+    background: #eaf3f9;
+    color: #2b76ad;
+    font-size: 0.78rem;
     font-weight: 700;
+    letter-spacing: 0.12em;
     text-decoration: none;
-    box-shadow: 0 10px 24px rgba(22, 40, 61, 0.04);
+    text-transform: uppercase;
+    box-shadow: 0 2px 6px rgba(22, 40, 61, 0.06);
     transition: background-color 180ms ease, border-color 180ms ease, color 180ms ease,
-      transform 180ms ease, box-shadow 180ms ease;
+      box-shadow 180ms ease, transform 180ms ease;
   }
 
   .back-navigation-link:hover {
+    transform: translateY(-1px);
+    border-color: #2b76ad;
+    background: #dcecf6;
+    color: #16283d;
+    box-shadow: 0 4px 10px rgba(22, 40, 61, 0.1);
+  }
+
+  .back-navigation-link > i {
+    order: -1;
+    font-size: 0.72rem;
+    transition: transform 180ms ease;
+  }
+
+  .back-navigation-link:hover > i,
+  .back-navigation-link:focus-visible > i {
     transform: translateX(-4px);
-    border-color: #175cd3;
-    background: #175cd3;
-    color: #fff;
   }
 
   .back-navigation-link:focus-visible {
-    outline: 3px solid rgba(37, 99, 235, 0.35);
-    outline-offset: 3px;
+    border-radius: 2px;
+    outline: 2px solid #2b76ad;
+    outline-offset: 4px;
   }
 }
 

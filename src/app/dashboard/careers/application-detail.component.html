@@ -1,7 +1,10 @@
 `<section class="flex flex-col gap-5 font-cairo text-concord-ink">
   <div class="flex flex-wrap items-center justify-between gap-3">
     <div>
-      <a [routerLink]="['/dashboard/careers', careerId, 'applications']">← Applications</a>
+      <a [routerLink]="['/dashboard/careers', careerId, 'applications']" class="back-navigation-link text-[#2b76ad]" aria-label="View all applications">
+        <i class="fa-solid fa-chevron-left" aria-hidden="true"></i>
+        View all applications
+      </a>
       <h2 class="m-0 mt-2">Application details</h2>
     </div>
     @if (application) {
